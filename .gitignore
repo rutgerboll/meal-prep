@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Build artifacts (if esbuild is run locally)
+app/app.js
+
+# Feedback inboxes (runtime data, not source)
+feedback-inbox-*.jsonl
+
+# Claude Code local settings (user-specific)
+.claude/settings.local.json
+
+# Editor
+.vscode/
+*.swp
