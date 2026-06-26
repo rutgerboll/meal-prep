@@ -115,7 +115,7 @@ body{display:flex;flex-direction:column;background:var(--bg-app)}
 .ing-row{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bdrs)}
 .ing-row:last-child{border-bottom:none}
 .ii{flex:2;font-size:15px}.iq{width:44px;font-size:15px;text-align:right;color:var(--text2)}.iu{min-width:48px;font-size:13px;color:var(--text3)}
-.batch-card{background:var(--glass);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-radius:16px;padding:16px;border:1px solid var(--glass-bdr);border-left:4px solid var(--pr);margin-bottom:16px;box-shadow:0 4px 20px rgba(40,50,42,.07)}
+.batch-card{background:var(--bg-card);border-radius:16px;padding:16px;border:1px solid var(--bdr);margin-bottom:16px}
 .conf-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px}
 .conf-ov.hidden{display:none!important}
 .conf{background:var(--glass-strong);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid var(--glass-bdr);border-radius:18px;padding:20px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(40,50,42,.22)}
@@ -308,7 +308,7 @@ html,body{ background:var(--bg-app) !important; }
 .screen{ padding-top:calc(14px + env(safe-area-inset-top)); }
 /* Unify other screens with the Cook screen's typographic style */
 .sh{ padding-top:4px; margin-bottom:18px; }
-.sh .stitle{ font-family:var(--font-head); font-size:29px; font-weight:700; letter-spacing:-0.02em; }
+.sh .stitle{ font-family:var(--font-head); font-size:30px; font-weight:700; letter-spacing:-0.02em; }
 .ssec{ font-size:10.5px !important; letter-spacing:.16em; text-transform:uppercase; color:var(--text3) !important; font-weight:600 !important; margin:20px 0 6px !important; }
 </style>
 <body>
@@ -985,23 +985,34 @@ function renderBatchCard(mode){
   const batchEntries=plan.entries.filter(e=>e.meal==='batch');
   if(!batchEntries.length) return '';
   const batchDone=batchEntries.every(e=>e.cooked);
-  return `<div class="batch-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-      <div style="font-size:17px;font-weight:700">🍳 Batch Cook Day — ${(batchEntries[0]?.dayLabel||'').replace(' (batch cook)','')}</div>
-      ${(mode==='cook'&&batchDone)?'<span class="chip" style="background:var(--ok);color:#fff">✓ Done</span>':''}
-    </div>
-    ${batchEntries.map(e=>{
-      const planIdx=plan.entries.findIndex(x=>x===e); const r=rm[e.recipeId];
-      const right = mode==='cook'
-        ? `<div class="day-rt"><div class="cchk ${e.cooked?'done':'todo'}" onclick="event.stopPropagation();toggleCooked(${planIdx})">${e.cooked?'✓':''}</div></div>`
-        : `<div class="day-rt"><span style="color:var(--text3);font-size:20px">›</span></div>`;
-      return `<div class="day-row" style="padding:10px 0" onclick="navigate('#/recipes/${e.recipeId}')">
-        <div class="day-ctr"><div class="day-ttl" style="font-size:15px">${r?.title||e.recipeId}</div><div class="day-sub">Bulk base · ×${e.servings} servings</div></div>
-        ${right}
-      </div>`;
-    }).join('')}
-    <div class="banner bi2" style="margin:12px 0 0;padding:8px 12px"><span>❄</span><span class="bbody">Freeze half of each base immediately after cooking for week 2</span></div>
-  </div>`;
+  const batchDay=(batchEntries[0]?.dayLabel||'').replace(' (batch cook)','');
+  if(mode==='cook' && batchDone){
+    const exp=!!(window._cookSec && window._cookSec['batch']);
+    if(!exp){
+      return `<div class="ck-seclbl"><span>Batch Cook</span></div>
+        <div class="ck-ent ck-collapsed" onclick="toggleSec('batch')">
+          <div class="t">${batchDay} — all done</div><div class="chk">✓</div></div>`;
+    }
+  }
+  const collapseBtn=(mode==='cook' && batchDone)
+    ? `<button class="ck-actb" style="font-size:11px" onclick="toggleSec('batch')">collapse ▲</button>`:'';
+  return `${(mode==='cook' && batchDone)?`<div class="ck-seclbl"><span>Batch Cook</span>${collapseBtn}</div>`:''}
+    <div class="batch-card">
+      <div style="display:flex;align-items:center;margin-bottom:4px">
+        <div style="font-size:17px;font-weight:700">🍳 Batch Cook Day — ${batchDay}</div>
+      </div>
+      ${batchEntries.map(e=>{
+        const planIdx=plan.entries.findIndex(x=>x===e); const r=rm[e.recipeId];
+        const right=mode==='cook'
+          ? `<div class="day-rt"><div class="cchk ${e.cooked?'done':'todo'}" onclick="event.stopPropagation();toggleCooked(${planIdx})">${e.cooked?'✓':''}</div></div>`
+          : `<div class="day-rt"><span style="color:var(--text3);font-size:20px">›</span></div>`;
+        return `<div class="day-row" style="padding:10px 0" onclick="navigate('#/recipes/${e.recipeId}')">
+          <div class="day-ctr"><div class="day-ttl" style="font-size:15px">${r?.title||e.recipeId}</div><div class="day-sub">Bulk base · ×${e.servings} servings</div></div>
+          ${right}
+        </div>`;
+      }).join('')}
+      <div class="banner bi2" style="margin:12px 0 0;padding:8px 12px"><span>❄</span><span class="bbody">Freeze half of each base immediately after cooking for week 2</span></div>
+    </div>`;
 }
 // Cook tab: dinners with each day's lunch-salad chooser woven in right beneath the dinner.
 function planRuleWarnings(){
@@ -2346,7 +2357,15 @@ async function applySyncBundle(b){
         const ck = {}; (lp.entries||[]).forEach(e=>{ ck[e.recipeId+'|'+e.dayDate+'|'+e.meal] = e.cooked; });
         entries = entries.map(e=>({...e, cooked: ((ck[e.recipeId+'|'+e.dayDate+'|'+e.meal] ?? e.cooked) || false)}));
       }
-      const carry = (lp&&lp.lunchChoices)?{lunchChoices:lp.lunchChoices}:{};
+      const carry = {};
+      if (lp) {
+        const newDates = new Set((inc.entries||[]).map(e=>e.dayDate).filter(Boolean));
+        const byDate = obj => Object.fromEntries(Object.entries(obj||{}).filter(([d]) => newDates.has(d)));
+        if (lp.dinnerChoices) carry.dinnerChoices = byDate(lp.dinnerChoices);
+        if (lp.dinnerLogged)  carry.dinnerLogged  = byDate(lp.dinnerLogged);
+        if (lp.lunchChoices)  carry.lunchChoices  = byDate(lp.lunchChoices);
+        if (lp.lunchLogged)   carry.lunchLogged   = byDate(lp.lunchLogged);
+      }
       await dbPut('mealPlans', {...inc, entries, ...carry, _key:inc.id});
     }
     const allPlans = await dbGetAll('mealPlans');
@@ -2618,7 +2637,10 @@ function ckRenderDay(plan, date, today){
       <div class="t"><span class="d">${ckWeekday(date)}</span>&nbsp;&nbsp;${esc(t)}</div><div class="chk">✓</div></div>`;
   }
 
-  let html = (dayHasLunch(date) ? ckRenderSlot(plan, date, 'lunch', isToday) : '') + ckRenderSlot(plan, date, 'dinner', isToday);
+  const collapsible = done && expanded && !isToday;
+  let html = dayHasLunch(date)
+    ? ckRenderSlot(plan, date, 'lunch', isToday, collapsible) + ckRenderSlot(plan, date, 'dinner', isToday, false)
+    : ckRenderSlot(plan, date, 'dinner', isToday, collapsible);
   if (done && expanded && !isToday){
     html += `<div class="ck-ent" style="padding:4px 0 14px">
       <button class="ck-actb" style="font-size:12px;color:var(--text3)" onclick="toggleDayExpand('${date}')">Collapse ▲</button></div>`;
@@ -2626,14 +2648,15 @@ function ckRenderDay(plan, date, today){
   return html;
 }
 
-function ckRenderSlot(plan, date, meal, isToday){
+function ckRenderSlot(plan, date, meal, isToday, collapsible){
   const rm = getRecipeMap();
   const choice = meal === 'dinner' ? (plan.dinnerChoices||{})[date] : (plan.lunchChoices||{})[date];
   const status = ckStatusOf(plan, date, meal);
   const changing = !!window._ckChanging[ckKey(date, meal)];
   const picking = status === 'empty' || changing;
 
-  const header = `<div class="ck-ent-h">
+  const headerClick = collapsible ? ` onclick="toggleDayExpand('${date}')" style="cursor:pointer;-webkit-tap-highlight-color:transparent"` : '';
+  const header = `<div class="ck-ent-h"${headerClick}>
     <span class="ck-meal">${ckWeekday(date)} · ${meal}</span>
     ${(isToday && status === 'empty') ? '<span class="ck-today">TODAY</span>' : ''}</div>`;
 
