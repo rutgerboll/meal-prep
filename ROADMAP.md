@@ -107,11 +107,14 @@ discussed smarter, **forward-looking** reminders tied to *what's coming up*:
 Needs: per-recipe metadata (`thawHoursAhead`, `prepAhead` notes) added at capture,
 and a notion of "today vs upcoming." This is the natural next feature.
 
-### 2. Automated feedback → recipes (close the loop)  ·  _small–medium_
-Cook feedback currently lands in `feedback-inbox-prod.jsonl` but is **not yet
-applied** to the recipe markdown automatically. Build an `apply-feedback.py` (or a
-skill step) that folds the prod inbox into each recipe's feedback log + rolling
-ratings so the planner learns from real cooks.
+### 2. Automated feedback → recipes (close the loop)  ·  ✅ _DONE 2026-06-25_
+~~Cook feedback currently lands in `feedback-inbox-prod.jsonl` but is **not yet
+applied** to the recipe markdown automatically.~~ Built `app/apply-feedback.py`:
+folds the prod inbox into each recipe's `## Feedback log` + rolling `ratings:`
+frontmatter, archives applied entries to `feedback-applied-{env}.jsonl` and
+de-dupes by `id` so re-runs never double-count. `--dry-run` and `--env test`
+supported; unmatched recipeIds are left in the inbox. Run after a Sync, before
+planning the next week in Claude.
 
 ### 3. Recipe thumbnails / imagery  ·  _medium · storage + pipeline_
 Chosen direction was "thumbnails where helpful," but images aren't wired. Needs an
@@ -128,9 +131,11 @@ From the original spec (v1.1): show the backlog **photos**, capture a recipe fro
 photo (OCR/transcription), and have the planner periodically suggest one from the
 backlog so it gets cooked through. Today capture is manual and photos aren't shown.
 
-### 6. Smarter carousel ordering  ·  _small_
-Optional polish from the Cook handoff: after the planned recipe, order carousel
-cards by **least-recently-cooked** so the best bets surface first.
+### 6. Smarter carousel ordering  ·  ✅ _DONE 2026-06-25_
+~~Optional polish from the Cook handoff:~~ The Cook meal-slot carousel now orders
+cards by **least-recently-cooked** (never-cooked sorts to the front), with the
+planned recipe still pinned first. Driven by a new `ckLastCooked(id)` helper that
+reads each recipe's `feedbackLog` — so it gets smarter as #2 applies real cooks.
 
 ### 7. Multi-week planning in-app  ·  _small–medium_
 The grocery split already handles 3–4 week plans, but the in-app suggester/builder

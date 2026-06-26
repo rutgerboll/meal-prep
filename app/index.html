@@ -2539,6 +2539,11 @@ function ckRemaining(plan, meal, id, date){ return ckCapacity(plan, meal, id) - 
 function ckWeekday(date){ return new Date(date+'T00:00:00').toLocaleDateString('en-US',{weekday:'short'}); }
 function ckDateShort(date){ return new Date(date+'T00:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); }
 async function ckPersist(plan){ await dbPut('mealPlans', {...plan, _key: plan.id}); }
+/* Most recent cook date for a recipe ('' if never cooked) — drives carousel ordering */
+function ckLastCooked(id){
+  const log = (getRecipeMap()[id] && getRecipeMap()[id].feedbackLog) || [];
+  return log.reduce((mx, e) => (e.date > mx ? e.date : mx), '');
+}
 
 function ckPool(meal){
   const rm = getRecipeMap();
@@ -2667,7 +2672,12 @@ function ckRenderSlot(plan, date, meal, isToday, collapsible){
       ? `<span class="ck-planned">planned: ${esc((rm[plannedId]?.title || '').replace('Finish — ', ''))}</span>` : '<span></span>';
     const cancel = changing ? `<button class="ck-cancel" onclick="ckCancel('${date}','${meal}')">Cancel</button>` : '';
     const _pool = ckPool(meal);
-    const _ordered = plannedId ? [..._pool.filter(p=>p.id===plannedId), ..._pool.filter(p=>p.id!==plannedId)] : _pool;
+    // Least-recently-cooked first (never-cooked sorts to the front) so the best bets surface;
+    // the planned recipe, if any, stays pinned at the head of the carousel.
+    const _sorted = [..._pool].sort((a, b) => ckLastCooked(a.id).localeCompare(ckLastCooked(b.id)));
+    const _ordered = plannedId
+      ? [..._sorted.filter(p=>p.id===plannedId), ..._sorted.filter(p=>p.id!==plannedId)]
+      : _sorted;
     const cards = _ordered.map(p => {
       const sel = choice === p.id;
       const usedUp = !sel && ckRemaining(plan, meal, p.id, date) <= 0;
