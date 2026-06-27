@@ -11,6 +11,9 @@ __pycache__/
 # Build artifacts (if esbuild is run locally)
 app/app.js
 
+# Thumbnail cache (regenerable from "recipe pics/" via build_seed.py)
+app/.thumb-cache.json
+
 # Feedback inboxes (runtime data, not source)
 feedback-inbox-*.jsonl
 

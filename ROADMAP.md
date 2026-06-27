@@ -99,13 +99,15 @@ _Last updated: 2026-06-25. Companion docs: `spec/spec.md` (original spec),
 
 Ordered roughly by value / how much we leaned into it.
 
-### 1. Date-aware prep & thaw reminders  ·  _medium · needs recipe metadata_
-Today's "Heads up" is inventory-driven (low fridge + freezer available). We
-discussed smarter, **forward-looking** reminders tied to *what's coming up*:
-- "Move tomorrow's chicken from freezer to fridge."
-- "Salt the roast the night before" (and other prep-ahead steps).
-Needs: per-recipe metadata (`thawHoursAhead`, `prepAhead` notes) added at capture,
-and a notion of "today vs upcoming." This is the natural next feature.
+### 1. Date-aware prep & thaw reminders  ·  ✅ _DONE 2026-06-25_
+~~Today's "Heads up" is inventory-driven.~~ "Heads up" now also shows
+**forward-looking thaw reminders**: for each upcoming, uncooked, from-the-freezer
+plan entry whose thaw lead time has arrived, "Move _X_ to the fridge today/tomorrow"
+(`thawReminders()` + `thawHoursFor()`, which inherits the lead time from the
+finish's base protein). Verified against the real plan: silent in week 1 (fresh),
+fires exactly 1 day before each week-2 freezer cook. `prep_ahead` steps surface as a
+**🌙 Prep ahead** card on the recipe and inline in the Cook "chosen" state. Schema:
+`thaw_hours_ahead` + `prep_ahead` frontmatter (see Phase-2 schema note below).
 
 ### 2. Automated feedback → recipes (close the loop)  ·  ✅ _DONE 2026-06-25_
 ~~Cook feedback currently lands in `feedback-inbox-prod.jsonl` but is **not yet
@@ -116,20 +118,31 @@ de-dupes by `id` so re-runs never double-count. `--dry-run` and `--env test`
 supported; unmatched recipeIds are left in the inbox. Run after a Sync, before
 planning the next week in Claude.
 
-### 3. Recipe thumbnails / imagery  ·  _medium · storage + pipeline_
-Chosen direction was "thumbnails where helpful," but images aren't wired. Needs an
-image pipeline (store/reference photos, e.g., from `recipe pics/`) and thumbnail
-slots on recipe cards/detail. Cookbook backlog currently shows filenames only.
+### 3. Recipe thumbnails / imagery  ·  ✅ _DONE 2026-06-25_
+~~Images aren't wired.~~ `build_seed.py` now generates small base64 thumbnails with
+macOS **`sips`** (no Python deps) for any recipe with an `image:` field and for
+every cookbook-backlog photo, bundling them into `seed.json` so they work offline.
+Cached by `(path, mtime)` in `.thumb-cache.json` — re-builds drop from ~6.5s to
+~0.08s, which matters because `meal-server.py` rebuilds on every sync. Thumbnails
+show on recipe cards + detail (letter avatar is the fallback). The heavy thumbnails
+are **stripped from the inline bootstrap SEED** (`embed_seed.py`) and arrive on the
+first sync, then persist in IndexedDB. _Note:_ recipes have no `image:` assigned yet
+(the 52 `IMG_*.jpeg` files aren't mapped to recipes) — the pipeline is live and will
+light up as images are assigned at capture.
 
 ### 4. Finish the screen-by-screen redesign  ·  _medium_
 Plan / Recipes / Grocery / More are aligned **typographically** with Cook, but
 still use card-boxed lists rather than Cook's **borderless hairline-entry** layout.
 Convert each screen to that exact pattern for full visual consistency.
 
-### 5. Cookbook backlog activation  ·  _medium_
-From the original spec (v1.1): show the backlog **photos**, capture a recipe from a
-photo (OCR/transcription), and have the planner periodically suggest one from the
-backlog so it gets cooked through. Today capture is manual and photos aren't shown.
+### 5. Cookbook backlog activation  ·  ◑ _PARTIAL — DONE 2026-06-25 (display); capture/suggest are Claude-side_
+The backlog screen now shows the **photos** as a tappable 3-up thumbnail grid
+("＋ Capture" overlay) instead of filenames, plus thumbnails on captured rows. The
+remaining pieces are inherently Claude-side, not in-app (the app is keyless/offline):
+**capturing** a recipe from a photo runs through the `recipe-capture` skill, and the
+**planner periodically suggesting** a backlog recipe belongs in the `meal-planner`
+skill. Follow-up: teach those two skills the new `image` field + a "pull from
+backlog" nudge.
 
 ### 6. Smarter carousel ordering  ·  ✅ _DONE 2026-06-25_
 ~~Optional polish from the Cook handoff:~~ The Cook meal-slot carousel now orders
@@ -170,14 +183,33 @@ to avoid three separate data migrations.
 - **#6 Smarter carousel ordering** next — small, self-contained, and _consumes_
   the data #2 produces. Natural pairing.
 
-### Phase 2 — The metadata unlock  ·  _do the schema migration once_
-- **#1 Date-aware prep & thaw reminders** — the marquee feature. Define the
-  **full** metadata schema here (`thawHoursAhead`, `prepAhead`, **and** an image
-  slot for #3) even though only reminders get wired up now.
-- **#3 Thumbnails** — image field already exists from #1; build the pipeline + UI
-  slots.
-- **#5 Cookbook backlog activation** — reuses the same image/capture work; OCR is
-  the only net-new piece.
+### Phase 2 — The metadata unlock  ·  ✅ _DONE 2026-06-25 (in-app); skill-side follow-ups remain_
+Did the schema migration once, then built all three. See #1, #3, #5 above.
+
+**Phase-2 schema (schemaVersion 2).** Three additive recipe-frontmatter keys,
+parsed by `build_seed.py`, surfaced in the app, and flowed through sync (the merge
+spreads `{...inc}`, so existing installs pick them up):
+```yaml
+thaw_hours_ahead: 12          # freezer→fridge lead time (null = no thaw)
+prep_ahead:                   # night-before / day-of steps (list)
+  - Salt the roast the night before
+image: some-photo.jpg         # filename in "recipe pics/" → bundled thumbnail
+```
+Recipe object gains: `thawHoursAhead`, `prepAhead[]`, `image`, `sourcePhotoRef`,
+`thumbnail` (base64 data-URI or null). Backlog entries gain `thumbnail`.
+
+**Build steps (run on the Mac mini, in order):**
+1. `python3 build_seed.py` — parses markdown → `seed.json` (+ generates/caches
+   thumbnails). `meal-server.py` already runs this on every sync.
+2. `python3 embed_seed.py` — refreshes the inline bootstrap `const SEED` in
+   `index.html` (thumbnails stripped to stay lean). Manual/dev step; only needed
+   when you want a fresh install to ship newer seed data offline.
+
+**Skill-side follow-ups (not in the app):**
+- `recipe-capture`: support the new `image`, `thaw_hours_ahead`, `prep_ahead` keys
+  when saving a recipe.
+- `meal-planner`: occasionally suggest an un-captured backlog photo so the backlog
+  gets cooked through (#5's "periodic suggest").
 
 ### Phase 3 — Polish & scale  ·  _lower urgency, slot in anytime_
 - **#4 Screen-by-screen redesign** — purely visual; good background work.

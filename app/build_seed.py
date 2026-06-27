@@ -10,6 +10,9 @@ import os
 import re
 import sys
 import math
+import base64
+import subprocess
+import tempfile
 from datetime import datetime, date
 
 # ── Paths ────────────────────────────────────────────────────────────────────
@@ -23,6 +26,81 @@ PREFS_FILE  = os.path.join(BASE_DIR, "preferences.md")
 UNITS_FILE  = os.path.join(BASE_DIR, "purchase-units.md")
 
 NOW = "2026-06-21T00:00:00Z"
+
+# ── Thumbnail pipeline (macOS `sips`, no Python deps) ─────────────────────────
+# Photos are large phone JPEGs (~4 MB each). We resize them to small base64
+# thumbnails and bundle them into seed.json so images work fully offline.
+# meal-server.py rebuilds the bundle on EVERY sync request, so thumbnails are
+# cached by (path, mtime) in .thumb-cache.json — only new/changed photos hit sips.
+THUMB_MAX = 256        # longest edge, px
+THUMB_QUALITY = 50     # JPEG quality (sips formatOptions)
+THUMB_CACHE_PATH = os.path.join(SCRIPT_DIR, ".thumb-cache.json")
+_thumb_cache = None
+_thumb_made = 0
+_thumb_hits = 0
+
+
+def _load_thumb_cache():
+    global _thumb_cache
+    if _thumb_cache is None:
+        try:
+            with open(THUMB_CACHE_PATH, encoding="utf-8") as f:
+                _thumb_cache = json.load(f)
+        except Exception:
+            _thumb_cache = {}
+    return _thumb_cache
+
+
+def save_thumb_cache():
+    if _thumb_cache is not None:
+        try:
+            with open(THUMB_CACHE_PATH, "w", encoding="utf-8") as f:
+                json.dump(_thumb_cache, f)
+        except Exception as e:
+            warnings.append(f"  WARN: could not write thumbnail cache: {e}")
+
+
+def make_thumbnail(src_path):
+    """Return a base64 data-URI thumbnail for src_path, or None if unavailable."""
+    global _thumb_made, _thumb_hits
+    if not src_path or not os.path.isfile(src_path):
+        return None
+    cache = _load_thumb_cache()
+    try:
+        mtime = int(os.path.getmtime(src_path))
+    except OSError:
+        return None
+    key = f"{os.path.relpath(src_path, BASE_DIR)}|{mtime}|{THUMB_MAX}|{THUMB_QUALITY}"
+    if key in cache:
+        _thumb_hits += 1
+        return cache[key]
+    tmp = None
+    try:
+        fd, tmp = tempfile.mkstemp(suffix=".jpg")
+        os.close(fd)
+        subprocess.run(
+            ["sips", "-Z", str(THUMB_MAX), "-s", "format", "jpeg",
+             "-s", "formatOptions", str(THUMB_QUALITY), src_path, "--out", tmp],
+            check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        with open(tmp, "rb") as f:
+            data = f.read()
+        data_uri = "data:image/jpeg;base64," + base64.b64encode(data).decode("ascii")
+        cache[key] = data_uri
+        _thumb_made += 1
+        return data_uri
+    except FileNotFoundError:
+        warnings.append("  WARN: `sips` not found — thumbnails skipped (run on macOS).")
+        return None
+    except Exception as e:
+        warnings.append(f"  WARN: thumbnail failed for {os.path.basename(src_path)}: {e}")
+        return None
+    finally:
+        if tmp and os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
 
 # ── Aisle re-assignment table (§8) ───────────────────────────────────────────
 # Keys are lowercased item names (partial match allowed for broad categories)
@@ -201,8 +279,8 @@ def parse_yaml_simple(text: str) -> dict:
                             if item_text.startswith('{'):
                                 parsed_list.append(parse_ingredient_obj(item_text))
                             else:
-                                # Simple string list item
-                                parsed_list.append(item_text.strip())
+                                # Simple string list item (strip optional quotes)
+                                parsed_list.append(item_text.strip().strip('"').strip("'"))
                         else:
                             # sub-key: sub-value (e.g. ratings block)
                             sm = re.match(r'(\w[\w_-]*)\s*:\s*(.*)', sl_stripped)
@@ -432,6 +510,27 @@ def load_recipe(filepath: str) -> dict:
     steps = parse_steps(body)
     feedback_log = parse_feedback_log(body)
 
+    # Prep-ahead metadata (Phase 2 schema) — drives date-aware thaw/prep reminders.
+    thaw_raw = fm.get("thaw_hours_ahead", None)
+    try:
+        thaw_hours = float(thaw_raw) if thaw_raw not in (None, "") else None
+    except (ValueError, TypeError):
+        thaw_hours = None
+    prep_raw = fm.get("prep_ahead", [])
+    if isinstance(prep_raw, list):
+        prep_ahead = [str(s).strip() for s in prep_raw if str(s).strip()]
+    elif prep_raw:
+        prep_ahead = [str(prep_raw).strip()]
+    else:
+        prep_ahead = []
+
+    # Recipe image → bundled base64 thumbnail (filename lives in "recipe pics/").
+    image = fm.get("image", None)
+    image = str(image).strip() if image else None
+    thumbnail = make_thumbnail(os.path.join(PHOTOS_DIR, image)) if image else None
+    if image and thumbnail is None:
+        warnings.append(f"  [{rid}] WARN: image '{image}' not found in recipe pics/ → no thumbnail")
+
     recipe = {
         "id": rid,
         "title": title,
@@ -448,7 +547,11 @@ def load_recipe(filepath: str) -> dict:
         "ratings": ratings,
         "steps": steps,
         "feedbackLog": feedback_log,
-        "sourcePhotoRef": None,
+        "thawHoursAhead": thaw_hours,
+        "prepAhead": prep_ahead,
+        "image": image,
+        "sourcePhotoRef": image,
+        "thumbnail": thumbnail,
         "createdAt": NOW,
         "updatedAt": NOW
     }
@@ -696,7 +799,8 @@ def load_cookbook_backlog(photos_dir: str) -> list:
                 photos.append({
                     "filename": fname,
                     "captureStatus": "not-captured",
-                    "recipeId": None
+                    "recipeId": None,
+                    "thumbnail": make_thumbnail(os.path.join(photos_dir, fname))
                 })
     return photos
 
@@ -761,7 +865,7 @@ def main():
     # Assemble seed
     seed = {
         "meta": {
-            "schemaVersion": 1,
+            "schemaVersion": 2,
             "generatedAt": NOW,
             "description": "Seed data parsed from Rutger's markdown meal-planning files"
         },
@@ -780,7 +884,9 @@ def main():
     out_path = os.path.join(SCRIPT_DIR, "seed.json")
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(seed, f, indent=2, ensure_ascii=False)
+    save_thumb_cache()
     print(f"\n✓ Wrote seed.json ({os.path.getsize(out_path):,} bytes)")
+    print(f"  Thumbnails: {_thumb_made} generated, {_thumb_hits} from cache")
 
     # Validation report
     total_ingredients = sum(len(r["ingredients"]) for r in recipes)
