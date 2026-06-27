@@ -1,5 +1,5 @@
 /* Meal Planner service worker — offline app shell cache */
-const CACHE = 'mealplanner-v15';
+const CACHE = 'mealplanner-v16';
 const ASSETS = [
   './',
   './index.html',
@@ -23,6 +23,12 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
+  // Live sync data must NEVER be served from cache — it has to reach the server.
+  // Otherwise an offline/Tailscale-down sync silently "succeeds" against a stale
+  // cached sync.json. Let these go straight to the network so fetch() rejects when
+  // offline and the app reports a real failure.
+  const path = new URL(e.request.url).pathname;
+  if (path.endsWith('/sync.json') || path.endsWith('/sync') || path.endsWith('/feedback')) return;
   e.respondWith(
     caches.match(e.request).then((cached) =>
       cached || fetch(e.request).then((res) => {

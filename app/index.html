@@ -2322,7 +2322,9 @@ async function fetchSyncBundle(){
   let base = syncUrl().replace(/\/+$/,'');
   if(!base){ base = (typeof location!=='undefined' && location.origin && location.origin!=='null') ? location.origin : ''; }
   if(!base) throw new Error('Set your Mac mini address first (More - Sync from Claude).');
-  const resp = await fetch(base + '/sync.json', {cache:'no-store'});
+  let resp;
+  try{ resp = await fetch(base + '/sync.json', {cache:'no-store'}); }
+  catch(e){ throw new Error("Couldn't reach your sync server — check you're on Tailscale and the Mac mini is running."); }
   if(!resp.ok) throw new Error('Server returned '+resp.status);
   const data = await resp.json();
   if(!data || !Array.isArray(data.recipes)) throw new Error('That address did not return a meal bundle.');
