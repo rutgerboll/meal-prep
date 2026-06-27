@@ -130,15 +130,18 @@ first sync, then persist in IndexedDB. _Note:_ recipes have no `image:` assigned
 (the 52 `IMG_*.jpeg` files aren't mapped to recipes) — the pipeline is live and will
 light up as images are assigned at capture.
 
-### 4. Finish the screen-by-screen redesign  ·  ✅ _DONE 2026-06-27 (main tabs)_
+### 4. Finish the screen-by-screen redesign  ·  ✅ _DONE 2026-06-27_
 ~~Plan / Recipes / Grocery / More still use card-boxed lists.~~ All four primary
-tabs now render **borderless hairline rows** flush on the page background under
-`.ssec` overlines — Cook's exact `.ck-ent` pattern (removed the `.card` wrappers;
-flushed `.rc`/`.more-row`/`.day-row` to the screen edge). Control cards (the
-Appearance theme picker, empty states, banners) are intentionally kept. Verified
-visually on all four screens + Cook (no regressions). See DESIGN-SYSTEM.md
-"Lists are borderless." _Optional later:_ the same pass on secondary screens under
-More (Pantry, Purchase Units, Inventory, the captured-backlog list, Plan builder).
+tabs **and** the secondary More sub-screens now render **borderless hairline rows**
+flush on the page background under `.ssec` overlines — Cook's exact `.ck-ent`
+pattern (removed the `.card` wrappers; flushed `.rc`/`.more-row`/`.day-row`/
+`.pick-row`/`.pu-row` to the screen edge). Converted lists: Plan, Recipes, Grocery,
+More, Purchase Units, captured-backlog list, the three Plan-builder pick-lists, and
+Fridge & Freezer inventory items. **Pantry Staples kept as a chip cloud** (restyled
+with `.chip`) — better for short staple names. Control cards (Appearance picker,
+forms, Sync/Backup, builder callout/summary, inventory add-form, banners, empty
+states) intentionally kept. Verified visually + clean console on every screen. See
+DESIGN-SYSTEM.md "Lists are borderless."
 
 ### 5. Cookbook backlog activation  ·  ◑ _PARTIAL — DONE 2026-06-25 (display); capture/suggest are Claude-side_
 The backlog screen now shows the **photos** as a tappable 3-up thumbnail grid

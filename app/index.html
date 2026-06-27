@@ -1614,8 +1614,8 @@ function renderPantryScreen() {
   return `
     <div class="sh"><button class="back" onclick="navigate('#/more')">‹</button><span class="stitle">Pantry Staples</span></div>
     <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Items here are skipped on the grocery list when marked "pantry" in a recipe ingredient.</div>
-    <div id="pantry-chips" class="pchips">
-      ${items.map(item=>`<span class="pchip">${item}<span class="pchip-x" onclick="removePantryItem('${item.replace(/'/g,"\\'")}')">×</span></span>`).join('')}
+    <div id="pantry-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+      ${items.length ? items.map(item=>`<span class="chip" style="height:30px;padding-right:5px;gap:5px">${item}<span style="cursor:pointer;color:var(--text3);font-size:16px;line-height:1;padding:0 3px;-webkit-tap-highlight-color:transparent" onclick="removePantryItem('${item.replace(/'/g,"\\'")}')">×</span></span>`).join('') : '<div style="color:var(--text3);font-size:13px">No staples yet.</div>'}
     </div>
     <div style="display:flex;gap:8px">
       <input id="new-pantry-item" placeholder="Add item…" style="flex:1;background:var(--bg-in);border:1px solid var(--bdr);border-radius:8px;color:var(--text);height:44px;padding:0 12px;font-size:15px;font-family:var(--font)" onkeydown="if(event.key==='Enter'){addPantryItem();event.preventDefault()}">
@@ -1648,8 +1648,9 @@ function renderUnitsScreen() {
   return `
     <div class="sh"><button class="back" onclick="navigate('#/more')">‹</button><span class="stitle">Purchase Units</span></div>
     <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Package sizes for rounding up grocery quantities.</div>
-    <div class="card" style="padding:0;margin-bottom:16px">
-      ${pus.map(pu=>`<div class="pu-row" style="padding:10px 16px">
+    <div class="ssec" style="margin-top:0">Package Sizes</div>
+    <div style="margin-bottom:16px">
+      ${pus.map(pu=>`<div class="pu-row" style="padding:14px 0;border-bottom:1px solid var(--bdr)">
         <span class="pu-item">${pu.itemNorm||pu._key}</span>
         <span class="pu-det">${pu.packageLabel||''} ${pu.mode==='by-weight'?`(round to ${pu.roundIncrement} ${pu.packageUnit})`:''}</span>
         <button class="btn-t" style="font-size:12px;min-height:36px" onclick="editPurchaseUnit('${(pu.itemNorm||pu._key).replace(/'/g,"\\'")}')">Edit</button>
@@ -1822,18 +1823,16 @@ function renderBacklogScreen() {
       </div>` : ''}
     ${captured.length ? `
       <div class="ssec">Captured (${captured.length})</div>
-      <div class="card" style="padding:0">
-        ${captured.map(b=>{
+      ${captured.map(b=>{
           const recipe = b.recipeId ? rm[b.recipeId] : null;
-          return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--bdrs)">
+          return `<div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--bdr)">
             ${b.thumbnail?`<img src="${b.thumbnail}" alt="" loading="lazy" style="width:48px;height:48px;border-radius:8px;object-fit:cover">`:`<div style="width:48px;height:48px;background:#14532D;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px">✅</div>`}
             <div style="flex:1">
               <div style="font-size:14px;color:var(--text2)">${b.filename}</div>
               ${recipe?`<div style="font-size:12px;color:var(--pr);cursor:pointer" onclick="navigate('#/recipes/${recipe.id}')">${recipe.title}</div>`:'<div style="font-size:12px;color:var(--text3)">Captured</div>'}
             </div>
           </div>`;
-        }).join('')}
-      </div>` : ''}`;
+        }).join('')}` : ''}`;
 }
 
 async function captureFromBacklog(filename) {
@@ -1914,10 +1913,9 @@ function renderBuilderStep(s) {
     return `
       <div class="ssec" style="margin-top:0">Select Base Proteins (${batchEntries.length} selected)</div>
       <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Bases are cooked in bulk (12 servings). Freeze half for week 2.</div>
-      <div class="card" style="padding:0">
-        ${bases.map(r=>{
+      ${bases.map(r=>{
           const sel = batchEntries.some(e=>e.recipeId===r.id);
-          return `<div class="pick-row ${sel?'sel-row':''}" onclick="toggleBase('${r.id}')">
+          return `<div class="pick-row ${sel?'sel-row':''}" style="padding:12px 0;border-bottom:1px solid var(--bdr)" onclick="toggleBase('${r.id}')">
             <div class="pick-info">
               <div class="pick-ttl">${r.title}</div>
               <div class="pick-meta">⏱ ${r.timeMinutes}min · ${r.servings} servings batch</div>
@@ -1925,7 +1923,6 @@ function renderBuilderStep(s) {
             ${sel?'<span style="color:var(--pr);font-size:22px">✓</span>':''}
           </div>`;
         }).join('')}
-      </div>
       <div class="sticky"><button class="btn-p" onclick="${batchEntries.length>0?'_builderState.step=2;render()':'showToast(\'Select at least 1 base\')'}">Next → (${batchEntries.length} bases)</button></div>`;
   }
 
@@ -1945,16 +1942,14 @@ function renderBuilderStep(s) {
       }).join('')}
       ${w1.length < 6 ? `
         <div class="ssec">Add Finish</div>
-        <div class="card" style="padding:0">
-          ${availFinishes.filter(f=>!w1.some(e=>e.recipeId===f.id)).map(f=>`<div class="pick-row" onclick="addBuilderFinish('${f.id}',1)">
+        ${availFinishes.filter(f=>!w1.some(e=>e.recipeId===f.id)).map(f=>`<div class="pick-row" style="padding:12px 0;border-bottom:1px solid var(--bdr)" onclick="addBuilderFinish('${f.id}',1)">
             <div class="pick-info">
               <div class="pick-ttl">${f.title.replace('Finish — ','')}</div>
               <div class="pick-meta"><span class="chip ${cuisineOf(f)}" style="height:18px">${cuisineOf(f)}</span> · ${rm[f.baseRecipeId]?.title||f.baseRecipeId} · ⏱ ${f.timeMinutes}min ${w1.some(e=>cuisineOf(rm[e.recipeId])===cuisineOf(f))?'· <span style="color:var(--warn)">repeat</span>':''}</div>
             </div>
             <span style="color:var(--pr)">+</span>
           </div>`).join('')}
-          ${availFinishes.length === 0 ? '<div style="padding:16px;color:var(--text3);font-size:13px">No finishes found for selected bases</div>' : ''}
-        </div>` : ''}
+          ${availFinishes.length === 0 ? '<div style="padding:16px;color:var(--text3);font-size:13px">No finishes found for selected bases</div>' : ''}` : ''}
       <div class="sticky"><button class="btn-p" onclick="_builderState.step=3;render()">Next → Week 2</button></div>`;
   }
 
@@ -1989,12 +1984,10 @@ function renderBuilderStep(s) {
         </div>`;
       }).join('')}
       <div class="ssec">Add Lunch Salad</div>
-      <div class="card" style="padding:0">
-        ${lunches.filter(l=>!ulunches.some(e=>e.recipeId===l.id)).map(l=>`<div class="pick-row" onclick="addBuilderLunch('${l.id}')">
+      ${lunches.filter(l=>!ulunches.some(e=>e.recipeId===l.id)).map(l=>`<div class="pick-row" style="padding:12px 0;border-bottom:1px solid var(--bdr)" onclick="addBuilderLunch('${l.id}')">
           <div class="pick-info"><div class="pick-ttl">${l.title}</div><div class="pick-meta">${l.servings} servings total · ⏱ ${l.timeMinutes}min prep</div></div>
           <span style="color:var(--pr)">+</span>
         </div>`).join('')}
-      </div>
       <div class="sticky"><button class="btn-p" onclick="_builderState.step=5;render()">Next → Review</button></div>`;
   }
 
@@ -2479,7 +2472,7 @@ function renderInventoryScreen(){
   const recipeOpts=`<option value="">— not linked —</option>`+state.recipes.slice().sort((a,b)=>a.title.localeCompare(b.title)).map(r=>`<option value="${r.id}">${esc(r.title.replace('Finish — ',''))}</option>`).join('');
   const rows = inv.length ? inv.map(it=>{
     const link = it.recipeId && rm[it.recipeId] ? esc(rm[it.recipeId].title.replace('Finish — ','')) : '';
-    return `<div class="card" style="margin-bottom:10px">
+    return `<div style="padding:14px 0;border-bottom:1px solid var(--bdr)">
       <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-weight:600;font-size:16px">${esc(it.name)}</div>${link?`<div style="font-size:12px;color:var(--text3)">↳ ${link}</div>`:''}</div><button class="btn-t" style="color:var(--danger);font-size:13px" onclick="invDelete('${it.id}')">Remove</button></div>
       <div style="display:flex;gap:18px;margin-top:10px">
         ${['fridge','freezer'].map(f=>`<div style="flex:1">
@@ -2497,6 +2490,7 @@ function renderInventoryScreen(){
   return `
     <div class="sh"><button class="back" onclick="navigate('#/more')">‹</button><span class="stitle">Fridge & Freezer</span></div>
     <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Track servings on hand. Logging a cook subtracts one from the linked item's fridge — adjust anything by hand anytime.</div>
+    ${inv.length?'<div class="ssec" style="margin-top:0">On hand</div>':''}
     ${rows}
     <div class="ssec">Add an item</div>
     <div class="card">
