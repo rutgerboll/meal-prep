@@ -48,6 +48,12 @@ done; today is marked and never auto-collapses. New persisted fields:
 `plan.dinnerLogged` / `plan.lunchLogged` (additive).
 
 ## Component conventions
+- **Lists are borderless.** List screens (Plan, Recipes, Grocery, More) render rows
+  as flush hairline entries (`padding: ~14px 0; border-bottom: 1px var(--bdr)`)
+  directly on `--bg-app` under `.ssec` uppercase overlines — the same pattern as the
+  Cook screen's day entries (`.ck-ent`). **No card box around a list.** Reserve
+  `.card` for callouts, control panels (e.g. the Appearance theme picker), forms,
+  empty states, and the recipe-detail content blocks.
 - Card: `--bg-card`, 1px `--bdr`, 16px radius, no shadow.
 - Primary button: filled `--pr`, `--textop` text, 13px radius.
 - Tags: tonal `--chip-bg` / `--chip-fg`. Heading text uses `--font-head`.
