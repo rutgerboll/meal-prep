@@ -17,13 +17,17 @@ from datetime import datetime, date
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-BASE_DIR = os.path.join(SCRIPT_DIR, "..", "..")  # Meal planning/
+# The markdown library lives in "Meal planning/" (the grandparent of app/). When
+# running from a git worktree that path doesn't resolve, so MP_BASE_DIR can point
+# the builder at the real source explicitly.
+BASE_DIR = os.environ.get("MP_BASE_DIR") or os.path.join(SCRIPT_DIR, "..", "..")  # Meal planning/
 RECIPES_DIR = os.path.join(BASE_DIR, "recipes")
 PLANS_DIR   = os.path.join(BASE_DIR, "meal-plans")
 PHOTOS_DIR  = os.path.join(BASE_DIR, "recipe pics")
 PANTRY_FILE = os.path.join(BASE_DIR, "pantry.md")
 PREFS_FILE  = os.path.join(BASE_DIR, "preferences.md")
 UNITS_FILE  = os.path.join(BASE_DIR, "purchase-units.md")
+INVENTORY_FILE = os.path.join(BASE_DIR, "inventory.md")
 
 NOW = "2026-06-21T00:00:00Z"
 
@@ -676,6 +680,55 @@ def load_pantry(filepath: str) -> dict:
                     items.append(item)
     return {"items": items}
 
+# ── Inventory loader (inventory-sync spec §2–3) ───────────────────────────────
+def inventory_id(item_name: str) -> str:
+    """Slug for an inventory item: lowercase, spaces/slashes → hyphens,
+    parentheticals and stray punctuation stripped."""
+    s = (item_name or "").strip().lower()
+    s = re.sub(r'\(.*?\)', '', s)            # drop parenthetical qualifiers
+    s = s.replace('/', ' ').replace('&', ' ')
+    s = re.sub(r"[^a-z0-9\s-]", '', s)       # strip remaining punctuation
+    s = re.sub(r'\s+', '-', s.strip())
+    s = re.sub(r'-+', '-', s).strip('-')
+    return s
+
+def load_inventory(filepath: str) -> tuple:
+    """
+    Parse inventory.md into (items, updated_date).
+    Each entry maps 1:1 to an InventoryItem: id, item, qty, unit, location,
+    aisle, group, addedAt, approx, note. The app consumes this read-only.
+    """
+    if not os.path.isfile(filepath):
+        return [], None
+    with open(filepath, 'r', encoding='utf-8') as f:
+        fm, _ = parse_frontmatter(f.read())
+    updated = fm.get("updated")
+    if updated is not None:
+        updated = str(updated)
+    out = []
+    seen = set()
+    for raw in (fm.get("items") or []):
+        if not isinstance(raw, dict) or not raw.get("item"):
+            continue
+        iid = inventory_id(raw["item"])
+        if iid in seen:
+            warnings.append(f"  WARN: duplicate inventory id '{iid}' ({raw['item']}) — keeping first")
+            continue
+        seen.add(iid)
+        out.append({
+            "id": iid,
+            "item": str(raw["item"]).strip(),
+            "qty": raw.get("qty", 0),
+            "unit": raw.get("unit", "each"),
+            "location": raw.get("location", "pantry"),
+            "aisle": raw.get("aisle", "condiments"),
+            "group": raw.get("group", "other"),
+            "addedAt": str(raw["added"]) if raw.get("added") is not None else None,
+            "approx": bool(raw.get("approx", False)),
+            "note": raw.get("note"),
+        })
+    return out, updated
+
 # ── Preferences loader ────────────────────────────────────────────────────────
 def load_preferences(filepath: str) -> dict:
     # We build this from the known content of preferences.md
@@ -844,10 +897,12 @@ def main():
     preferences = load_preferences(PREFS_FILE)
     purchase_units = load_purchase_units(UNITS_FILE)
     cookbook_backlog = load_cookbook_backlog(PHOTOS_DIR)
+    inventory, inventory_updated = load_inventory(INVENTORY_FILE)
 
     print(f"  Pantry: {len(pantry['items'])} staple items")
     print(f"  Purchase units: {len(purchase_units)} entries")
     print(f"  Cookbook backlog: {len(cookbook_backlog)} photos")
+    print(f"  Inventory: {len(inventory)} items (updated {inventory_updated})")
 
     # Validate plan entries reference valid recipe ids
     print("\nValidating plan entries...")
@@ -865,8 +920,9 @@ def main():
     # Assemble seed
     seed = {
         "meta": {
-            "schemaVersion": 2,
+            "schemaVersion": 3,
             "generatedAt": NOW,
+            "inventoryUpdatedAt": inventory_updated,
             "description": "Seed data parsed from Rutger's markdown meal-planning files"
         },
         "preferences": preferences,
@@ -877,7 +933,8 @@ def main():
         "mealPlans": plans,
         "groceryLists": [],
         "cookLog": [],
-        "cookbookBacklog": cookbook_backlog
+        "cookbookBacklog": cookbook_backlog,
+        "ingredientStock": inventory
     }
 
     # Write seed
