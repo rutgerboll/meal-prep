@@ -2,7 +2,7 @@
   "meta": {
     "schemaVersion": 3,
     "generatedAt": "2026-06-21T00:00:00Z",
-    "inventoryUpdatedAt": "2026-06-28",
+    "inventoryUpdatedAt": "2026-07-11",
     "description": "Seed data parsed from Rutger's markdown meal-planning files"
   },
   "preferences": {
@@ -4839,7 +4839,7 @@
       "planId": "2026-07-12-two-weeks",
       "title": "Grocery list — 2-week plan (Jul 12–25)",
       "source": "claude",
-      "generatedAt": "2026-07-11T14:31:52Z",
+      "generatedAt": "2026-07-11T15:38:01Z",
       "items": [
         {
           "item": "12 oz monterey jack or oaxaca cheese (~two 8 oz packages if sold that way — add a package size for this)",
@@ -4882,8 +4882,8 @@
           "checked": false
         },
         {
-          "item": "2 cans coconut milk (13.5 fl oz each; have 1 on hand — topping up to 3)",
-          "displayText": "2 cans coconut milk (13.5 fl oz each; have 1 on hand — topping up to 3)",
+          "item": "1 can coconut milk (13.5 fl oz; have 2 on hand — topping up to 3)",
+          "displayText": "1 can coconut milk (13.5 fl oz; have 2 on hand — topping up to 3)",
           "checked": false
         },
         {
@@ -5840,7 +5840,7 @@
     {
       "id": "coconut-milk",
       "item": "coconut milk",
-      "qty": 1,
+      "qty": 2,
       "unit": "can",
       "location": "pantry",
       "aisle": "international",
