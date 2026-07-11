@@ -28,6 +28,7 @@ PANTRY_FILE = os.path.join(BASE_DIR, "pantry.md")
 PREFS_FILE  = os.path.join(BASE_DIR, "preferences.md")
 UNITS_FILE  = os.path.join(BASE_DIR, "purchase-units.md")
 INVENTORY_FILE = os.path.join(BASE_DIR, "inventory.md")
+GROCERY_DIR = os.path.join(BASE_DIR, "grocery-lists")
 
 NOW = "2026-06-21T00:00:00Z"
 
@@ -653,8 +654,9 @@ def load_plan(filepath: str) -> dict:
     else:
         kind = "custom"
 
-    # Current plan is active if it's the 2026-06-22 plan
-    is_active = "2026-06-22" in plan_id
+    # Active flag is assigned in main(): the newest plan (latest dayDate) wins,
+    # matching the rule meal-server.py applies at sync time.
+    is_active = False
 
     return {
         "id": plan_id,
@@ -667,6 +669,60 @@ def load_plan(filepath: str) -> dict:
         "createdAt": NOW,
         "updatedAt": NOW
     }
+
+# ── Grocery list loader (chat-written lists → app import) ────────────────────
+def load_grocery_list(filepath: str) -> dict:
+    """Parse a chat-generated grocery-lists/<plan-id>.md into an importable
+    list. Sections are fenced by '---' lines: [0] title/prose, [1] the buy
+    lines, [2+] extras — of which only a section containing 'Check before you
+    shop' is imported (as on-hand items to verify); anything else (e.g.
+    purchase-unit suggestions) stays markdown-only. Buy lines are kept verbatim
+    as display text; the normalized line doubles as the check-state key."""
+    with open(filepath, 'r', encoding='utf-8') as f:
+        text = f.read()
+    plan_id = os.path.splitext(os.path.basename(filepath))[0]
+    m = re.search(r'^#\s+(.+)$', text, re.MULTILINE)
+    title = m.group(1).strip() if m else plan_id
+
+    def norm_key(s):
+        return re.sub(r'\s+', ' ', s).strip().lower()
+
+    sections = re.split(r'\n-{3,}\s*\n', text)
+    items = []
+    if len(sections) > 1:
+        for line in sections[1].splitlines():
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            line = re.sub(r'^-\s+', '', line)  # tolerate bulleted buy lines
+            items.append({"item": norm_key(line), "displayText": line, "checked": False})
+    else:
+        # Legacy format: no '---' fences, buy lines are bullets under the title.
+        for line in text.splitlines():
+            line = line.strip()
+            if 'check before you shop' in line.lower():
+                break
+            if not line.startswith('- '):
+                continue
+            line = line[2:].strip()
+            items.append({"item": norm_key(line), "displayText": line, "checked": False})
+    for sec in sections[2:]:
+        if 'check before you shop' not in sec.lower():
+            continue
+        for line in sec.splitlines():
+            line = line.strip()
+            if not line.startswith('- '):
+                continue
+            body = line[2:].strip()
+            parts = re.split(r'\s+—\s+', body, 1)
+            name = parts[0].strip()
+            note = parts[1].strip() if len(parts) > 1 else body
+            items.append({"item": norm_key(name), "displayText": body, "checked": False,
+                          "stockStatus": "have", "onHandNote": note})
+    mtime = os.path.getmtime(filepath)
+    generated = datetime.utcfromtimestamp(mtime).strftime('%Y-%m-%dT%H:%M:%SZ')
+    return {"planId": plan_id, "title": title, "source": "claude",
+            "generatedAt": generated, "items": items}
 
 # ── Pantry loader ─────────────────────────────────────────────────────────────
 def load_pantry(filepath: str) -> dict:
@@ -891,6 +947,38 @@ def main():
             print(f"  ✗ ERROR loading {fname}: {e}")
             import traceback; traceback.print_exc()
 
+    # Newest plan (latest dayDate) is the active one — same rule meal-server.py
+    # applies at sync time, so a fresh install and a sync agree.
+    def _plan_maxdate(p):
+        ds = [e.get("dayDate") for e in p["entries"] if e.get("dayDate")]
+        return max(ds) if ds else ""
+    if plans:
+        newest = max(plans, key=_plan_maxdate)
+        for p in plans:
+            p["isActive"] = (p is newest)
+
+    # Load chat-written grocery lists (keyed to plans by filename = plan id)
+    grocery_lists = []
+    plan_ids = {p["id"] for p in plans}
+    if os.path.isdir(GROCERY_DIR):
+        gl_files = sorted(f for f in os.listdir(GROCERY_DIR) if f.endswith('.md'))
+        print(f"\nLoading {len(gl_files)} grocery list files...")
+        for fname in gl_files:
+            path = os.path.join(GROCERY_DIR, fname)
+            try:
+                gl = load_grocery_list(path)
+                if gl["planId"] not in plan_ids:
+                    print(f"  – {fname}: no matching plan id, skipped")
+                    continue
+                if not gl["items"]:
+                    print(f"  – {fname}: no parseable lines, skipped")
+                    continue
+                grocery_lists.append(gl)
+                print(f"  ✓ {gl['planId']} ({len(gl['items'])} lines)")
+            except Exception as e:
+                print(f"  ✗ ERROR loading {fname}: {e}")
+                import traceback; traceback.print_exc()
+
     # Load support data
     print("\nLoading pantry, preferences, purchase units...")
     pantry = load_pantry(PANTRY_FILE)
@@ -931,7 +1019,7 @@ def main():
         "aliasMap": alias_map,
         "recipes": recipes,
         "mealPlans": plans,
-        "groceryLists": [],
+        "groceryLists": grocery_lists,
         "cookLog": [],
         "cookbookBacklog": cookbook_backlog,
         "ingredientStock": inventory

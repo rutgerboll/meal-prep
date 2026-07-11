@@ -375,6 +375,9 @@ There is no `pantry` aisle at the store; any ingredient that arrives at Step 6 w
 - A collapsible **"Add to purchase-units"** section lists `unknownUnits`.
 - Regenerating after a plan edit recomputes from scratch but **preserves `checked` state** by matching on normalized `item` key (not `displayText`): if the same item key is present after regeneration, its checked state is preserved regardless of quantity changes. Checked state is reset only if the item is removed from the list entirely. This means a user who already checked off "chicken thighs" in the aisle retains that check even if the quantity changed slightly due to a plan edit.
 
+**Chat-written lists sync into the app.**
+A grocery list written by Claude in chat lives at `grocery-lists/<plan-id>.md` (filename = meal-plan id). `build_seed.py` parses it into the bundle (`groceryLists`): buy lines verbatim as `displayText` (the normalized line doubles as the check-state key), and the "Check before you shop" section as on-hand items (`stockStatus: have` + `onHandNote`). Other sections (e.g. purchase-unit suggestions) stay markdown-only. On sync the app imports with a **newest-wins** rule on `generatedAt` (file mtime vs. local list): a re-written chat file supersedes the local list — carrying check-offs across on unchanged lines — while a local list that is newer (including an in-app rebuild) is left alone. Imported lists are labeled "From Claude" on the List screen; the Regenerate button becomes "Rebuild in app" and replaces the chat list with the mechanical §5.3 output. The app never writes lists back to markdown.
+
 **Edge cases**
 - Same item, incompatible units → two lines, both shown, neither dropped (failure mode is "list too much," never "drop an ingredient").
 - Item used but flagged staple yet NOT in pantry → it appears (don't assume on hand).
