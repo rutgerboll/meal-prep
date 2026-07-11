@@ -1132,21 +1132,22 @@
     },
     {
       "id": "beef-taco-salad",
-      "title": "Beef Taco Salad",
+      "title": "Beef Taco Salads (Lunch Prep)",
       "servings": 8,
       "timeMinutes": 25,
       "tags": [
         "beef",
         "salad",
         "lunch",
+        "base",
         "tex-mex",
         "meal-prep",
         "stovetop"
       ],
       "source": "generated",
       "caloriesPerServing": 480,
-      "note": null,
-      "isBase": false,
+      "note": "Lunch prep base — beef cooked, everything chopped and portioned on batch day. Pair with finish-beef-taco-salad (the 5-minute assembly at lunch).",
+      "isBase": true,
       "isFinish": false,
       "baseRecipeId": null,
       "ingredients": [
@@ -1198,7 +1199,7 @@
           "unit": "each",
           "aisle": "pasta-grains",
           "staple": false,
-          "note": "add fresh at serving — don't store with salad"
+          "note": "stays sealed until serving — added fresh at lunch"
         },
         {
           "item": "lime",
@@ -1244,9 +1245,9 @@
       },
       "steps": [
         "Cook beef in oil over medium-high, breaking apart, ~8 min. Drain fat. Add taco seasoning and 2 tbsp water; stir 1 min. Cool completely.",
-        "Chop romaine. Halve cherry tomatoes. Drain and rinse beans and corn.",
-        "**Meal prep method:** portion romaine into 8 containers. Top each with beef, tomatoes, beans, corn, and cheddar. Pack salsa and sour cream in small side containers. Keep chips separate.",
-        "At lunch: squeeze lime over, add salsa and sour cream, crush chips on top, toss."
+        "Chop romaine. Halve cherry tomatoes. Drain and rinse beans and corn. Cut limes into 8 wedges.",
+        "Portion romaine into 8 containers. Top each with beef, tomatoes, beans, corn, and cheddar.",
+        "Portion salsa and sour cream into small side containers with a lime wedge each. Chips stay in the sealed bag."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
@@ -1259,20 +1260,21 @@
     },
     {
       "id": "chicken-caesar-meal-prep-salad",
-      "title": "Chicken Caesar Meal Prep Salad",
+      "title": "Chicken Caesar Salads (Lunch Prep)",
       "servings": 8,
       "timeMinutes": 30,
       "tags": [
         "chicken",
         "salad",
         "lunch",
+        "base",
         "meal-prep",
         "oven"
       ],
       "source": "generated",
       "caloriesPerServing": 420,
-      "note": null,
-      "isBase": false,
+      "note": "Lunch prep base — everything cooked, chopped, and portioned on batch day. Pair with finish-chicken-caesar-salad (the 5-minute assembly at lunch).",
+      "isBase": true,
       "isFinish": false,
       "baseRecipeId": null,
       "ingredients": [
@@ -1355,9 +1357,9 @@
       },
       "steps": [
         "Heat oven to 400°F. Coat chicken with olive oil, garlic powder, salt, pepper. Bake 22–25 min until cooked through. Rest 5 min; slice thin.",
-        "Chop romaine into bite-sized pieces. Shave or grate parmesan.",
-        "**Meal prep method:** portion romaine into 8 airtight containers. Add sliced chicken on top. Keep dressing, croutons, and parmesan separate (store in small zip-lock bags or side containers).",
-        "At lunch, squeeze a little lemon over, add dressing and croutons, toss."
+        "Chop romaine into bite-sized pieces. Shave or grate parmesan. Cut the lemon into 8 small wedges.",
+        "Portion romaine into 8 airtight containers. Add sliced chicken on top.",
+        "Portion the toppings into small side containers or zip-locks per salad: parmesan, croutons, a lemon wedge. Dressing stays in the bottle in the fridge door."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
@@ -2421,6 +2423,47 @@
       "updatedAt": "2026-06-21T00:00:00Z"
     },
     {
+      "id": "finish-beef-taco-salad",
+      "title": "Finish — Beef Taco Salad (assemble)",
+      "servings": 2,
+      "timeMinutes": 5,
+      "tags": [
+        "beef",
+        "salad",
+        "lunch",
+        "finish",
+        "uses-base",
+        "tex-mex",
+        "no-cook"
+      ],
+      "source": "generated",
+      "caloriesPerServing": 480,
+      "note": "Uses beef-taco-salad (already prepped and portioned on batch day). No cooking, no new groceries — pure assembly.",
+      "isBase": false,
+      "isFinish": true,
+      "baseRecipeId": "beef-taco-salad",
+      "ingredients": [],
+      "ratings": {
+        "cookCount": 0,
+        "avgDifficulty": null,
+        "avgActualMinutes": null,
+        "liked": null
+      },
+      "steps": [
+        "Grab a salad container and its side container (salsa, sour cream, lime wedge) from the fridge.",
+        "Squeeze the lime over, add salsa and sour cream, crush a handful of chips on top.",
+        "Toss and eat."
+      ],
+      "feedbackLog": [],
+      "thawHoursAhead": null,
+      "prepAhead": [],
+      "image": null,
+      "sourcePhotoRef": null,
+      "thumbnail": null,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
       "id": "finish-braised-beef-polenta",
       "title": "Finish — Chile Beef over Creamy Polenta",
       "servings": 2,
@@ -2760,6 +2803,46 @@
         "Add crushed tomatoes, olives, capers, oregano, red pepper flakes. Simmer 8 min until slightly thickened.",
         "Stir in shredded chicken; heat through 2–3 min.",
         "Toss with drained pasta. Finish with parmesan."
+      ],
+      "feedbackLog": [],
+      "thawHoursAhead": null,
+      "prepAhead": [],
+      "image": null,
+      "sourcePhotoRef": null,
+      "thumbnail": null,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
+      "id": "finish-chicken-caesar-salad",
+      "title": "Finish — Chicken Caesar Salad (assemble)",
+      "servings": 2,
+      "timeMinutes": 5,
+      "tags": [
+        "chicken",
+        "salad",
+        "lunch",
+        "finish",
+        "uses-base",
+        "no-cook"
+      ],
+      "source": "generated",
+      "caloriesPerServing": 420,
+      "note": "Uses chicken-caesar-meal-prep-salad (already prepped and portioned on batch day). No cooking, no new groceries — pure assembly.",
+      "isBase": false,
+      "isFinish": true,
+      "baseRecipeId": "chicken-caesar-meal-prep-salad",
+      "ingredients": [],
+      "ratings": {
+        "cookCount": 0,
+        "avgDifficulty": null,
+        "avgActualMinutes": null,
+        "liked": null
+      },
+      "steps": [
+        "Grab a salad container and its topping side-container from the fridge.",
+        "Squeeze the lemon wedge over, add dressing and croutons, top with parmesan.",
+        "Toss and eat."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
@@ -4226,6 +4309,42 @@
           "ruleWarningDismissed": false
         },
         {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 8,
+          "dayDate": "2026-07-12",
+          "dayLabel": "Sun Jul 12 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 8,
+          "dayDate": "2026-07-12",
+          "dayLabel": "Sun Jul 12 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 8,
+          "dayDate": "2026-07-19",
+          "dayLabel": "Sun Jul 19 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 8,
+          "dayDate": "2026-07-19",
+          "dayLabel": "Sun Jul 19 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
           "recipeId": "finish-braised-beef-tacos",
           "servings": 2,
           "dayDate": "2026-07-13",
@@ -4334,7 +4453,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-13",
           "dayLabel": "Mon Jul 13",
@@ -4343,7 +4462,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-14",
           "dayLabel": "Tue Jul 14",
@@ -4352,7 +4471,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-15",
           "dayLabel": "Wed Jul 15",
@@ -4361,7 +4480,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-16",
           "dayLabel": "Thu Jul 16",
@@ -4370,7 +4489,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-13",
           "dayLabel": "Mon Jul 13",
@@ -4379,7 +4498,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-14",
           "dayLabel": "Tue Jul 14",
@@ -4388,7 +4507,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-15",
           "dayLabel": "Wed Jul 15",
@@ -4397,7 +4516,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-16",
           "dayLabel": "Thu Jul 16",
@@ -4406,7 +4525,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-20",
           "dayLabel": "Mon Jul 20",
@@ -4415,7 +4534,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-21",
           "dayLabel": "Tue Jul 21",
@@ -4424,7 +4543,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-22",
           "dayLabel": "Wed Jul 22",
@@ -4433,7 +4552,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "chicken-caesar-meal-prep-salad",
+          "recipeId": "finish-chicken-caesar-salad",
           "servings": 2,
           "dayDate": "2026-07-23",
           "dayLabel": "Thu Jul 23",
@@ -4442,7 +4561,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-20",
           "dayLabel": "Mon Jul 20",
@@ -4451,7 +4570,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-21",
           "dayLabel": "Tue Jul 21",
@@ -4460,7 +4579,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-22",
           "dayLabel": "Wed Jul 22",
@@ -4469,7 +4588,7 @@
           "ruleWarningDismissed": false
         },
         {
-          "recipeId": "beef-taco-salad",
+          "recipeId": "finish-beef-taco-salad",
           "servings": 2,
           "dayDate": "2026-07-23",
           "dayLabel": "Thu Jul 23",
@@ -4839,7 +4958,7 @@
       "planId": "2026-07-12-two-weeks",
       "title": "Grocery list — 2-week plan (Jul 12–25)",
       "source": "claude",
-      "generatedAt": "2026-07-11T15:38:01Z",
+      "generatedAt": "2026-07-11T19:31:35Z",
       "items": [
         {
           "item": "12 oz monterey jack or oaxaca cheese (~two 8 oz packages if sold that way — add a package size for this)",
@@ -4942,11 +5061,6 @@
           "checked": false
         },
         {
-          "item": "4 lb ground beef (85/15; 1 lb packages)",
-          "displayText": "4 lb ground beef (85/15; 1 lb packages)",
-          "checked": false
-        },
-        {
           "item": "2 heads garlic (need ~17 cloves)",
           "displayText": "2 heads garlic (need ~17 cloves)",
           "checked": false
@@ -5000,6 +5114,13 @@
           "item": "1 bunch cilantro (optional — taco nights, served on the side)",
           "displayText": "1 bunch cilantro (optional — taco nights, served on the side)",
           "checked": false
+        },
+        {
+          "item": "ground beef",
+          "displayText": "ground beef — plan uses 4 lb of your ~50 lb freezer stock (1 lb packages) — thaw 4 packs across the two weeks",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "plan uses 4 lb of your ~50 lb freezer stock (1 lb packages) — thaw 4 packs across the two weeks"
         },
         {
           "item": "chuck roast",
@@ -5776,6 +5897,18 @@
       "addedAt": "2026-06-28",
       "approx": true,
       "note": "3 hand-wrapped bags dated 2025-10-30; use early"
+    },
+    {
+      "id": "ground-beef",
+      "item": "ground beef",
+      "qty": 50,
+      "unit": "lb",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-07-11",
+      "approx": true,
+      "note": "~50 × 1 lb packages"
     },
     {
       "id": "canned-whole-tomatoes",
