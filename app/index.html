@@ -1511,8 +1511,8 @@ async function copyList(planId, si) {
   const gl = state.groceryLists.find(g=>g.planId===planId);
   if (!gl) return;
   const sec = (gl.weekly && gl.weekly[si]) ? gl.weekly[si] : {items: gl.items||[]};
-  // On-hand items are surfaced separately on screen; don't copy them into the buy list.
-  const text = sec.items.filter(i=>i.stockStatus!=='have').map(i=>i.displayText).join('\n');
+  // On-hand items are surfaced separately on screen; checked-off items are already handled — don't copy either into the buy list.
+  const text = sec.items.filter(i=>i.stockStatus!=='have' && !i.checked).map(i=>i.displayText).join('\n');
   try {
     if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); }
     else { const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
