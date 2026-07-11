@@ -1132,12 +1132,11 @@
     },
     {
       "id": "beef-taco-salad",
-      "title": "Beef Taco Salads (Lunch Prep)",
+      "title": "Taco Beef (Lunch Prep)",
       "servings": 8,
-      "timeMinutes": 25,
+      "timeMinutes": 15,
       "tags": [
         "beef",
-        "salad",
         "lunch",
         "base",
         "tex-mex",
@@ -1145,8 +1144,8 @@
         "stovetop"
       ],
       "source": "generated",
-      "caloriesPerServing": 480,
-      "note": "Lunch prep base — beef cooked, everything chopped and portioned on batch day. Pair with finish-beef-taco-salad (the 5-minute assembly at lunch).",
+      "caloriesPerServing": 250,
+      "note": "Lunch prep base — only the cooking happens on batch day: brown and season the beef. Everything fresh is assembled day-of via finish-beef-taco-salad. Calories are the beef component only.",
       "isBase": true,
       "isFinish": false,
       "baseRecipeId": null,
@@ -1156,70 +1155,6 @@
           "qty": 2,
           "unit": "lb",
           "aisle": "meat",
-          "staple": false
-        },
-        {
-          "item": "romaine lettuce hearts",
-          "qty": 3,
-          "unit": "each",
-          "aisle": "produce",
-          "staple": false
-        },
-        {
-          "item": "cherry tomatoes",
-          "qty": 1,
-          "unit": "pint",
-          "aisle": "produce",
-          "staple": false
-        },
-        {
-          "item": "corn (canned or frozen)",
-          "qty": 1,
-          "unit": "can",
-          "aisle": "canned",
-          "staple": false
-        },
-        {
-          "item": "black beans",
-          "qty": 1,
-          "unit": "can",
-          "aisle": "canned",
-          "staple": false
-        },
-        {
-          "item": "shredded cheddar",
-          "qty": 1,
-          "unit": "cup",
-          "aisle": "dairy",
-          "staple": false
-        },
-        {
-          "item": "tortilla chips",
-          "qty": 1,
-          "unit": "each",
-          "aisle": "pasta-grains",
-          "staple": false,
-          "note": "stays sealed until serving — added fresh at lunch"
-        },
-        {
-          "item": "lime",
-          "qty": 2,
-          "unit": "each",
-          "aisle": "produce",
-          "staple": false
-        },
-        {
-          "item": "salsa",
-          "qty": 1,
-          "unit": "cup",
-          "aisle": "condiments",
-          "staple": false
-        },
-        {
-          "item": "sour cream",
-          "qty": 0.5,
-          "unit": "cup",
-          "aisle": "dairy",
           "staple": false
         },
         {
@@ -1244,10 +1179,8 @@
         "liked": null
       },
       "steps": [
-        "Cook beef in oil over medium-high, breaking apart, ~8 min. Drain fat. Add taco seasoning and 2 tbsp water; stir 1 min. Cool completely.",
-        "Chop romaine. Halve cherry tomatoes. Drain and rinse beans and corn. Cut limes into 8 wedges.",
-        "Portion romaine into 8 containers. Top each with beef, tomatoes, beans, corn, and cheddar.",
-        "Portion salsa and sour cream into small side containers with a lime wedge each. Chips stay in the sealed bag."
+        "Cook beef in oil over medium-high, breaking apart, ~8 min. Drain fat. Add taco seasoning and 2 tbsp water; stir 1 min.",
+        "Cool completely, then refrigerate in one airtight container — keeps 4–5 days."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
@@ -1260,20 +1193,19 @@
     },
     {
       "id": "chicken-caesar-meal-prep-salad",
-      "title": "Chicken Caesar Salads (Lunch Prep)",
+      "title": "Caesar Chicken (Lunch Prep)",
       "servings": 8,
       "timeMinutes": 30,
       "tags": [
         "chicken",
-        "salad",
         "lunch",
         "base",
         "meal-prep",
         "oven"
       ],
       "source": "generated",
-      "caloriesPerServing": 420,
-      "note": "Lunch prep base — everything cooked, chopped, and portioned on batch day. Pair with finish-chicken-caesar-salad (the 5-minute assembly at lunch).",
+      "caloriesPerServing": 210,
+      "note": "Lunch prep base — only the cooking happens on batch day: bake and slice the chicken. Everything fresh is assembled day-of via finish-chicken-caesar-salad. Calories are the chicken component only.",
       "isBase": true,
       "isFinish": false,
       "baseRecipeId": null,
@@ -1283,41 +1215,6 @@
           "qty": 2.5,
           "unit": "lb",
           "aisle": "meat",
-          "staple": false
-        },
-        {
-          "item": "romaine lettuce hearts",
-          "qty": 3,
-          "unit": "each",
-          "aisle": "produce",
-          "staple": false
-        },
-        {
-          "item": "parmesan",
-          "qty": 1,
-          "unit": "cup",
-          "aisle": "dairy",
-          "staple": false
-        },
-        {
-          "item": "croutons",
-          "qty": 2,
-          "unit": "cup",
-          "aisle": "pasta-grains",
-          "staple": false
-        },
-        {
-          "item": "Caesar dressing",
-          "qty": 1,
-          "unit": "each",
-          "aisle": "condiments",
-          "staple": false
-        },
-        {
-          "item": "lemon",
-          "qty": 1,
-          "unit": "each",
-          "aisle": "produce",
           "staple": false
         },
         {
@@ -1357,9 +1254,7 @@
       },
       "steps": [
         "Heat oven to 400°F. Coat chicken with olive oil, garlic powder, salt, pepper. Bake 22–25 min until cooked through. Rest 5 min; slice thin.",
-        "Chop romaine into bite-sized pieces. Shave or grate parmesan. Cut the lemon into 8 small wedges.",
-        "Portion romaine into 8 airtight containers. Add sliced chicken on top.",
-        "Portion the toppings into small side containers or zip-locks per salad: parmesan, croutons, a lemon wedge. Dressing stays in the bottle in the fridge door."
+        "Refrigerate the sliced chicken in one airtight container — keeps 4 days."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
@@ -2424,9 +2319,9 @@
     },
     {
       "id": "finish-beef-taco-salad",
-      "title": "Finish — Beef Taco Salad (assemble)",
+      "title": "Finish — Beef Taco Salad (assemble day-of)",
       "servings": 2,
-      "timeMinutes": 5,
+      "timeMinutes": 10,
       "tags": [
         "beef",
         "salad",
@@ -2438,11 +2333,76 @@
       ],
       "source": "generated",
       "caloriesPerServing": 480,
-      "note": "Uses beef-taco-salad (already prepped and portioned on batch day). No cooking, no new groceries — pure assembly.",
+      "note": "Uses beef-taco-salad (taco beef already cooked). Fresh components are chopped and assembled right now — nothing pre-portioned. Calories are the full assembled salad, including the beef.",
       "isBase": false,
       "isFinish": true,
       "baseRecipeId": "beef-taco-salad",
-      "ingredients": [],
+      "ingredients": [
+        {
+          "item": "romaine lettuce hearts",
+          "qty": 0.75,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "cherry tomatoes",
+          "qty": 0.25,
+          "unit": "pint",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "corn (canned or frozen)",
+          "qty": 0.25,
+          "unit": "can",
+          "aisle": "canned",
+          "staple": false
+        },
+        {
+          "item": "black beans",
+          "qty": 0.25,
+          "unit": "can",
+          "aisle": "canned",
+          "staple": false
+        },
+        {
+          "item": "shredded cheddar",
+          "qty": 0.25,
+          "unit": "cup",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "tortilla chips",
+          "qty": 0.25,
+          "unit": "each",
+          "aisle": "pasta-grains",
+          "staple": false,
+          "note": "crushed on fresh at serving"
+        },
+        {
+          "item": "lime",
+          "qty": 0.5,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "salsa",
+          "qty": 0.25,
+          "unit": "cup",
+          "aisle": "condiments",
+          "staple": false
+        },
+        {
+          "item": "sour cream",
+          "qty": 0.125,
+          "unit": "cup",
+          "aisle": "dairy",
+          "staple": false
+        }
+      ],
       "ratings": {
         "cookCount": 0,
         "avgDifficulty": null,
@@ -2450,9 +2410,9 @@
         "liked": null
       },
       "steps": [
-        "Grab a salad container and its side container (salsa, sour cream, lime wedge) from the fridge.",
-        "Squeeze the lime over, add salsa and sour cream, crush a handful of chips on top.",
-        "Toss and eat."
+        "Chop today's romaine; halve a handful of cherry tomatoes.",
+        "Spoon on taco beef from the fridge (cold or a quick reheat). Add beans and corn — drain the cans on first use and refrigerate the rest.",
+        "Squeeze lime over, add cheddar, salsa, and sour cream, crush chips on top, toss."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
@@ -2815,9 +2775,9 @@
     },
     {
       "id": "finish-chicken-caesar-salad",
-      "title": "Finish — Chicken Caesar Salad (assemble)",
+      "title": "Finish — Chicken Caesar Salad (assemble day-of)",
       "servings": 2,
-      "timeMinutes": 5,
+      "timeMinutes": 10,
       "tags": [
         "chicken",
         "salad",
@@ -2828,11 +2788,47 @@
       ],
       "source": "generated",
       "caloriesPerServing": 420,
-      "note": "Uses chicken-caesar-meal-prep-salad (already prepped and portioned on batch day). No cooking, no new groceries — pure assembly.",
+      "note": "Uses chicken-caesar-meal-prep-salad (chicken already baked and sliced). Fresh components are chopped and assembled right now — nothing pre-portioned. Calories are the full assembled salad, including the chicken.",
       "isBase": false,
       "isFinish": true,
       "baseRecipeId": "chicken-caesar-meal-prep-salad",
-      "ingredients": [],
+      "ingredients": [
+        {
+          "item": "romaine lettuce hearts",
+          "qty": 0.75,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "parmesan",
+          "qty": 0.25,
+          "unit": "cup",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "croutons",
+          "qty": 0.5,
+          "unit": "cup",
+          "aisle": "pasta-grains",
+          "staple": false
+        },
+        {
+          "item": "Caesar dressing",
+          "qty": 0.25,
+          "unit": "each",
+          "aisle": "condiments",
+          "staple": false
+        },
+        {
+          "item": "lemon",
+          "qty": 0.25,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        }
+      ],
       "ratings": {
         "cookCount": 0,
         "avgDifficulty": null,
@@ -2840,9 +2836,9 @@
         "liked": null
       },
       "steps": [
-        "Grab a salad container and its topping side-container from the fridge.",
-        "Squeeze the lemon wedge over, add dressing and croutons, top with parmesan.",
-        "Toss and eat."
+        "Chop today's romaine into bite-sized pieces. Grate or shave the parmesan.",
+        "Top with sliced caesar chicken from the fridge (cold is fine).",
+        "Squeeze a lemon wedge over, add dressing and croutons, toss."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
