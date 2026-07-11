@@ -1369,6 +1369,144 @@
       "updatedAt": "2026-06-21T00:00:00Z"
     },
     {
+      "id": "chile-braised-beef-base",
+      "title": "Chile-Braised Shredded Beef (Bulk Base)",
+      "servings": 12,
+      "timeMinutes": 220,
+      "tags": [
+        "beef",
+        "mexican",
+        "braise",
+        "batch-friendly",
+        "freezes-well",
+        "base"
+      ],
+      "source": "generated",
+      "caloriesPerServing": 330,
+      "note": "Thick, reduced braise — shredded beef coated in ancho/guajillo sauce, NOT brothy. Uses 2 of the 4 chuck roasts from the freezer plus the dried chiles and a can of tomatoes from the pantry. Mostly hands-off oven time. Freeze 6 servings immediately after cooking for week 2.",
+      "isBase": true,
+      "isFinish": false,
+      "baseRecipeId": null,
+      "ingredients": [
+        {
+          "item": "chuck roast",
+          "qty": 6,
+          "unit": "lb",
+          "aisle": "meat",
+          "staple": false
+        },
+        {
+          "item": "dried ancho chiles",
+          "qty": 1.5,
+          "unit": "oz",
+          "aisle": "international",
+          "staple": false
+        },
+        {
+          "item": "dried guajillo chiles",
+          "qty": 1.5,
+          "unit": "oz",
+          "aisle": "international",
+          "staple": false
+        },
+        {
+          "item": "canned tomatoes",
+          "qty": 1,
+          "unit": "can",
+          "aisle": "canned",
+          "staple": false
+        },
+        {
+          "item": "yellow onion",
+          "qty": 2,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "garlic",
+          "qty": 8,
+          "unit": "clove",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "apple cider vinegar",
+          "qty": 2,
+          "unit": "tbsp",
+          "aisle": "condiments",
+          "staple": true
+        },
+        {
+          "item": "ground cumin",
+          "qty": 1,
+          "unit": "tbsp",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "dried oregano",
+          "qty": 2,
+          "unit": "tsp",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "bay leaves",
+          "qty": 2,
+          "unit": "each",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "salt",
+          "qty": 1,
+          "unit": "tbsp",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "black pepper",
+          "qty": 1,
+          "unit": "tsp",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "olive oil",
+          "qty": 2,
+          "unit": "tbsp",
+          "aisle": "spices",
+          "staple": true
+        }
+      ],
+      "ratings": {
+        "cookCount": 0,
+        "avgDifficulty": null,
+        "avgActualMinutes": null,
+        "liked": null
+      },
+      "steps": [
+        "Heat oven to 300°F. Stem and seed the dried chiles; toast in a dry skillet 1–2 min per side until fragrant. Cover with hot water and soak 20 min.",
+        "Meanwhile, cut chuck roasts into big fist-size chunks, pat dry, season with salt and pepper. Sear in olive oil in a Dutch oven in batches until deeply browned. Remove.",
+        "Blend soaked chiles (drained) with the canned tomatoes, garlic, 1 onion (quartered), vinegar, cumin, and oregano until smooth.",
+        "Sauté the second onion (sliced) in the pot, pour in the chile sauce, and simmer 5 min. Return beef, add bay leaves. The sauce should coat, not submerge — add at most a splash of water.",
+        "Cover and braise in the oven ~3 hours until fork-tender, turning chunks once.",
+        "Shred the beef in the pot. Uncover and reduce on the stovetop until the sauce is thick and clings — no free liquid. Taste for salt.",
+        "Portion 12 servings: refrigerate 6 (week 1), freeze 6 (week 2)."
+      ],
+      "feedbackLog": [],
+      "thawHoursAhead": 36.0,
+      "prepAhead": [
+        "Move 2 chuck roasts from freezer to fridge 36 hours before the batch cook"
+      ],
+      "image": null,
+      "sourcePhotoRef": null,
+      "thumbnail": null,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
       "id": "chipotle-chicken-burrito-bowls",
       "title": "Chipotle Chicken Burrito Bowls",
       "servings": 4,
@@ -2272,6 +2410,170 @@
         "Cook rice. Warm black beans and corn in a small pan.",
         "Reheat beef in a skillet with a splash of water, 3–4 min.",
         "Build bowls: rice → beef → beans/corn → cheese → sour cream. Squeeze lime over."
+      ],
+      "feedbackLog": [],
+      "thawHoursAhead": null,
+      "prepAhead": [],
+      "image": null,
+      "sourcePhotoRef": null,
+      "thumbnail": null,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
+      "id": "finish-braised-beef-polenta",
+      "title": "Finish — Chile Beef over Creamy Polenta",
+      "servings": 2,
+      "timeMinutes": 20,
+      "tags": [
+        "beef",
+        "polenta",
+        "finish",
+        "uses-base"
+      ],
+      "source": "generated",
+      "caloriesPerServing": 560,
+      "note": "Uses chile-braised-beef-base (already cooked) and the Bob's Red Mill polenta from the pantry. Thick beef over creamy polenta — a completely different meal from the tacos. This recipe covers finishing ingredients only.",
+      "isBase": false,
+      "isFinish": true,
+      "baseRecipeId": "chile-braised-beef-base",
+      "ingredients": [
+        {
+          "item": "polenta (corn grits)",
+          "qty": 0.75,
+          "unit": "cup",
+          "aisle": "pasta-grains",
+          "staple": false
+        },
+        {
+          "item": "butter",
+          "qty": 2,
+          "unit": "tbsp",
+          "aisle": "dairy",
+          "staple": true
+        },
+        {
+          "item": "parmesan cheese",
+          "qty": 1.5,
+          "unit": "oz",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "baby spinach",
+          "qty": 3,
+          "unit": "cup",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "garlic",
+          "qty": 1,
+          "unit": "clove",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "olive oil",
+          "qty": 1,
+          "unit": "tbsp",
+          "aisle": "spices",
+          "staple": true
+        }
+      ],
+      "ratings": {
+        "cookCount": 0,
+        "avgDifficulty": null,
+        "avgActualMinutes": null,
+        "liked": null
+      },
+      "steps": [
+        "Simmer polenta in 3 cups salted water, whisking often, ~15 min until creamy. Stir in butter and parmesan.",
+        "Meanwhile, reheat beef in a small pan until hot and thick. Sauté garlic in olive oil, add spinach, wilt 2 min.",
+        "Bowl it: polenta → spinach → beef. A little extra parmesan on top."
+      ],
+      "feedbackLog": [],
+      "thawHoursAhead": null,
+      "prepAhead": [],
+      "image": null,
+      "sourcePhotoRef": null,
+      "thumbnail": null,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
+      "id": "finish-braised-beef-tacos",
+      "title": "Finish — Chile Beef Tacos",
+      "servings": 2,
+      "timeMinutes": 15,
+      "tags": [
+        "beef",
+        "mexican",
+        "tacos",
+        "finish",
+        "uses-base"
+      ],
+      "source": "generated",
+      "caloriesPerServing": 540,
+      "note": "Uses chile-braised-beef-base (already cooked). Beef goes in drained/thick — these are birria-style tacos, not a brothy consommé situation. Cilantro on the side only. This recipe covers finishing ingredients only.",
+      "isBase": false,
+      "isFinish": true,
+      "baseRecipeId": "chile-braised-beef-base",
+      "ingredients": [
+        {
+          "item": "corn tortillas",
+          "qty": 8,
+          "unit": "each",
+          "aisle": "bakery",
+          "staple": false
+        },
+        {
+          "item": "oaxaca or monterey jack cheese",
+          "qty": 4,
+          "unit": "oz",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "white onion",
+          "qty": 0.5,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "lime",
+          "qty": 1,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "avocado",
+          "qty": 1,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "cilantro",
+          "qty": 0.25,
+          "unit": "bunch",
+          "aisle": "produce",
+          "staple": false,
+          "note": "optional — serve on the side"
+        }
+      ],
+      "ratings": {
+        "cookCount": 0,
+        "avgDifficulty": null,
+        "avgActualMinutes": null,
+        "liked": null
+      },
+      "steps": [
+        "Reheat beef in a skillet until hot and the sauce is thick and clinging. Dice onion; slice avocado; cut lime into wedges.",
+        "Heat a second skillet or griddle. Dip each tortilla lightly in the beef's sauce, lay on the griddle, top half with cheese and beef, fold, and crisp ~2 min per side.",
+        "Serve with diced onion, avocado, lime, and cilantro on the side."
       ],
       "feedbackLog": [],
       "thawHoursAhead": null,
@@ -3896,6 +4198,288 @@
       ],
       "kind": "bulk-2week",
       "isActive": true,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
+      "id": "2026-07-12-two-weeks",
+      "label": "2026-07-12-two-weeks",
+      "servingsDefault": 2,
+      "note": null,
+      "entries": [
+        {
+          "recipeId": "chile-braised-beef-base",
+          "servings": 12,
+          "dayDate": "2026-07-12",
+          "dayLabel": "Sun Jul 12 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "lemon-herb-chicken-base",
+          "servings": 12,
+          "dayDate": "2026-07-12",
+          "dayLabel": "Sun Jul 12 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-braised-beef-tacos",
+          "servings": 2,
+          "dayDate": "2026-07-13",
+          "dayLabel": "Mon Jul 13",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-tzatziki-bowls",
+          "servings": 2,
+          "dayDate": "2026-07-14",
+          "dayLabel": "Tue Jul 14",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-braised-beef-polenta",
+          "servings": 2,
+          "dayDate": "2026-07-15",
+          "dayLabel": "Wed Jul 15",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-coconut-curry",
+          "servings": 2,
+          "dayDate": "2026-07-16",
+          "dayLabel": "Thu Jul 16",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-braised-beef-tacos",
+          "servings": 2,
+          "dayDate": "2026-07-17",
+          "dayLabel": "Fri Jul 17",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-tzatziki-bowls",
+          "servings": 2,
+          "dayDate": "2026-07-18",
+          "dayLabel": "Sat Jul 18",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-braised-beef-polenta",
+          "servings": 2,
+          "dayDate": "2026-07-20",
+          "dayLabel": "Mon Jul 20",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-coconut-curry",
+          "servings": 2,
+          "dayDate": "2026-07-21",
+          "dayLabel": "Tue Jul 21",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-braised-beef-tacos",
+          "servings": 2,
+          "dayDate": "2026-07-22",
+          "dayLabel": "Wed Jul 22",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-tzatziki-bowls",
+          "servings": 2,
+          "dayDate": "2026-07-23",
+          "dayLabel": "Thu Jul 23",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-braised-beef-polenta",
+          "servings": 2,
+          "dayDate": "2026-07-24",
+          "dayLabel": "Fri Jul 24",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-coconut-curry",
+          "servings": 2,
+          "dayDate": "2026-07-25",
+          "dayLabel": "Sat Jul 25",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-13",
+          "dayLabel": "Mon Jul 13",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-14",
+          "dayLabel": "Tue Jul 14",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-15",
+          "dayLabel": "Wed Jul 15",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-16",
+          "dayLabel": "Thu Jul 16",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-13",
+          "dayLabel": "Mon Jul 13",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-14",
+          "dayLabel": "Tue Jul 14",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-15",
+          "dayLabel": "Wed Jul 15",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-16",
+          "dayLabel": "Thu Jul 16",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-20",
+          "dayLabel": "Mon Jul 20",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-21",
+          "dayLabel": "Tue Jul 21",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-22",
+          "dayLabel": "Wed Jul 22",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 2,
+          "dayDate": "2026-07-23",
+          "dayLabel": "Thu Jul 23",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-20",
+          "dayLabel": "Mon Jul 20",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-21",
+          "dayLabel": "Tue Jul 21",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-22",
+          "dayLabel": "Wed Jul 22",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-23",
+          "dayLabel": "Thu Jul 23",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        }
+      ],
+      "kind": "bulk-2week",
+      "isActive": false,
       "createdAt": "2026-06-21T00:00:00Z",
       "updatedAt": "2026-06-21T00:00:00Z"
     },
