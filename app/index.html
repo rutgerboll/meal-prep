@@ -260,7 +260,8 @@ html,body{ background:var(--bg-app) !important; }
 .ck-card{ flex:0 0 150px; scroll-snap-align:start; background:transparent;
   border:1px solid var(--bdr); border-radius:13px; padding:13px; cursor:pointer;
   display:flex; flex-direction:column; gap:5px; -webkit-tap-highlight-color:transparent; }
-.ck-card.sel{ border-color:var(--pr); background:var(--prl); }
+.ck-card.ck-next{ border-color:var(--pr); border-style:dashed; }
+.ck-card.sel{ border-color:var(--pr); border-style:solid; background:var(--prl); }
 .ck-card .ck-chip{ align-self:flex-start; }
 .ck-card .t{ font-family:var(--font-head); font-size:15px; font-weight:600; color:var(--text); line-height:1.2; margin-top:2px; }
 .ck-card .m{ font-size:11px; color:var(--text3); }
@@ -974,11 +975,27 @@ function dayLabelHtml(entry){
   const md = dd ? `${dd.getMonth()+1}/${dd.getDate()}` : '';
   return `<span class="day-lbl">${wd}${md?`<br><span style="font-size:12px">${md}</span>`:''}</span>`;
 }
-function planWeekSplit(dinnerEntries){
-  const allDates = dinnerEntries.map(e=>e.dayDate).filter(Boolean).sort();
+// Every day from the plan's first to last meal date, gaps included, so each calendar
+// day can get a lunch + dinner slot. Date-less plans have nothing to enumerate between,
+// so fall back to just their (de-duped) dinner-entry dates and render as before.
+function planDateRange(plan){
+  const dated = plan.entries.filter(e=>(e.meal==='dinner'||e.meal==='lunch') && e.dayDate).map(e=>e.dayDate);
+  if(!dated.length){
+    return [...new Set(plan.entries.filter(e=>e.meal==='dinner').map(e=>e.dayDate).filter(Boolean))].sort();
+  }
+  const sorted=[...dated].sort(); const end=sorted[sorted.length-1]; const out=[];
+  for(let t=new Date(sorted[0]+'T00:00:00Z'); ; t.setUTCDate(t.getUTCDate()+1)){
+    const iso=t.toISOString().split('T')[0];
+    out.push(iso);
+    if(iso>=end) break;
+  }
+  return out;
+}
+function planWeekSplit(dates){
+  const allDates = [...dates].sort();
   let weekMid=null;
   if(allDates.length>1){ const d0=new Date(allDates[0]),dN=new Date(allDates[allDates.length-1]); weekMid=new Date((d0.getTime()+dN.getTime())/2).toISOString().split('T')[0]; }
-  return { w1: dinnerEntries.filter(e=>!weekMid||(e.dayDate||'')<=weekMid), w2: dinnerEntries.filter(e=>weekMid&&(e.dayDate||'')>weekMid) };
+  return { w1: allDates.filter(d=>!weekMid||d<=weekMid), w2: allDates.filter(d=>weekMid&&d>weekMid) };
 }
 function renderBatchCard(mode){
   const plan=getActivePlan(); const rm=getRecipeMap();
@@ -1412,7 +1429,9 @@ function dinnerPool(){
   return ids.map(id=>({id, title:(rm[id]?.title||id).replace('Finish — ','')}));
 }
 function saladPool(){ const plan=getActivePlan(); return [...new Set(plan.entries.filter(e=>e.meal==='lunch').map(e=>e.recipeId))]; }
-function dayHasLunch(date){ const wd=new Date(date+'T00:00:00').getDay(); return saladPool().length>0 && wd>=1 && wd<=4; }
+// Every day gets a lunch slot now (incl. weekends). Shown even when the salad pool is
+// empty so the day always offers lunch + dinner; the carousel just falls back to "Didn't cook".
+function dayHasLunch(date){ return true; }
 function toggleDayExpand(date){ window._cookExpanded=window._cookExpanded||{}; window._cookExpanded[date]=!window._cookExpanded[date]; render(); }
 function toggleSec(key){ window._cookSec=window._cookSec||{}; window._cookSec[key]=!window._cookSec[key]; render(); }
 let _cookLogState = null;
@@ -2573,6 +2592,19 @@ function ckLastCooked(id){
   return log.reduce((mx, e) => (e.date > mx ? e.date : mx), '');
 }
 
+/* What's next up on the plan for an empty slot: the earliest plan-ordered entry for this
+   meal that still has portions left, preferring one planned for this exact date. Works for
+   both lunch and dinner, and for days that have no entry of their own (pulls from the queue). */
+function ckNextUp(plan, meal, date){
+  const ordered = plan.entries
+    .filter(e => e.meal === meal)
+    .sort((a, b) => (a.dayDate || '').localeCompare(b.dayDate || ''));
+  const own = ordered.find(e => e.dayDate === date && ckRemaining(plan, meal, e.recipeId, date) > 0);
+  if (own) return own.recipeId;
+  const next = ordered.find(e => ckRemaining(plan, meal, e.recipeId, date) > 0);
+  return next ? next.recipeId : null;
+}
+
 function ckPool(meal){
   const rm = getRecipeMap();
   const ids = meal === 'dinner' ? dinnerPool().map(x => x.id) : saladPool();
@@ -2624,14 +2656,11 @@ function renderCookScreen(){
       </div>`;
   }
   const today = new Date().toISOString().split('T')[0];
-  const dinnerEntries = plan.entries.filter(e => e.meal === 'dinner');
-  const { w1, w2 } = planWeekSplit(dinnerEntries);
-  const w1dates = [...new Set(w1.map(e => e.dayDate))].sort();
-  const w2dates = [...new Set(w2.map(e => e.dayDate))].sort();
-  const allDates = [...new Set(dinnerEntries.map(e => e.dayDate))];
+  const dates = planDateRange(plan);
+  const { w1: w1dates, w2: w2dates } = planWeekSplit(dates);
   const dc = plan.dinnerChoices || {};
-  const done = allDates.filter(d => dc[d]).length;
-  const pct = allDates.length ? Math.round(done / allDates.length * 100) : 0;
+  const done = dates.filter(d => dc[d]).length;
+  const pct = dates.length ? Math.round(done / dates.length * 100) : 0;
 
   const week = (title, dates, key) => {
     if (!dates.length) return '';
@@ -2650,7 +2679,7 @@ function renderCookScreen(){
   return `
     <div class="ck-head"><span class="ck-title">Cook</span><span class="ck-date">${ckDateShort(today)}</span></div>
     <div class="ck-prog"><div class="ck-track"><div class="ck-fill" style="width:${pct}%"></div></div>
-      <div class="ck-prog-l">${done} of ${allDates.length} dinners</div></div>
+      <div class="ck-prog-l">${done} of ${dates.length} dinners</div></div>
     ${typeof renderHeadsUp === 'function' ? renderHeadsUp() : ''}
     ${typeof renderBatchCard === 'function' ? renderBatchCard('cook') : ''}
     ${week('Week 1', w1dates, 'w1')}
@@ -2695,16 +2724,16 @@ function ckRenderSlot(plan, date, meal, isToday, collapsible){
 
   let body = '';
   if (picking){
-    const plannedId = plan.entries.find(e => e.meal === meal && e.dayDate === date)?.recipeId;
-    const planned = (meal === 'dinner' && plannedId)
-      ? `<span class="ck-planned">planned: ${esc((rm[plannedId]?.title || '').replace('Finish — ', ''))}</span>` : '<span></span>';
+    const nextId = ckNextUp(plan, meal, date);
+    const planned = nextId
+      ? `<span class="ck-planned">next up: ${esc((rm[nextId]?.title || '').replace('Finish — ', ''))}</span>` : '<span></span>';
     const cancel = changing ? `<button class="ck-cancel" onclick="ckCancel('${date}','${meal}')">Cancel</button>` : '';
     const _pool = ckPool(meal);
     // Least-recently-cooked first (never-cooked sorts to the front) so the best bets surface;
-    // the planned recipe, if any, stays pinned at the head of the carousel.
+    // the next-up recipe, if any, stays pinned and highlighted at the head of the carousel.
     const _sorted = [..._pool].sort((a, b) => ckLastCooked(a.id).localeCompare(ckLastCooked(b.id)));
-    const _ordered = plannedId
-      ? [..._sorted.filter(p=>p.id===plannedId), ..._sorted.filter(p=>p.id!==plannedId)]
+    const _ordered = nextId
+      ? [..._sorted.filter(p=>p.id===nextId), ..._sorted.filter(p=>p.id!==nextId)]
       : _sorted;
     const cards = _ordered.map(p => {
       const sel = choice === p.id;
@@ -2716,11 +2745,11 @@ function ckRenderSlot(plan, date, meal, isToday, collapsible){
           <div class="m">${esc(p.metaShort)}</div>
           <div class="p" style="color:var(--text3)">· used up</div></div>`;
       }
-      return `<div class="ck-card${sel ? ' sel' : ''}" onclick="ckPick('${date}','${meal}','${p.id}')">
+      return `<div class="ck-card${sel ? ' sel' : ''}${nextId === p.id ? ' ck-next' : ''}" onclick="ckPick('${date}','${meal}','${p.id}')">
         <span class="ck-chip">${esc(p.cuisine)}</span>
         <div class="t">${esc(p.title)}</div>
         <div class="m">${esc(p.metaShort)}</div>
-        <div class="p">${plannedId === p.id ? '· planned' : ''}</div></div>`;
+        <div class="p">${nextId === p.id ? '· next up' : ''}</div></div>`;
     }).join('');
     const none = `<div class="ck-card-none${choice === 'none' ? ' sel' : ''}" onclick="ckPickNone('${date}','${meal}')">Didn't cook</div>`;
     body = `<div class="ck-ent-h" style="min-height:18px;margin-top:6px">${planned}${cancel}</div>
