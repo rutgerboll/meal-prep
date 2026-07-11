@@ -1,0 +1,28 @@
+#!/bin/sh
+# Guard: app/index.html changes must ship with a bumped CACHE version in
+# app/sw.js. The service worker only re-fetches the app shell when sw.js
+# itself changes byte-for-byte, so an index.html-only change is invisible
+# to phones that already have the app installed — they stay stuck on the
+# old cached version no matter how many times they open or sync it.
+#
+# Installed at .git/hooks/pre-commit. If that ever goes missing (fresh
+# clone, .git/hooks wiped), reinstall with:
+#   cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+if git diff --cached --name-only | grep -q '^app/index\.html$'; then
+  if ! git diff --cached --name-only | grep -q '^app/sw\.js$'; then
+    echo "error: app/index.html changed but app/sw.js was not staged." >&2
+    echo "Bump the CACHE version in app/sw.js so phones pick up this update." >&2
+    exit 1
+  fi
+
+  old=$(git show HEAD:app/sw.js 2>/dev/null | grep "const CACHE")
+  new=$(git show :app/sw.js | grep "const CACHE")
+  if [ "$old" = "$new" ]; then
+    echo "error: app/index.html changed but the CACHE version in app/sw.js was not bumped." >&2
+    echo "Without a version bump, browsers won't detect the update and phones stay on stale cached content." >&2
+    exit 1
+  fi
+fi
+
+exit 0

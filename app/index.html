@@ -2996,7 +2996,23 @@ async function requestPersistentStorage() {
 }
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch((e) => console.log('SW register failed:', e.message));
+    navigator.serviceWorker.register('sw.js').then((reg) => {
+      // Reload once a new service worker takes over, so a stale cached
+      // app shell never sits open indefinitely — otherwise skipWaiting()
+      // in sw.js claims the page without refreshing what's on screen.
+      let reloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (reloaded) return;
+        reloaded = true;
+        location.reload();
+      });
+      // Browsers only re-check sw.js for updates on navigation (and at
+      // most every 24h). Check explicitly whenever the app is foregrounded
+      // so a new deploy is picked up the same day, not a day later.
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update().catch(() => {});
+      });
+    }).catch((e) => console.log('SW register failed:', e.message));
   });
 }
 
