@@ -509,9 +509,32 @@ const CALORIE_WARN_BAND = () => state.preferences.calorieWarnBand || [1200, 1800
 const WEIGHT_TO_OZ = {oz:1, lb:16};
 const VOL_TO_TSP = {tsp:1, tbsp:3, cup:48, 'fl oz':6};
 
+// Name variants that must collapse to one aggregation key. Lives in code (not
+// the seeded aliasMap) so already-installed apps pick fixes up with the app
+// shell update; the user-editable aliasMap still wins on conflicts.
+const BUILTIN_ALIASES = {
+  'parmesan cheese':'parmesan', 'grated parmesan':'parmesan',
+  'parmigiano-reggiano':'parmesan', 'parmigiano reggiano':'parmesan',
+  'mozzarella cheese':'mozzarella', 'shredded mozzarella':'mozzarella',
+  'feta':'feta cheese', 'crumbled feta':'feta cheese',
+  'scallions':'green onions', 'scallion':'green onions',
+  'yellow onion':'onion', 'yellow onions':'onion',
+};
+
+// Volume→weight densities (oz per cup) for items recipes measure both ways.
+// Lets "¾ cup grated parmesan" merge with "1.5 oz parmesan" into one line —
+// a cheese wedge reseals, so one purchase covers every recipe that uses it.
+const OZ_PER_CUP = {
+  'parmesan': 3,                        // grated
+  'mozzarella': 4,                      // shredded
+  'shredded cheddar': 4,
+  'shredded mexican cheese blend': 4,
+  'feta cheese': 5,                     // crumbled
+};
+
 function normItem(item, aliasMap) {
   const k = (item||'').trim().toLowerCase();
-  return aliasMap[k] || k;
+  return aliasMap[k] || BUILTIN_ALIASES[k] || k;
 }
 
 function normUnit(unit) {
@@ -521,6 +544,39 @@ function normUnit(unit) {
     'jars':'each','bottle':'each','bottles':'each','can':'each','cans':'each',
     'piece':'each','pieces':'each','cup grated':'cup','cups grated':'cup'};
   return map[u] || u;
+}
+
+// Container units whose contents don't keep once opened — a can of crushed
+// tomatoes isn't a resealable block of cheese. Counts of these aggregate per
+// declared size (14 oz cans separate from 28 oz cans), never as summed ounces.
+const CONTAINER_WORDS = new Set(['can','jar','bottle','bag','box','packet','tin','pouch','tub','wedge','block','container','carton']);
+
+// Parse an ingredient's raw unit into {unit, container, sizeOz}. A size
+// qualifier on a container unit — "can (14 oz)", "28 oz can" — is preserved so
+// different can sizes stay distinct buckets under the same item.
+function parseIngredientUnit(rawUnit) {
+  const raw = (rawUnit||'').trim().toLowerCase();
+  const sm = raw.match(/(\d+(?:\.\d+)?)\s*(?:fl\.?\s*)?oz/);
+  const stripped = raw.replace(/\s*\(.*?\)/g,'').replace(/^\d+(?:\.\d+)?\s*(?:fl\.?\s*)?oz\.?\s+/,'').trim();
+  const base = stripped.replace(/s$/,'');
+  const container = CONTAINER_WORDS.has(base) ? base : null;
+  return { unit: normUnit(stripped), container, sizeOz: container && sm ? parseFloat(sm[1]) : null };
+}
+
+// A package's content, parsed from its human label ("14.5 oz can", "2 lb bag",
+// "3-count pack", "12 (dozen)"), falling back to packageSize/packageUnit. The
+// label is the one field that reliably carries both the amount and its unit.
+function parsePkgContent(pu) {
+  const lbl = (pu.packageLabel||'').toLowerCase();
+  let m = lbl.match(/([\d.]+)\s*fl\.?\s*oz/); if (m) return { qty: parseFloat(m[1]), kind: 'floz' };
+  m = lbl.match(/([\d.]+)\s*oz/);             if (m) return { qty: parseFloat(m[1]), kind: 'oz' };
+  m = lbl.match(/([\d.]+)\s*lb/);             if (m) return { qty: parseFloat(m[1])*16, kind: 'oz' };
+  m = lbl.match(/(\d+)[\s-]*count/);          if (m) return { qty: parseInt(m[1],10), kind: 'each' };
+  m = lbl.match(/^(\d+)\s*\(/);               if (m) return { qty: parseInt(m[1],10), kind: 'each' };
+  const u = pu.packageUnit;
+  if (WEIGHT_TO_OZ[u]) return { qty: (pu.packageSize||1)*WEIGHT_TO_OZ[u], kind: 'oz' };
+  if (u === 'fl oz')  return { qty: (pu.packageSize||1), kind: 'floz' };
+  return { qty: pu.packageSize||1, kind: 'each' };
 }
 
 function unitFamily(u) {
@@ -625,44 +681,38 @@ function generateGroceryList(plan, recipeMap, pantryItems, purchaseUnits, aliasM
     const scale = g.totalServings / recipe.servings;
     for (const ing of recipe.ingredients) {
       const itemKey = normItem(ing.item, aliasMap);
-      const unitKey = normUnit(ing.unit);
+      const pui = parseIngredientUnit(ing.unit);
       let aisle = ing.aisle;
       if (PANTRY_AISLE_MAP[aisle]) aisle = PANTRY_AISLE_MAP[aisle];
       const scaledQty = ing.qty * scale;
       if (scaledQty <= 0) continue;
-      lineItems.push({ item: itemKey, itemRaw: ing.item, qty: scaledQty, unit: unitKey, aisle, staple: !!ing.staple });
+      lineItems.push({ item: itemKey, itemRaw: ing.item, qty: scaledQty, unit: pui.unit, container: pui.container, sizeOz: pui.sizeOz, aisle, staple: !!ing.staple });
     }
   }
 
-  // Step 1+2: Normalize & aggregate by (item, unit-family bucket)
+  // Step 1+2: Aggregate by normalized item — one grocery line per item
+  // wherever units can be honestly combined. Volume merges into weight when a
+  // density is known (grated cheese); container counts keep a bucket per
+  // declared size so 2×"1 can (14 oz)" + 1×"1 can (28 oz)" reads
+  // "2 × 14 oz can + 1 × 28 oz can", never a raw-ounce sum across can sizes.
   const agg = {};
   for (const li of lineItems) {
-    const fam = unitFamily(li.unit);
-    const aggKey = li.item + '||' + fam;
-    if (!agg[aggKey]) {
-      agg[aggKey] = { item: li.item, qty: 0, unit: li.unit, aisle: li.aisle, allStaple: true, family: fam };
+    if (!agg[li.item]) {
+      agg[li.item] = { item: li.item, aisle: li.aisle, allStaple: true, weightOz: 0, volTsp: 0, counts: {} };
     }
-    const a = agg[aggKey];
-    // Convert within family before summing
-    if (fam === 'weight') {
-      a.qty += toOz(li.qty, li.unit);
-      a.unit = 'oz';
+    const a = agg[li.item];
+    const fam = unitFamily(li.unit);
+    if (fam === 'volume' && OZ_PER_CUP[li.item]) {
+      a.weightOz += toTsp(li.qty, li.unit) / 48 * OZ_PER_CUP[li.item];
+    } else if (fam === 'weight') {
+      a.weightOz += toOz(li.qty, li.unit);
     } else if (fam === 'volume') {
-      a.qty += toTsp(li.qty, li.unit);
-      a.unit = 'tsp';
+      a.volTsp += toTsp(li.qty, li.unit);
     } else {
-      // count: only aggregate same unit
-      if (a.unit !== li.unit) {
-        // Different count units: keep separate
-        const altKey = li.item + '||count||' + li.unit;
-        if (!agg[altKey]) {
-          agg[altKey] = { item: li.item, qty: 0, unit: li.unit, aisle: li.aisle, allStaple: true, family: 'count' };
-        }
-        agg[altKey].qty += li.qty;
-        agg[altKey].allStaple = agg[altKey].allStaple && li.staple;
-        continue;
-      }
-      a.qty += li.qty;
+      // count: aggregate per (unit, container, declared size)
+      const ck = li.unit + '|' + (li.container||'') + '|' + (li.sizeOz||'');
+      if (!a.counts[ck]) a.counts[ck] = { qty: 0, unit: li.unit, container: li.container, sizeOz: li.sizeOz };
+      a.counts[ck].qty += li.qty;
     }
     if (!a.aisle || a.aisle === 'pantry') a.aisle = li.aisle;
     a.allStaple = a.allStaple && li.staple;
@@ -677,105 +727,157 @@ function generateGroceryList(plan, recipeMap, pantryItems, purchaseUnits, aliasM
     items.push(a);
   }
 
-  // Step 4: Round to purchase units & Step 5: Leftover flag
+  // Step 4: Round to purchase units & Step 5: Leftover flag.
+  // Normal case: one line per item. An item emits multiple lines only when its
+  // contributions genuinely can't be combined (never drop a contribution).
   const listItems = [];
   for (const a of items) {
     const pu = puMap[a.item];
-    let buyQty, buyUnit, displayText, leftoverNote = null, missingPU = false, neededQty, neededUnit;
+    const content = (pu && pu.mode === 'package') ? parsePkgContent(pu) : null;
+    let weightOz = a.weightOz, volTsp = a.volTsp;
+    let buckets = Object.values(a.counts);
+    const lines = [];
 
-    // Convert back to readable unit for display
-    if (a.family === 'weight') {
-      neededQty = a.qty; neededUnit = 'oz';
-      // Convert to lb if >= 16oz
-      if (a.qty >= 16) { neededQty = a.qty/16; neededUnit = 'lb'; }
-    } else if (a.family === 'volume') {
-      neededQty = a.qty; neededUnit = 'tsp';
-      if (a.qty >= 48) { neededQty = a.qty/48; neededUnit = 'cup'; }
-      else if (a.qty >= 3) { neededQty = a.qty/3; neededUnit = 'tbsp'; }
-    } else {
-      neededQty = a.qty; neededUnit = a.unit;
+    // Pints are real volume (2 cups = 96 tsp): fold loose cup/tbsp needs into
+    // an existing pint count (cherry tomatoes: "1 cup" + "2 pint" → 2½ pint).
+    if (volTsp > 0) {
+      const pb = buckets.find(b => b.unit === 'pint' && !b.container);
+      if (pb) { pb.qty += volTsp / 96; volTsp = 0; }
     }
 
     // Special: garlic clove -> head
-    if (a.item === 'garlic' && a.unit === 'clove') {
-      const heads = a.qty / 10;
-      const nHeads = Math.ceil(heads);
-      buyQty = nHeads; buyUnit = 'head';
-      displayText = `${nHeads} head garlic (~10 cloves each)`;
-      if (heads < nHeads * 0.25) leftoverNote = `(only ~${heads.toFixed(1)} heads needed)`;
-    } else if (pu) {
-      if (pu.mode === 'by-weight') {
-        const ri = pu.roundIncrement;
-        let needLb;
-        if (a.family === 'weight') needLb = a.qty / 16;
-        else needLb = neededQty;
-        const rounded = Math.ceil(needLb / ri) * ri;
-        buyQty = rounded; buyUnit = pu.packageUnit;
-        displayText = `~${rounded} ${pu.packageUnit} ${a.item}`;
-        if (needLb < rounded * 0.25) leftoverNote = `(only ~${needLb.toFixed(1)} ${pu.packageUnit} needed)`;
+    const gi = buckets.findIndex(b => a.item === 'garlic' && b.unit === 'clove');
+    if (gi >= 0) {
+      const b = buckets.splice(gi, 1)[0];
+      const heads = b.qty / 10, nHeads = Math.ceil(heads);
+      lines.push({ neededQty: b.qty, neededUnit: 'clove', buyQty: nHeads, buyUnit: 'head',
+        displayText: `${nHeads} head garlic (~10 cloves each)`,
+        leftoverNote: heads < nHeads * 0.25 ? `(only ~${heads.toFixed(1)} heads needed)` : null });
+    }
+
+    // A bare "each" count of an item sold in cans/jars means containers too
+    // (normUnit collapses can→each; the purchase unit restores the meaning).
+    if (pu && CONTAINER_WORDS.has(pu.packageUnit)) {
+      buckets.forEach(b => { if (!b.container && b.unit === 'each') b.container = pu.packageUnit; });
+    }
+
+    // Containers: one line per item, one part per declared size. Unsized counts
+    // and loose weight/volume needs fold into default-size packages — but sizes
+    // never sum into raw ounces (an opened can doesn't keep).
+    const containers = buckets.filter(b => b.container);
+    buckets = buckets.filter(b => !b.container);
+    if (containers.length) {
+      const defOz = content && content.kind !== 'each' ? content.qty : null;
+      let defQty = 0; const sized = [];
+      for (const b of containers) { if (b.sizeOz) sized.push(b); else defQty += b.qty; }
+      let foldedOz = 0;
+      if (defOz && content.kind === 'oz' && weightOz > 0) { defQty += weightOz / defOz; foldedOz = weightOz; weightOz = 0; }
+      if (defOz && content.kind === 'floz' && volTsp > 0) { const fo = volTsp / 6; defQty += fo / defOz; foldedOz = fo; volTsp = 0; }
+      sized.sort((x, y) => x.sizeOz - y.sizeOz);
+      const parts = []; let total = 0; let leftoverNote = null;
+      if (defQty > 0) {
+        const n = Math.ceil(defQty - 1e-9); total += n;
+        const unsized = containers.find(b => !b.sizeOz);
+        parts.push({ n, label: content ? pu.packageLabel : (unsized ? unsized.container : 'each') });
+        if (foldedOz && defOz && defQty < n * 0.25) leftoverNote = `(only ~${fmtQty(defQty * defOz)} oz needed — large remainder)`;
+      }
+      for (const b of sized) { const n = Math.ceil(b.qty - 1e-9); total += n; parts.push({ n, label: `${fmtQty(b.sizeOz)} oz ${b.container}` }); }
+      const solo = parts.length === 1;
+      const txt = parts.map(p => {
+        if (p.n === 1) return solo ? p.label : `1 × ${p.label}`;
+        return /\d/.test(p.label) ? `${p.n} × ${p.label}` : `${p.n} ${pluralItem(p.label)}`;
+      }).join(' + ');
+      lines.push({ neededQty: total, neededUnit: 'each', buyQty: total, buyUnit: content ? pu.packageLabel : 'each',
+        displayText: `${txt} ${a.item}`, leftoverNote, missingPU: !pu });
+    }
+
+    // Weight / volume needs (after density merge and container folding). Both
+    // present only when no conversion is known — then two lines, both shown.
+    for (const f of [
+      weightOz > 0 ? { fam: 'weight', oz: weightOz } : null,
+      volTsp   > 0 ? { fam: 'volume', tsp: volTsp } : null,
+    ].filter(Boolean)) {
+      let neededQty, neededUnit;
+      if (f.fam === 'weight') {
+        neededQty = f.oz; neededUnit = 'oz';
+        if (f.oz >= 16) { neededQty = f.oz / 16; neededUnit = 'lb'; }
       } else {
-        // package mode
-        let needInPkgUnit = neededQty;
-        const pkgUnit = pu.packageUnit;
-        const pkgSize = pu.packageSize;
-        const pkgFam = VOL_TO_TSP[pkgUnit] ? 'volume' : (WEIGHT_TO_OZ[pkgUnit] ? 'weight' : 'count');
-        let crossFamily = false;
-        // Convert to pkg unit if same family
-        if (a.family === 'weight' && pkgFam === 'weight') {
-          needInPkgUnit = a.qty / WEIGHT_TO_OZ[pkgUnit];
-        } else if (a.family === 'volume' && pkgFam === 'volume') {
-          needInPkgUnit = a.qty / VOL_TO_TSP[pkgUnit];
-        } else if (a.family === 'volume' && pkgUnit === 'fl oz') {
-          needInPkgUnit = a.qty / 6; // tsp->fl oz
-        } else if (a.family === 'count' && pkgFam !== 'count') {
-          // e.g. coconut milk: 2 cans (each) but pkg is fl oz
-          // treat count as number of packages directly
-          needInPkgUnit = a.qty * pkgSize;
-        } else if (a.family === 'count' && pkgFam === 'count') {
-          // e.g. lemon: need 10, pkg size 1 → buy 10; romaine: need 6, pkg size 3 → buy 2 packs
-          needInPkgUnit = a.qty;
+        neededQty = f.tsp; neededUnit = 'tsp';
+        if (f.tsp >= 48) { neededQty = f.tsp / 48; neededUnit = 'cup'; }
+        else if (f.tsp >= 3) { neededQty = f.tsp / 3; neededUnit = 'tbsp'; }
+      }
+      if (pu && pu.mode === 'by-weight') {
+        const ri = pu.roundIncrement;
+        const needLb = f.fam === 'weight' ? f.oz / 16 : neededQty;
+        const rounded = Math.ceil(needLb / ri) * ri;
+        lines.push({ neededQty, neededUnit, buyQty: rounded, buyUnit: pu.packageUnit,
+          displayText: `~${rounded} ${pu.packageUnit} ${a.item}`,
+          leftoverNote: needLb < rounded * 0.25 ? `(only ~${needLb.toFixed(1)} ${pu.packageUnit} needed)` : null });
+      } else if (content) {
+        const needInPkg = f.fam === 'weight'
+          ? (content.kind === 'oz' ? f.oz / content.qty : null)
+          : (content.kind === 'floz' ? f.tsp / 6 / content.qty : null);
+        if (needInPkg !== null) {
+          const nPkgs = Math.ceil(needInPkg - 1e-9);
+          const lbl = pu.packageLabel;
+          lines.push({ neededQty, neededUnit, buyQty: nPkgs, buyUnit: lbl,
+            displayText: nPkgs > 1 ? `${nPkgs} × ${lbl} ${a.item}` : `${lbl} ${a.item}`,
+            leftoverNote: needInPkg < nPkgs * 0.25 ? `(only ~${fmtQty(neededQty)} ${neededUnit} needed — large remainder)` : null });
         } else {
-          // Cross-family (volume vs weight, etc.) — can't convert reliably
-          // Buy enough to cover the need; show need in display unit
-          crossFamily = true;
-          needInPkgUnit = pkgSize; // forces 1 pkg minimum
+          // Cross-family with no known conversion: buy one package, show the need.
+          lines.push({ neededQty, neededUnit, buyQty: 1, buyUnit: pu.packageLabel,
+            displayText: `${pu.packageLabel} ${a.item} (need ~${fmtQty(neededQty)} ${neededUnit})`, leftoverNote: null });
         }
-        const nPkgs = Math.ceil(needInPkgUnit / pkgSize);
-        buyQty = nPkgs; buyUnit = pu.packageLabel;
+      } else {
+        lines.push({ neededQty, neededUnit, buyQty: neededQty, buyUnit: neededUnit,
+          displayText: `${fmtQty(neededQty)} ${neededUnit} ${a.item}`, leftoverNote: null, missingPU: true });
+      }
+    }
+
+    // Remaining piece counts (each / head / bunch / pint …).
+    for (const b of buckets) {
+      if (content && content.kind === 'each') {
+        const nPkgs = Math.ceil(b.qty / content.qty - 1e-9);
         const lbl = pu.packageLabel;
         let core;
-        if (/^each$/i.test(lbl)) {
-          core = `${nPkgs} ${nPkgs>1 ? pluralItem(a.item) : a.item}`;
-        } else if (nPkgs > 1) {
-          core = `${nPkgs} × ${lbl} ${a.item}`;
-        } else {
-          core = `${lbl} ${a.item}`;
-        }
-        displayText = crossFamily ? `${core} (need ~${fmtQty(neededQty)} ${neededUnit})` : core;
-        const used = needInPkgUnit;
-        const bought = nPkgs * pkgSize;
-        // Only flag leftover when same family and not cross-family
-        if (!crossFamily && used < bought * 0.25) leftoverNote = `(only ~${fmtQty(used)} ${pkgUnit} needed — large remainder)`;
+        if (/^(1 )?each$/i.test(lbl)) core = nPkgs > 1 ? `${nPkgs} ${pluralItem(a.item)}` : `1 ${a.item}`;
+        else if (nPkgs > 1) core = `${nPkgs} × ${lbl} ${a.item}`;
+        else core = `${lbl} ${a.item}`;
+        lines.push({ neededQty: b.qty, neededUnit: b.unit, buyQty: nPkgs, buyUnit: lbl, displayText: core,
+          leftoverNote: b.qty < nPkgs * content.qty * 0.25 ? `(only ${fmtQty(b.qty)} needed)` : null });
+      } else if (content) {
+        // Counted by piece but sold by weight/volume — no honest conversion.
+        lines.push({ neededQty: b.qty, neededUnit: b.unit, buyQty: 1, buyUnit: pu.packageLabel,
+          displayText: `${pu.packageLabel} ${a.item} (need ~${fmtQty(b.qty)} ${b.unit})`, leftoverNote: null });
+      } else if (pu && pu.mode === 'by-weight') {
+        // Legacy behavior: treat a bare count as pounds for by-weight items.
+        const ri = pu.roundIncrement;
+        const rounded = Math.ceil(b.qty / ri) * ri;
+        lines.push({ neededQty: b.qty, neededUnit: b.unit, buyQty: rounded, buyUnit: pu.packageUnit,
+          displayText: `~${rounded} ${pu.packageUnit} ${a.item}`,
+          leftoverNote: b.qty < rounded * 0.25 ? `(only ~${b.qty.toFixed(1)} ${pu.packageUnit} needed)` : null });
+      } else {
+        lines.push({ neededQty: b.qty, neededUnit: b.unit, buyQty: b.qty, buyUnit: b.unit,
+          displayText: `${fmtQty(b.qty)} ${b.unit} ${a.item}`, leftoverNote: null, missingPU: true });
       }
-    } else {
-      missingPU = true;
-      buyQty = neededQty; buyUnit = neededUnit;
-      displayText = `${fmtQty(neededQty)} ${neededUnit} ${a.item}`;
-      unknownUnits.push(a.item);
     }
 
-    // Preserve check state
-    let checked = false;
-    if (existingList) {
-      const found = existingList.items.find(i => i.item === a.item);
-      if (found) checked = found.checked;
+    for (const ln of lines) {
+      if (ln.missingPU) unknownUnits.push(a.item);
+      // Preserve check state
+      let checked = false;
+      if (existingList) {
+        const found = existingList.items.find(i => i.item === a.item && i.buyUnit === ln.buyUnit)
+          || existingList.items.find(i => i.item === a.item);
+        if (found) checked = found.checked;
+      }
+      listItems.push({
+        item: a.item, aisle: a.aisle || 'condiments',
+        neededQty: ln.neededQty, neededUnit: ln.neededUnit, buyQty: ln.buyQty, buyUnit: ln.buyUnit,
+        displayText: ln.displayText, leftoverNote: ln.leftoverNote || null,
+        checked, missingPU: !!ln.missingPU,
+      });
     }
-
-    listItems.push({
-      item: a.item, aisle: a.aisle || 'condiments',
-      neededQty, neededUnit, buyQty, buyUnit, displayText,
-      leftoverNote, checked, missingPU,
-    });
   }
 
   // Step 6: Sort by store walk

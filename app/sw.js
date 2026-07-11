@@ -1,5 +1,5 @@
 /* Meal Planner service worker — offline app shell cache */
-const CACHE = 'mealplanner-v18';
+const CACHE = 'mealplanner-v19';
 const ASSETS = [
   './',
   './index.html',
