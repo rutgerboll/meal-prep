@@ -1,7 +1,8 @@
 {
   "meta": {
-    "schemaVersion": 2,
+    "schemaVersion": 3,
     "generatedAt": "2026-06-21T00:00:00Z",
+    "inventoryUpdatedAt": "2026-06-28",
     "description": "Seed data parsed from Rutger's markdown meal-planning files"
   },
   "preferences": {
@@ -73,7 +74,14 @@
       "dried oregano",
       "curry powder",
       "honey",
-      "soy sauce"
+      "soy sauce",
+      "Dijon mustard",
+      "gochujang",
+      "Thai green curry paste",
+      "fish sauce",
+      "Tabasco",
+      "scotch bonnet hot sauce",
+      "Peruvian pepper jam"
     ]
   },
   "purchaseUnits": [
@@ -562,6 +570,159 @@
       "packageUnit": "packet",
       "packageLabel": "1 oz packet",
       "roundIncrement": null
+    },
+    {
+      "item": "San Marzano tomatoes",
+      "itemNorm": "san marzano tomatoes",
+      "mode": "package",
+      "packageSize": 28.0,
+      "packageUnit": "can",
+      "packageLabel": "28 oz can",
+      "roundIncrement": null
+    },
+    {
+      "item": "canned pumpkin",
+      "itemNorm": "canned pumpkin",
+      "mode": "package",
+      "packageSize": 15.0,
+      "packageUnit": "can",
+      "packageLabel": "15 oz can",
+      "roundIncrement": null
+    },
+    {
+      "item": "canned salmon",
+      "itemNorm": "canned salmon",
+      "mode": "package",
+      "packageSize": 1.0,
+      "packageUnit": "tin",
+      "packageLabel": "1 tin",
+      "roundIncrement": null
+    },
+    {
+      "item": "canned lentils",
+      "itemNorm": "canned lentils",
+      "mode": "package",
+      "packageSize": 15.0,
+      "packageUnit": "can",
+      "packageLabel": "15 oz can",
+      "roundIncrement": null
+    },
+    {
+      "item": "polenta (corn grits)",
+      "itemNorm": "polenta (corn grits)",
+      "mode": "package",
+      "packageSize": 24.0,
+      "packageUnit": "bag",
+      "packageLabel": "24 oz bag",
+      "roundIncrement": null
+    },
+    {
+      "item": "pearl couscous",
+      "itemNorm": "pearl couscous",
+      "mode": "package",
+      "packageSize": 24.5,
+      "packageUnit": "box",
+      "packageLabel": "24.5 oz box",
+      "roundIncrement": null
+    },
+    {
+      "item": "farro",
+      "itemNorm": "farro",
+      "mode": "package",
+      "packageSize": 24.0,
+      "packageUnit": "bag",
+      "packageLabel": "24 oz bag",
+      "roundIncrement": null
+    },
+    {
+      "item": "short pasta",
+      "itemNorm": "short pasta",
+      "mode": "package",
+      "packageSize": 1.0,
+      "packageUnit": "box",
+      "packageLabel": "1 lb box",
+      "roundIncrement": null
+    },
+    {
+      "item": "farfalle",
+      "itemNorm": "farfalle",
+      "mode": "package",
+      "packageSize": 1.0,
+      "packageUnit": "box",
+      "packageLabel": "1 lb box",
+      "roundIncrement": null
+    },
+    {
+      "item": "dried ancho chiles",
+      "itemNorm": "dried ancho chiles",
+      "mode": "package",
+      "packageSize": 2.0,
+      "packageUnit": "bag",
+      "packageLabel": "2 oz bag",
+      "roundIncrement": null
+    },
+    {
+      "item": "dried guajillo chiles",
+      "itemNorm": "dried guajillo chiles",
+      "mode": "package",
+      "packageSize": 2.0,
+      "packageUnit": "bag",
+      "packageLabel": "2 oz bag",
+      "roundIncrement": null
+    },
+    {
+      "item": "sun-dried tomatoes",
+      "itemNorm": "sun-dried tomatoes",
+      "mode": "package",
+      "packageSize": 7.0,
+      "packageUnit": "jar",
+      "packageLabel": "7 oz jar",
+      "roundIncrement": null
+    },
+    {
+      "item": "chuck roast",
+      "itemNorm": "chuck roast",
+      "mode": "by-weight",
+      "packageSize": null,
+      "packageUnit": "lb",
+      "packageLabel": "~0.5 lb increments",
+      "roundIncrement": 0.5
+    },
+    {
+      "item": "beef stew meat",
+      "itemNorm": "beef stew meat",
+      "mode": "package",
+      "packageSize": 1.0,
+      "packageUnit": "package",
+      "packageLabel": "1 lb package",
+      "roundIncrement": null
+    },
+    {
+      "item": "short ribs",
+      "itemNorm": "short ribs",
+      "mode": "by-weight",
+      "packageSize": null,
+      "packageUnit": "lb",
+      "packageLabel": "~0.5 lb increments",
+      "roundIncrement": 0.5
+    },
+    {
+      "item": "oxtail",
+      "itemNorm": "oxtail",
+      "mode": "by-weight",
+      "packageSize": null,
+      "packageUnit": "lb",
+      "packageLabel": "~0.5 lb increments",
+      "roundIncrement": 0.5
+    },
+    {
+      "item": "beef steak (rib-eye/strip/sirloin)",
+      "itemNorm": "beef steak (rib-eye/strip/sirloin)",
+      "mode": "by-weight",
+      "packageSize": null,
+      "packageUnit": "lb",
+      "packageLabel": "~0.5 lb increments",
+      "roundIncrement": 0.5
     }
   ],
   "aliasMap": {
@@ -4140,6 +4301,392 @@
       "captureStatus": "not-captured",
       "recipeId": null,
       "thumbnail": "data:image/jpeg;base64,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cmtpbmdncm91cC5jb20vc2NoZW1hcy9yZWdpb25zLyIgeG1sbnM6c3RBcmVhPSJodHRwOi8vbnMuYWRvYmUuY29tL3htcC9zVHlwZS9BcmVhIyIgeG1sbnM6c3REaW09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9EaW1lbnNpb25zIyIgeG1wOkNyZWF0ZURhdGU9IjIwMjUtMTItMTNUMTU6NDM6MDIiIHhtcDpNb2RpZnlEYXRlPSIyMDI1LTEyLTEzVDE1OjQzOjAyIiBwaG90b3Nob3A6RGF0ZUNyZWF0ZWQ9IjIwMjUtMTItMTNUMTU6NDM6MDIiPiA8bXdnLXJzOlJlZ2lvbnMgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPiA8bXdnLXJzOlJlZ2lvbkxpc3Q+IDxyZGY6U2VxPiA8cmRmOmxpPiA8cmRmOkRlc2NyaXB0aW9uIG13Zy1yczpUeXBlPSJGb2N1cyI+IDxtd2ctcnM6QXJlYSBzdEFyZWE6eT0iMC40NDUwMDAwMDAwMDAwMDAwMSIgc3RBcmVhOnc9IjAuMTE4MzgwOTUyMzgwOTUyNDIiIHN0QXJlYTp4PSIwLjQzNzY2NjY2NjY2NjY2NjY1IiBzdEFyZWE6aD0iMC4xNTgwMDAwMDAwMDAwMDAwMyIgc3RBcmVhOnVuaXQ9Im5vcm1hbGl6ZWQiLz4gPG13Zy1yczpFeHRlbnNpb25zIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpsaT4gPC9yZGY6U2VxPiA8L213Zy1yczpSZWdpb25MaXN0PiA8bXdnLXJzOkFwcGxpZWRUb0RpbWVuc2lvbnMgc3REaW06aD0iNDI4NCIgc3REaW06dz0iNTcxMiIgc3REaW06dW5pdD0icGl4ZWwiLz4gPC9td2ctcnM6UmVnaW9ucz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg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"
+    }
+  ],
+  "ingredientStock": [
+    {
+      "id": "bone-in-rib-eye",
+      "item": "bone-in rib-eye",
+      "qty": 2,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "steak; quick high-heat cook"
+    },
+    {
+      "id": "new-york-strip-steak",
+      "item": "new york strip steak",
+      "qty": 4,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "steak; quick high-heat cook"
+    },
+    {
+      "id": "sirloin-steak",
+      "item": "sirloin steak",
+      "qty": 3,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "steak; also good sliced for stir-fry-style/fajitas"
+    },
+    {
+      "id": "cube-steak",
+      "item": "cube steak",
+      "qty": 1,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "thin; chicken-fried / quick pan"
+    },
+    {
+      "id": "round-steak",
+      "item": "round steak",
+      "qty": 3,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "lean; braise or slice thin"
+    },
+    {
+      "id": "beef-tenderloin",
+      "item": "beef tenderloin",
+      "qty": 1,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "premium roast/steaks; save for a real-cook night"
+    },
+    {
+      "id": "chuck-roast",
+      "item": "chuck roast",
+      "qty": 4,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "braising cut → ragù / pot roast / shredded (not soupy)"
+    },
+    {
+      "id": "arm-roast",
+      "item": "arm roast",
+      "qty": 1,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "braising cut → braise / shredded"
+    },
+    {
+      "id": "beef-stew-meat",
+      "item": "beef stew meat",
+      "qty": 4,
+      "unit": "lb",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "~4 packs; braise into thick ragù/birria — NOT brothy stew (see prefs)"
+    },
+    {
+      "id": "beef-short-ribs",
+      "item": "beef short ribs",
+      "qty": 2,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "braise → thick glaze (not soup)"
+    },
+    {
+      "id": "oxtail",
+      "item": "oxtail",
+      "qty": 1,
+      "unit": "lb",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "braise → rich reduced sauce"
+    },
+    {
+      "id": "beef-tongue",
+      "item": "beef tongue",
+      "qty": 1,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "~2 lb 2 oz; lengua tacos"
+    },
+    {
+      "id": "beef-soup-bones",
+      "item": "beef soup bones",
+      "qty": 2,
+      "unit": "lb",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "stock/broth base — supporting ingredient, not a dinner"
+    },
+    {
+      "id": "misc-beef",
+      "item": "misc beef (scraps/jowl)",
+      "qty": 3,
+      "unit": "each",
+      "location": "freezer",
+      "aisle": "meat",
+      "group": "beef",
+      "addedAt": "2026-06-28",
+      "approx": true,
+      "note": "3 hand-wrapped bags dated 2025-10-30; use early"
+    },
+    {
+      "id": "canned-whole-tomatoes",
+      "item": "canned whole tomatoes (San Marzano)",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "tomatoes",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Cento, 28 oz"
+    },
+    {
+      "id": "canned-tomatoes",
+      "item": "canned tomatoes",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "tomatoes",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Cento, ~28 oz"
+    },
+    {
+      "id": "canned-diced-tomatoes",
+      "item": "canned diced tomatoes",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "tomatoes",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Cento petite diced, 14.5 oz"
+    },
+    {
+      "id": "tomato-paste",
+      "item": "tomato paste",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "tomatoes",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "6 oz"
+    },
+    {
+      "id": "canned-pumpkin",
+      "item": "canned pumpkin",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "other",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "100% pure pumpkin, 15 oz"
+    },
+    {
+      "id": "coconut-milk",
+      "item": "coconut milk",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "international",
+      "group": "other",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "unsweetened, 13.5 fl oz — good for Thai curry"
+    },
+    {
+      "id": "black-beans",
+      "item": "black beans",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "beans",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Goya, 15.5 oz"
+    },
+    {
+      "id": "lentils",
+      "item": "lentils (canned)",
+      "qty": 1,
+      "unit": "can",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "beans",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "365 Organic"
+    },
+    {
+      "id": "canned-salmon",
+      "item": "canned salmon",
+      "qty": 2,
+      "unit": "each",
+      "location": "pantry",
+      "aisle": "canned",
+      "group": "fish",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "King Oscar tins"
+    },
+    {
+      "id": "polenta",
+      "item": "polenta (corn grits)",
+      "qty": 1,
+      "unit": "bag",
+      "location": "pantry",
+      "aisle": "pasta-grains",
+      "group": "grains",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Bob's Red Mill, 24 oz — base for braised beef"
+    },
+    {
+      "id": "pearl-couscous",
+      "item": "pearl couscous",
+      "qty": 1,
+      "unit": "box",
+      "location": "pantry",
+      "aisle": "pasta-grains",
+      "group": "grains",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "RiceSelect, 24.5 oz"
+    },
+    {
+      "id": "farro",
+      "item": "farro",
+      "qty": 1,
+      "unit": "bag",
+      "location": "pantry",
+      "aisle": "pasta-grains",
+      "group": "grains",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Bob's Red Mill, 24 oz — grain bowls/salads"
+    },
+    {
+      "id": "trottole-pasta",
+      "item": "trottole pasta",
+      "qty": 1,
+      "unit": "box",
+      "location": "pantry",
+      "aisle": "pasta-grains",
+      "group": "pasta",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Di Martino, 16 oz"
+    },
+    {
+      "id": "short-pasta",
+      "item": "short pasta",
+      "qty": 1,
+      "unit": "box",
+      "location": "pantry",
+      "aisle": "pasta-grains",
+      "group": "pasta",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Di Martino, 16 oz"
+    },
+    {
+      "id": "farfalle-pasta",
+      "item": "farfalle pasta",
+      "qty": 1,
+      "unit": "box",
+      "location": "pantry",
+      "aisle": "pasta-grains",
+      "group": "pasta",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "L'Antica Madia beetroot farfalle, ~8.8 oz"
+    },
+    {
+      "id": "dried-ancho-chiles",
+      "item": "dried ancho chiles",
+      "qty": 2,
+      "unit": "oz",
+      "location": "pantry",
+      "aisle": "international",
+      "group": "chiles",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Carmen's — birria/adobo/mole"
+    },
+    {
+      "id": "dried-guajillo-chiles",
+      "item": "dried guajillo chiles",
+      "qty": 2,
+      "unit": "oz",
+      "location": "pantry",
+      "aisle": "international",
+      "group": "chiles",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Carmen's — birria/adobo"
+    },
+    {
+      "id": "sun-dried-tomatoes",
+      "item": "sun-dried tomatoes",
+      "qty": 1,
+      "unit": "jar",
+      "location": "pantry",
+      "aisle": "international",
+      "group": "other",
+      "addedAt": "2026-06-28",
+      "approx": false,
+      "note": "Alessi julienne, 7 oz"
     }
   ]
 }
