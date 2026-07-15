@@ -930,6 +930,13 @@ function pluralItem(name) {
   return n+'s';
 }
 
+/* How much of a base recipe's protein a given recipe (usually a finish) needs,
+   scaled from the base's per-serving yield to the requesting recipe's servings. */
+function baseQtyFor(recipe, baseRecipe) {
+  if (!baseRecipe?.ingredients?.length || !baseRecipe.servings || !recipe?.servings) return null;
+  const protein = baseRecipe.ingredients[0];
+  return { item: protein.item, unit: protein.unit, qty: protein.qty / baseRecipe.servings * recipe.servings };
+}
 function fmtQty(n) {
   if (!n && n !== 0) return '';
   const r = Math.round(n * 100) / 100;
@@ -1362,11 +1369,11 @@ function renderRecipeDetail(id) {
       ${r.note?`<div style="margin-top:12px;font-size:13px;color:var(--text3)">${r.note}</div>`:''}
     </div>
     ${(()=>{const steps=r.prepAhead||[];const th=thawHoursFor(r,rm);if(!steps.length&&th==null)return '';const thawTxt=th==null?'':(th>=24?`${th/24} ${th/24===1?'day':'days'}`:`${th} h`);return `<div class="card" style="margin-bottom:12px;border-left:4px solid var(--pr)"><div style="font-weight:600;font-size:14px;margin-bottom:6px">🌙 Prep ahead</div>${th!=null?`<div style="font-size:13px;color:var(--text2);padding:3px 0">• Thaw from the freezer ~${thawTxt} ahead${r.thawHoursAhead==null?' (base protein)':''}.</div>`:''}${steps.map(s=>`<div style="font-size:13px;color:var(--text2);padding:3px 0">• ${esc(s)}</div>`).join('')}</div>`;})()}
-    ${base?`<div class="card" style="margin-bottom:12px"><div style="font-size:13px;color:var(--text3)">Uses base protein →</div><div class="day-row" style="padding:8px 0;border:none" onclick="navigate('#/recipes/${base.id}')"><div class="day-ctr"><div class="day-ttl">${base.title}</div></div><span style="color:var(--pr)">›</span></div></div>`:''}
-    ${finishes.length?`<div class="card" style="margin-bottom:12px"><div style="font-size:13px;color:var(--text3);margin-bottom:8px">Finish recipes using this base:</div>${finishes.map(f=>`<div class="day-row" style="padding:8px 0;border-bottom:1px solid var(--bdrs)" onclick="navigate('#/recipes/${f.id}')"><div class="day-ctr"><div class="day-ttl">${f.title.replace('Finish — ','')}</div></div><span style="color:var(--pr)">›</span></div>`).join('')}</div>`:''}
+    ${base?(()=>{const need=baseQtyFor(r,base);return `<div class="card" style="margin-bottom:12px"><div style="font-size:13px;color:var(--text3)">Uses base protein →</div><div class="day-row" style="padding:8px 0;border:none" onclick="navigate('#/recipes/${base.id}')"><div class="day-ctr"><div class="day-ttl">${base.title}</div>${need?`<div style="font-size:12px;color:var(--text3)">Needs ${fmtQty(need.qty)} ${need.unit} ${esc(need.item)}</div>`:''}</div><span style="color:var(--pr)">›</span></div></div>`;})():''}
+    ${finishes.length?`<div class="card" style="margin-bottom:12px"><div style="font-size:13px;color:var(--text3);margin-bottom:8px">Finish recipes using this base:</div>${finishes.map(f=>{const need=baseQtyFor(f,r);return `<div class="day-row" style="padding:8px 0;border-bottom:1px solid var(--bdrs)" onclick="navigate('#/recipes/${f.id}')"><div class="day-ctr"><div class="day-ttl">${f.title.replace('Finish — ','')}</div>${need?`<div style="font-size:12px;color:var(--text3)">Needs ${fmtQty(need.qty)} ${need.unit} ${esc(need.item)}</div>`:''}</div><span style="color:var(--pr)">›</span></div>`;}).join('')}</div>`:''}
     <div class="card" style="margin-bottom:12px">
       <div class="ssec" style="margin-top:0">Ingredients</div>
-      ${r.ingredients.length ? r.ingredients.map(ing=>`<div class="ing-row"><span class="ii">${ing.item}</span><span class="iq">${fmtQty(ing.qty)}</span><span class="iu">${ing.unit}</span>${ing.staple?'<span style="font-size:11px;color:var(--text3)">✓pantry</span>':''}</div>`).join('') : `<div style="font-size:13px;color:var(--text3)">${r.isFinish?'None — everything comes prepped and portioned from the base.':'None listed.'}</div>`}
+      ${(()=>{const rows=[];const baseNeed=r.isFinish&&base?baseQtyFor(r,base):null;if(baseNeed)rows.push(`<div class="ing-row"><span class="ii">${esc(baseNeed.item)}</span><span class="iq">${fmtQty(baseNeed.qty)}</span><span class="iu">${baseNeed.unit}</span><span style="font-size:11px;color:var(--pr)">from base</span></div>`);rows.push(...r.ingredients.map(ing=>`<div class="ing-row"><span class="ii">${ing.item}</span><span class="iq">${fmtQty(ing.qty)}</span><span class="iu">${ing.unit}</span>${ing.staple?'<span style="font-size:11px;color:var(--text3)">✓pantry</span>':''}</div>`));return rows.length?rows.join(''):`<div style="font-size:13px;color:var(--text3)">${r.isFinish?'None — everything comes prepped and portioned from the base.':'None listed.'}</div>`;})()}
     </div>
     ${r.steps?.length?`<div class="card" style="margin-bottom:12px"><div class="ssec" style="margin-top:0">Steps</div>${r.steps.map((s,i)=>`<div class="step-txt"><span class="step-n">${i+1}.</span>${s.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`).join('')}</div>`:''}
     ${r.ratings?.cookCount?`<div class="card" style="margin-bottom:12px"><div class="ssec" style="margin-top:0">Ratings</div><div class="ratings-row"><div class="rat-item"><div class="rat-v">${r.ratings.cookCount}</div><div class="rat-l">Cooks</div></div><div class="rat-item"><div class="rat-v">${fmtStars(r.ratings.liked)}</div><div class="rat-l">Liked</div></div><div class="rat-item"><div class="rat-v">${r.ratings.avgDifficulty?.toFixed(1)||'–'}/5</div><div class="rat-l">Difficulty</div></div><div class="rat-item"><div class="rat-v">${r.ratings.avgActualMinutes ? Math.round(r.ratings.avgActualMinutes)+'m' : '–'}</div><div class="rat-l">Avg Time</div></div></div></div>`:''}
@@ -1375,8 +1382,10 @@ function renderRecipeDetail(id) {
       <button class="btn-s" style="flex:1" onclick="navigate('#/recipes/edit/${r.id}')">Edit</button>
       <button class="btn-s" style="flex:1" onclick="navigate('#/plan/build')">Add to plan</button>
     </div>
-    <div style="margin-top:8px">
-      <button class="btn-p" style="width:100%;height:44px" onclick="startCookLog(${planEntryIdx >= 0 ? planEntryIdx : -1})">Log a Cook</button>
+    <div style="margin-top:8px${r.feedbackLog?.length?';display:flex;gap:8px':''}">
+      ${r.feedbackLog?.length?`<button class="btn-p" style="flex:1;height:44px" onclick="quickLogRecipe('${r.id}', ${planEntryIdx >= 0 ? planEntryIdx : -1})">Log</button>
+      <button class="btn-s" style="flex:1;height:44px" onclick="startCookLog(${planEntryIdx >= 0 ? planEntryIdx : -1})">Rate & Log</button>`
+      :`<button class="btn-p" style="width:100%;height:44px" onclick="startCookLog(${planEntryIdx >= 0 ? planEntryIdx : -1})">Log a Cook</button>`}
     </div>`;
 }
 
@@ -1727,6 +1736,18 @@ function dayHasLunch(date){ return true; }
 function toggleDayExpand(date){ window._cookExpanded=window._cookExpanded||{}; window._cookExpanded[date]=!window._cookExpanded[date]; render(); }
 function toggleSec(key){ window._cookSec=window._cookSec||{}; window._cookSec[key]=!window._cookSec[key]; render(); }
 let _cookLogState = null;
+
+/* Quick "log" from the recipe page for a recipe that's already been rated —
+   repeats the last rating instead of opening the full rate-it modal. */
+async function quickLogRecipe(recipeId, planIdx) {
+  const rm = getRecipeMap();
+  const r = rm[recipeId];
+  const prev = (r?.feedbackLog || [])[(r?.feedbackLog || []).length - 1];
+  if (!prev) { startCookLog(planIdx); return; }
+  await saveCookFeedback(recipeId, planIdx, {
+    difficulty: prev.difficulty, actualMinutes: prev.actualMinutes, liked: prev.liked, changeNote: '',
+  });
+}
 
 function startCookLog(planIdx) {
   const plan = getActivePlan();
@@ -3075,10 +3096,13 @@ function ckRenderSlot(plan, date, meal, isToday, collapsible){
     const r = rm[choice]; const t = (r?.title || choice).replace('Finish — ', '');
     const meta = r ? `${(r.tags||[])[0] || ''} · ${r.timeMinutes} min · ${r.caloriesPerServing} cal` : '';
     const prep = r && (r.prepAhead||[]).length ? `<div style="font-size:12px;color:var(--pr);margin-top:4px">🌙 ${esc(r.prepAhead[0])}</div>` : '';
+    const hasPrev = !!(r?.feedbackLog?.length);
+    const logBtn = hasPrev ? `<button class="ck-acta" onclick="ckQuickLog('${date}','${meal}')">Log</button>` : '';
+    const rateBtn = `<button class="${hasPrev ? 'ck-actb' : 'ck-acta'}" onclick="ckOpenRate('${date}','${meal}')">Rate it</button>`;
     body = `<div class="ck-slot-ttl">${esc(t)}</div><div class="ck-meta">${esc(meta)}</div>${prep}
       <div class="ck-actions">
         <button class="ck-acta" onclick="navigate('#/recipes/${choice}')">View recipe</button>
-        <button class="ck-acta" onclick="ckOpenRate('${date}','${meal}')">Rate it</button>
+        ${logBtn}${rateBtn}
         <button class="ck-actb" onclick="ckChange('${date}','${meal}')">Change</button></div>`;
   } else if (status === 'logged'){
     const r = rm[choice]; const t = (r?.title || choice).replace('Finish — ', '');
@@ -3122,6 +3146,27 @@ async function ckPickNone(date, meal){
 }
 function ckChange(date, meal){ window._ckChanging[ckKey(date, meal)] = true; render(); }
 function ckCancel(date, meal){ delete window._ckChanging[ckKey(date, meal)]; render(); }
+
+/* Quick "log" for a recipe that's already been rated before — repeats the last
+   rating instead of making you re-rate, so the day still collapses. */
+async function ckQuickLog(date, meal){
+  const plan = getActivePlan(); if (!plan) return;
+  const rm = getRecipeMap();
+  const id = meal === 'dinner' ? (plan.dinnerChoices||{})[date] : (plan.lunchChoices||{})[date];
+  if (!id || id === 'none') return;
+  const r = rm[id];
+  const prev = (r?.feedbackLog || [])[(r?.feedbackLog || []).length - 1];
+  if (!prev) { ckOpenRate(date, meal); return; }
+  const idx = plan.entries.findIndex(e => e.meal === meal && e.dayDate === date);
+  await saveCookFeedback(id, idx, {
+    difficulty: prev.difficulty, actualMinutes: prev.actualMinutes, liked: prev.liked, changeNote: '',
+  });
+  const p = getActivePlan();
+  if (meal === 'dinner'){ p.dinnerLogged = p.dinnerLogged || {}; p.dinnerLogged[date] = true; }
+  else { p.lunchLogged = p.lunchLogged || {}; p.lunchLogged[date] = true; }
+  await ckPersist(p);
+  render();
+}
 
 /* ---- rate sheet -------------------------------------------------- */
 function ckOpenRate(date, meal){
