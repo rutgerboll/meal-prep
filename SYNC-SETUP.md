@@ -66,10 +66,33 @@ To run the server automatically at login, create a Launch Agent:
   </array>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/tmp/mealplanner-server.log</string>
+  <key>StandardErrorPath</key><string>/tmp/mealplanner-server.err</string>
 </dict></plist>
 ```
-Then: `launchctl load ~/Library/LaunchAgents/com.mealplanner.server.plist`
+Replace `YOUR_USERNAME`, then: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.mealplanner.server.plist`
+
+**Grant Full Disk Access to python3.** A LaunchAgent spawns `/usr/bin/python3` directly,
+which macOS blocks from reading anything under `Documents` by default (unlike running
+the script from Terminal, where the process inherits Terminal's own permission). Without
+this the agent crash-loops silently. Go to **System Settings → Privacy & Security → Full
+Disk Access**, click **+**, press **⌘⇧G**, enter `/usr/bin/python3`, add it, and enable
+the toggle.
+
 (Keep `tailscale serve --bg 8765` enabled too — it persists across reboots.)
+
+## Deploying updates from GitHub
+When you (or Claude) push changes to the repo, pull them onto the Mac mini and restart
+the server with:
+```bash
+cd "~/Documents/Claude/Projects/Meal planning/app-build/app"
+./deploy.sh
+```
+It pulls the current branch with `--ff-only` (refuses to run over uncommitted local
+changes), then restarts `com.mealplanner.server` via `launchctl kickstart`. If the
+LaunchAgent isn't managing the server (e.g. Full Disk Access isn't granted yet), it
+falls back to relaunching `meal-server.py` as a plain background process so the app
+doesn't stay down.
 
 ## Feedback back to Claude (cook ratings)
 
