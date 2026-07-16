@@ -1,5 +1,5 @@
 /* Meal Planner service worker — offline app shell cache */
-const CACHE = 'mealplanner-v24';
+const CACHE = 'mealplanner-v25';
 const ASSETS = [
   './',
   './index.html',
@@ -7,7 +7,23 @@ const ASSETS = [
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './js/db.js',
+  './js/grocery-engine.js',
+  './js/cook-log.js',
+  './js/helpers-render.js',
+  './js/screen-plan.js',
+  './js/screen-recipes.js',
+  './js/screen-grocery.js',
+  './js/cook-modal.js',
+  './js/screen-more.js',
+  './js/cookbook-backlog.js',
+  './js/plan-builder.js',
+  './js/app-boot.js',
+  './js/sync.js',
+  './js/inventory.js',
+  './js/screen-cook.js',
+  './js/pwa.js'
 ];
 
 self.addEventListener('install', (e) => {
