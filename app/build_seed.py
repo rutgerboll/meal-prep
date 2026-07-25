@@ -627,7 +627,7 @@ def load_plan(filepath: str) -> dict:
         # Infer meal slot from recipe tags or day label
         if day_str and "batch cook" in str(day_str).lower():
             meal_slot = "batch"
-        elif meal_slot not in ("dinner", "lunch", "batch"):
+        elif meal_slot not in ("dinner", "lunch", "batch", "breakfast"):
             meal_slot = "dinner"
 
         if day_str:
@@ -673,11 +673,13 @@ def load_plan(filepath: str) -> dict:
 # ── Grocery list loader (chat-written lists → app import) ────────────────────
 def load_grocery_list(filepath: str) -> dict:
     """Parse a chat-generated grocery-lists/<plan-id>.md into an importable
-    list. Sections are fenced by '---' lines: [0] title/prose, [1] the buy
-    lines, [2+] extras — of which only a section containing 'Check before you
-    shop' is imported (as on-hand items to verify); anything else (e.g.
-    purchase-unit suggestions) stays markdown-only. Buy lines are kept verbatim
-    as display text; the normalized line doubles as the check-state key."""
+    list. Sections are fenced by '---' lines: [0] title/prose, [1:] buy-line
+    blocks (a list may split these into multiple trips, each its own
+    '---'-fenced section) up to whichever section contains 'Check before you
+    shop' — that one is imported separately as on-hand items to verify;
+    anything after it (e.g. purchase-unit suggestions) stays markdown-only.
+    Buy lines are kept verbatim as display text; the normalized line doubles
+    as the check-state key."""
     with open(filepath, 'r', encoding='utf-8') as f:
         text = f.read()
     plan_id = os.path.splitext(os.path.basename(filepath))[0]
@@ -687,15 +689,27 @@ def load_grocery_list(filepath: str) -> dict:
     def norm_key(s):
         return re.sub(r'\s+', ' ', s).strip().lower()
 
+    def is_buy_line(line):
+        # Real buy lines always lead with a quantity ("2 cans...", "~4.5 lb
+        # ..."). Filters out stray prose sentences (e.g. "That's it —
+        # everything else for week 2 was already bought in Trip 1.") that can
+        # sit inside a multi-trip buy section alongside the actual items.
+        return bool(re.match(r'^[\d~]', line))
+
     sections = re.split(r'\n-{3,}\s*\n', text)
     items = []
     if len(sections) > 1:
-        for line in sections[1].splitlines():
-            line = line.strip()
-            if not line or line.startswith('#'):
-                continue
-            line = re.sub(r'^-\s+', '', line)  # tolerate bulleted buy lines
-            items.append({"item": norm_key(line), "displayText": line, "checked": False})
+        for sec in sections[1:]:
+            if 'check before you shop' in sec.lower():
+                break
+            for line in sec.splitlines():
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                line = re.sub(r'^-\s+', '', line)  # tolerate bulleted buy lines
+                if not is_buy_line(line):
+                    continue
+                items.append({"item": norm_key(line), "displayText": line, "checked": False})
     else:
         # Legacy format: no '---' fences, buy lines are bullets under the title.
         for line in text.splitlines():
@@ -706,7 +720,7 @@ def load_grocery_list(filepath: str) -> dict:
                 continue
             line = line[2:].strip()
             items.append({"item": norm_key(line), "displayText": line, "checked": False})
-    for sec in sections[2:]:
+    for sec in sections[1:]:
         if 'check before you shop' not in sec.lower():
             continue
         for line in sec.splitlines():
