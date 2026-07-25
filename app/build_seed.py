@@ -674,12 +674,15 @@ def load_plan(filepath: str) -> dict:
 def load_grocery_list(filepath: str) -> dict:
     """Parse a chat-generated grocery-lists/<plan-id>.md into an importable
     list. Sections are fenced by '---' lines: [0] title/prose, [1:] buy-line
-    blocks (a list may split these into multiple trips, each its own
-    '---'-fenced section) up to whichever section contains 'Check before you
-    shop' — that one is imported separately as on-hand items to verify;
-    anything after it (e.g. purchase-unit suggestions) stays markdown-only.
-    Buy lines are kept verbatim as display text; the normalized line doubles
-    as the check-state key."""
+    blocks up to whichever section contains 'Check before you shop' — that
+    one is imported separately as on-hand items to verify; anything after it
+    (e.g. purchase-unit suggestions) stays markdown-only. A list may split its
+    buy lines into multiple trips, each its own '---'-fenced section headed by
+    a '## Trip N — ...' line (e.g. "buy everything now" vs. "restock before
+    week 2") — each becomes its own section in the output so the app keeps
+    them as separate, separately-copyable lists instead of merging them into
+    one. Buy lines are kept verbatim as display text; the normalized line
+    doubles as the check-state key."""
     with open(filepath, 'r', encoding='utf-8') as f:
         text = f.read()
     plan_id = os.path.splitext(os.path.basename(filepath))[0]
@@ -697,11 +700,25 @@ def load_grocery_list(filepath: str) -> dict:
         return bool(re.match(r'^[\d~]', line))
 
     sections = re.split(r'\n-{3,}\s*\n', text)
-    items = []
+    trip_sections = []  # [{"label": str|None, "items": [...]}]
+    have_items = []
     if len(sections) > 1:
         for sec in sections[1:]:
             if 'check before you shop' in sec.lower():
-                break
+                for line in sec.splitlines():
+                    line = line.strip()
+                    if not line.startswith('- '):
+                        continue
+                    body = line[2:].strip()
+                    parts = re.split(r'\s+—\s+', body, 1)
+                    name = parts[0].strip()
+                    note = parts[1].strip() if len(parts) > 1 else body
+                    have_items.append({"item": norm_key(name), "displayText": body, "checked": False,
+                                       "stockStatus": "have", "onHandNote": note})
+                continue
+            hm = re.search(r'^##\s+(.+)$', sec, re.MULTILINE)
+            label = hm.group(1).strip() if hm else None
+            sec_items = []
             for line in sec.splitlines():
                 line = line.strip()
                 if not line or line.startswith('#'):
@@ -709,9 +726,12 @@ def load_grocery_list(filepath: str) -> dict:
                 line = re.sub(r'^-\s+', '', line)  # tolerate bulleted buy lines
                 if not is_buy_line(line):
                     continue
-                items.append({"item": norm_key(line), "displayText": line, "checked": False})
+                sec_items.append({"item": norm_key(line), "displayText": line, "checked": False})
+            if sec_items:
+                trip_sections.append({"label": label, "items": sec_items})
     else:
         # Legacy format: no '---' fences, buy lines are bullets under the title.
+        items = []
         for line in text.splitlines():
             line = line.strip()
             if 'check before you shop' in line.lower():
@@ -720,23 +740,18 @@ def load_grocery_list(filepath: str) -> dict:
                 continue
             line = line[2:].strip()
             items.append({"item": norm_key(line), "displayText": line, "checked": False})
-    for sec in sections[1:]:
-        if 'check before you shop' not in sec.lower():
-            continue
-        for line in sec.splitlines():
-            line = line.strip()
-            if not line.startswith('- '):
-                continue
-            body = line[2:].strip()
-            parts = re.split(r'\s+—\s+', body, 1)
-            name = parts[0].strip()
-            note = parts[1].strip() if len(parts) > 1 else body
-            items.append({"item": norm_key(name), "displayText": body, "checked": False,
-                          "stockStatus": "have", "onHandNote": note})
+        if items:
+            trip_sections.append({"label": None, "items": items})
+    if not trip_sections:
+        trip_sections = [{"label": None, "items": []}]
+    # "Have" (on-hand) items ride along with the first trip section; the app
+    # surfaces them globally as a "check before you shop" block regardless of
+    # which section holds them.
+    trip_sections[0]["items"].extend(have_items)
     mtime = os.path.getmtime(filepath)
     generated = datetime.utcfromtimestamp(mtime).strftime('%Y-%m-%dT%H:%M:%SZ')
     return {"planId": plan_id, "title": title, "source": "claude",
-            "generatedAt": generated, "items": items}
+            "generatedAt": generated, "sections": trip_sections}
 
 # ── Pantry loader ─────────────────────────────────────────────────────────────
 def load_pantry(filepath: str) -> dict:
@@ -984,11 +999,13 @@ def main():
                 if gl["planId"] not in plan_ids:
                     print(f"  – {fname}: no matching plan id, skipped")
                     continue
-                if not gl["items"]:
+                n_items = sum(len(s["items"]) for s in gl["sections"])
+                if not n_items:
                     print(f"  – {fname}: no parseable lines, skipped")
                     continue
                 grocery_lists.append(gl)
-                print(f"  ✓ {gl['planId']} ({len(gl['items'])} lines)")
+                trips = f", {len(gl['sections'])} trips" if len(gl["sections"]) > 1 else ""
+                print(f"  ✓ {gl['planId']} ({n_items} lines{trips})")
             except Exception as e:
                 print(f"  ✗ ERROR loading {fname}: {e}")
                 import traceback; traceback.print_exc()

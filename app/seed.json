@@ -5281,261 +5281,266 @@
       "title": "Grocery list — 2-week plan (Jun 22 – Jul 5)",
       "source": "claude",
       "generatedAt": "2026-06-19T22:16:38Z",
-      "items": [
+      "sections": [
         {
-          "item": "1 bag frozen peas (10–12 oz; only ~8 oz needed)",
-          "displayText": "1 bag frozen peas (10–12 oz; only ~8 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 stick butter (only 1 tbsp needed)",
-          "displayText": "1 stick butter (only 1 tbsp needed)",
-          "checked": false
-        },
-        {
-          "item": "1 container sour cream (16 oz; only ~8 oz needed)",
-          "displayText": "1 container sour cream (16 oz; only ~8 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bag shredded cheddar (8 oz; only ~4 oz needed)",
-          "displayText": "1 bag shredded cheddar (8 oz; only ~4 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 block feta cheese (~6 oz; only ~4 oz / 120g needed)",
-          "displayText": "1 block feta cheese (~6 oz; only ~4 oz / 120g needed)",
-          "checked": false
-        },
-        {
-          "item": "2 wedges parmesan (8 oz each; need ~8.5 oz total — just over 1 wedge, grab 2)",
-          "displayText": "2 wedges parmesan (8 oz each; need ~8.5 oz total — just over 1 wedge, grab 2)",
-          "checked": false
-        },
-        {
-          "item": "1 container tzatziki (12–16 oz; only ~8 oz needed)",
-          "displayText": "1 container tzatziki (12–16 oz; only ~8 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "2 packs romaine hearts (3-count each; 6 hearts total)",
-          "displayText": "2 packs romaine hearts (3-count each; 6 hearts total)",
-          "checked": false
-        },
-        {
-          "item": "1 jar dried thyme (only 2 tsp needed)",
-          "displayText": "1 jar dried thyme (only 2 tsp needed)",
-          "checked": false
-        },
-        {
-          "item": "1 jar garlic powder (only 1.5 tsp needed)",
-          "displayText": "1 jar garlic powder (only 1.5 tsp needed)",
-          "checked": false
-        },
-        {
-          "item": "1 jar garam masala (only 1 tsp needed)",
-          "displayText": "1 jar garam masala (only 1 tsp needed)",
-          "checked": false
-        },
-        {
-          "item": "1 jar red pepper flakes (only ½ tsp needed)",
-          "displayText": "1 jar red pepper flakes (only ½ tsp needed)",
-          "checked": false
-        },
-        {
-          "item": "1 packet or jar taco seasoning (only 2 tbsp needed)",
-          "displayText": "1 packet or jar taco seasoning (only 2 tbsp needed)",
-          "checked": false
-        },
-        {
-          "item": "1 jar bay leaves (only 2 needed)",
-          "displayText": "1 jar bay leaves (only 2 needed)",
-          "checked": false
-        },
-        {
-          "item": "2 cans coconut milk (13.5 fl oz each)",
-          "displayText": "2 cans coconut milk (13.5 fl oz each)",
-          "checked": false
-        },
-        {
-          "item": "1 jar thai curry paste, red or green (only 4 tbsp / ~2 oz needed)",
-          "displayText": "1 jar Thai curry paste, red or green (only 4 tbsp / ~2 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bottle fish sauce (only 2 tsp needed — large remainder)",
-          "displayText": "1 bottle fish sauce (only 2 tsp needed — large remainder)",
-          "checked": false
-        },
-        {
-          "item": "2 jars kalamata olives (5–6 oz each) or 1 large jar (~12 oz); need ~1¼ cups total",
-          "displayText": "2 jars kalamata olives (5–6 oz each) OR 1 large jar (~12 oz); need ~1¼ cups total",
-          "checked": false
-        },
-        {
-          "item": "4 cans crushed tomatoes (14.5 oz each)",
-          "displayText": "4 cans crushed tomatoes (14.5 oz each)",
-          "checked": false
-        },
-        {
-          "item": "2 cans diced tomatoes (14.5 oz each)",
-          "displayText": "2 cans diced tomatoes (14.5 oz each)",
-          "checked": false
-        },
-        {
-          "item": "1 can black beans (15 oz)",
-          "displayText": "1 can black beans (15 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 can corn (15 oz)",
-          "displayText": "1 can corn (15 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 can or carton beef broth (14–32 oz; only 1 cup / 8 oz needed)",
-          "displayText": "1 can or carton beef broth (14–32 oz; only 1 cup / 8 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 small can tomato paste (6 oz; only ~4 tbsp needed)",
-          "displayText": "1 small can tomato paste (6 oz; only ~4 tbsp needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bag rice, jasmine or basmati (2 lb) — can use one type for all three rice dishes",
-          "displayText": "1 bag rice, jasmine or basmati (2 lb) — can use one type for all three rice dishes",
-          "checked": false
-        },
-        {
-          "item": "2 boxes rigatoni (1 lb each)",
-          "displayText": "2 boxes rigatoni (1 lb each)",
-          "checked": false
-        },
-        {
-          "item": "1 bag wide egg noodles (12 oz; only 8 oz needed)",
-          "displayText": "1 bag wide egg noodles (12 oz; only 8 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bag croutons (5–6 oz)",
-          "displayText": "1 bag croutons (5–6 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 small bag tortilla chips",
-          "displayText": "1 small bag tortilla chips",
-          "checked": false
-        },
-        {
-          "item": "1 bottle caesar dressing (12 oz)",
-          "displayText": "1 bottle Caesar dressing (12 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 jar salsa (small; only ~8 oz / 1 cup needed)",
-          "displayText": "1 jar salsa (small; only ~8 oz / 1 cup needed)",
-          "checked": false
-        },
-        {
-          "item": "1 jar capers (3.5 oz)",
-          "displayText": "1 jar capers (3.5 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 jar dijon mustard (only 1 tsp needed — large remainder)",
-          "displayText": "1 jar Dijon mustard (only 1 tsp needed — large remainder)",
-          "checked": false
-        },
-        {
-          "item": "1 bottle worcestershire sauce (only 1 tsp needed — large remainder)",
-          "displayText": "1 bottle Worcestershire sauce (only 1 tsp needed — large remainder)",
-          "checked": false
-        },
-        {
-          "item": "~7.5 lb boneless chicken thighs",
-          "displayText": "~7.5 lb boneless chicken thighs",
-          "checked": false
-        },
-        {
-          "item": "~3 lb boneless chicken breast",
-          "displayText": "~3 lb boneless chicken breast",
-          "checked": false
-        },
-        {
-          "item": "~7 lb ground beef (85/15)",
-          "displayText": "~7 lb ground beef (85/15)",
-          "checked": false
-        },
-        {
-          "item": "3 heads garlic",
-          "displayText": "3 heads garlic",
-          "checked": false
-        },
-        {
-          "item": "10 lemons",
-          "displayText": "10 lemons",
-          "checked": false
-        },
-        {
-          "item": "4 limes",
-          "displayText": "4 limes",
-          "checked": false
-        },
-        {
-          "item": "2 onions",
-          "displayText": "2 onions",
-          "checked": false
-        },
-        {
-          "item": "1 red onion",
-          "displayText": "1 red onion",
-          "checked": false
-        },
-        {
-          "item": "1 cucumber",
-          "displayText": "1 cucumber",
-          "checked": false
-        },
-        {
-          "item": "2 carrots",
-          "displayText": "2 carrots",
-          "checked": false
-        },
-        {
-          "item": "1 bunch celery (only 2 stalks needed)",
-          "displayText": "1 bunch celery (only 2 stalks needed)",
-          "checked": false
-        },
-        {
-          "item": "3 pints cherry tomatoes",
-          "displayText": "3 pints cherry tomatoes",
-          "checked": false
-        },
-        {
-          "item": "1 bag baby potatoes (1.5 lb)",
-          "displayText": "1 bag baby potatoes (1.5 lb)",
-          "checked": false
-        },
-        {
-          "item": "1 bag baby spinach (5 oz)",
-          "displayText": "1 bag baby spinach (5 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 container cremini mushrooms (10 oz; ~9 oz needed)",
-          "displayText": "1 container cremini mushrooms (10 oz; ~9 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bunch fresh parsley",
-          "displayText": "1 bunch fresh parsley",
-          "checked": false
-        },
-        {
-          "item": "1 knob ginger (only 2 tsp / a small piece needed — large remainder)",
-          "displayText": "1 knob ginger (only 2 tsp / a small piece needed — large remainder)",
-          "checked": false
+          "label": null,
+          "items": [
+            {
+              "item": "1 bag frozen peas (10–12 oz; only ~8 oz needed)",
+              "displayText": "1 bag frozen peas (10–12 oz; only ~8 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 stick butter (only 1 tbsp needed)",
+              "displayText": "1 stick butter (only 1 tbsp needed)",
+              "checked": false
+            },
+            {
+              "item": "1 container sour cream (16 oz; only ~8 oz needed)",
+              "displayText": "1 container sour cream (16 oz; only ~8 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bag shredded cheddar (8 oz; only ~4 oz needed)",
+              "displayText": "1 bag shredded cheddar (8 oz; only ~4 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 block feta cheese (~6 oz; only ~4 oz / 120g needed)",
+              "displayText": "1 block feta cheese (~6 oz; only ~4 oz / 120g needed)",
+              "checked": false
+            },
+            {
+              "item": "2 wedges parmesan (8 oz each; need ~8.5 oz total — just over 1 wedge, grab 2)",
+              "displayText": "2 wedges parmesan (8 oz each; need ~8.5 oz total — just over 1 wedge, grab 2)",
+              "checked": false
+            },
+            {
+              "item": "1 container tzatziki (12–16 oz; only ~8 oz needed)",
+              "displayText": "1 container tzatziki (12–16 oz; only ~8 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "2 packs romaine hearts (3-count each; 6 hearts total)",
+              "displayText": "2 packs romaine hearts (3-count each; 6 hearts total)",
+              "checked": false
+            },
+            {
+              "item": "1 jar dried thyme (only 2 tsp needed)",
+              "displayText": "1 jar dried thyme (only 2 tsp needed)",
+              "checked": false
+            },
+            {
+              "item": "1 jar garlic powder (only 1.5 tsp needed)",
+              "displayText": "1 jar garlic powder (only 1.5 tsp needed)",
+              "checked": false
+            },
+            {
+              "item": "1 jar garam masala (only 1 tsp needed)",
+              "displayText": "1 jar garam masala (only 1 tsp needed)",
+              "checked": false
+            },
+            {
+              "item": "1 jar red pepper flakes (only ½ tsp needed)",
+              "displayText": "1 jar red pepper flakes (only ½ tsp needed)",
+              "checked": false
+            },
+            {
+              "item": "1 packet or jar taco seasoning (only 2 tbsp needed)",
+              "displayText": "1 packet or jar taco seasoning (only 2 tbsp needed)",
+              "checked": false
+            },
+            {
+              "item": "1 jar bay leaves (only 2 needed)",
+              "displayText": "1 jar bay leaves (only 2 needed)",
+              "checked": false
+            },
+            {
+              "item": "2 cans coconut milk (13.5 fl oz each)",
+              "displayText": "2 cans coconut milk (13.5 fl oz each)",
+              "checked": false
+            },
+            {
+              "item": "1 jar thai curry paste, red or green (only 4 tbsp / ~2 oz needed)",
+              "displayText": "1 jar Thai curry paste, red or green (only 4 tbsp / ~2 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bottle fish sauce (only 2 tsp needed — large remainder)",
+              "displayText": "1 bottle fish sauce (only 2 tsp needed — large remainder)",
+              "checked": false
+            },
+            {
+              "item": "2 jars kalamata olives (5–6 oz each) or 1 large jar (~12 oz); need ~1¼ cups total",
+              "displayText": "2 jars kalamata olives (5–6 oz each) OR 1 large jar (~12 oz); need ~1¼ cups total",
+              "checked": false
+            },
+            {
+              "item": "4 cans crushed tomatoes (14.5 oz each)",
+              "displayText": "4 cans crushed tomatoes (14.5 oz each)",
+              "checked": false
+            },
+            {
+              "item": "2 cans diced tomatoes (14.5 oz each)",
+              "displayText": "2 cans diced tomatoes (14.5 oz each)",
+              "checked": false
+            },
+            {
+              "item": "1 can black beans (15 oz)",
+              "displayText": "1 can black beans (15 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 can corn (15 oz)",
+              "displayText": "1 can corn (15 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 can or carton beef broth (14–32 oz; only 1 cup / 8 oz needed)",
+              "displayText": "1 can or carton beef broth (14–32 oz; only 1 cup / 8 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 small can tomato paste (6 oz; only ~4 tbsp needed)",
+              "displayText": "1 small can tomato paste (6 oz; only ~4 tbsp needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bag rice, jasmine or basmati (2 lb) — can use one type for all three rice dishes",
+              "displayText": "1 bag rice, jasmine or basmati (2 lb) — can use one type for all three rice dishes",
+              "checked": false
+            },
+            {
+              "item": "2 boxes rigatoni (1 lb each)",
+              "displayText": "2 boxes rigatoni (1 lb each)",
+              "checked": false
+            },
+            {
+              "item": "1 bag wide egg noodles (12 oz; only 8 oz needed)",
+              "displayText": "1 bag wide egg noodles (12 oz; only 8 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bag croutons (5–6 oz)",
+              "displayText": "1 bag croutons (5–6 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 small bag tortilla chips",
+              "displayText": "1 small bag tortilla chips",
+              "checked": false
+            },
+            {
+              "item": "1 bottle caesar dressing (12 oz)",
+              "displayText": "1 bottle Caesar dressing (12 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 jar salsa (small; only ~8 oz / 1 cup needed)",
+              "displayText": "1 jar salsa (small; only ~8 oz / 1 cup needed)",
+              "checked": false
+            },
+            {
+              "item": "1 jar capers (3.5 oz)",
+              "displayText": "1 jar capers (3.5 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 jar dijon mustard (only 1 tsp needed — large remainder)",
+              "displayText": "1 jar Dijon mustard (only 1 tsp needed — large remainder)",
+              "checked": false
+            },
+            {
+              "item": "1 bottle worcestershire sauce (only 1 tsp needed — large remainder)",
+              "displayText": "1 bottle Worcestershire sauce (only 1 tsp needed — large remainder)",
+              "checked": false
+            },
+            {
+              "item": "~7.5 lb boneless chicken thighs",
+              "displayText": "~7.5 lb boneless chicken thighs",
+              "checked": false
+            },
+            {
+              "item": "~3 lb boneless chicken breast",
+              "displayText": "~3 lb boneless chicken breast",
+              "checked": false
+            },
+            {
+              "item": "~7 lb ground beef (85/15)",
+              "displayText": "~7 lb ground beef (85/15)",
+              "checked": false
+            },
+            {
+              "item": "3 heads garlic",
+              "displayText": "3 heads garlic",
+              "checked": false
+            },
+            {
+              "item": "10 lemons",
+              "displayText": "10 lemons",
+              "checked": false
+            },
+            {
+              "item": "4 limes",
+              "displayText": "4 limes",
+              "checked": false
+            },
+            {
+              "item": "2 onions",
+              "displayText": "2 onions",
+              "checked": false
+            },
+            {
+              "item": "1 red onion",
+              "displayText": "1 red onion",
+              "checked": false
+            },
+            {
+              "item": "1 cucumber",
+              "displayText": "1 cucumber",
+              "checked": false
+            },
+            {
+              "item": "2 carrots",
+              "displayText": "2 carrots",
+              "checked": false
+            },
+            {
+              "item": "1 bunch celery (only 2 stalks needed)",
+              "displayText": "1 bunch celery (only 2 stalks needed)",
+              "checked": false
+            },
+            {
+              "item": "3 pints cherry tomatoes",
+              "displayText": "3 pints cherry tomatoes",
+              "checked": false
+            },
+            {
+              "item": "1 bag baby potatoes (1.5 lb)",
+              "displayText": "1 bag baby potatoes (1.5 lb)",
+              "checked": false
+            },
+            {
+              "item": "1 bag baby spinach (5 oz)",
+              "displayText": "1 bag baby spinach (5 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 container cremini mushrooms (10 oz; ~9 oz needed)",
+              "displayText": "1 container cremini mushrooms (10 oz; ~9 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bunch fresh parsley",
+              "displayText": "1 bunch fresh parsley",
+              "checked": false
+            },
+            {
+              "item": "1 knob ginger (only 2 tsp / a small piece needed — large remainder)",
+              "displayText": "1 knob ginger (only 2 tsp / a small piece needed — large remainder)",
+              "checked": false
+            }
+          ]
         }
       ]
     },
@@ -5544,231 +5549,236 @@
       "title": "Grocery list — 2-week plan (Jul 12–25)",
       "source": "claude",
       "generatedAt": "2026-07-11T19:31:35Z",
-      "items": [
+      "sections": [
         {
-          "item": "12 oz monterey jack or oaxaca cheese (~two 8 oz packages if sold that way — add a package size for this)",
-          "displayText": "12 oz monterey jack or oaxaca cheese (~two 8 oz packages if sold that way — add a package size for this)",
-          "checked": false
-        },
-        {
-          "item": "2 wedges parmesan (8 oz each; need ~10.5 oz total)",
-          "displayText": "2 wedges parmesan (8 oz each; need ~10.5 oz total)",
-          "checked": false
-        },
-        {
-          "item": "1 block feta cheese (6 oz)",
-          "displayText": "1 block feta cheese (6 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 bag shredded cheddar (8 oz)",
-          "displayText": "1 bag shredded cheddar (8 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 container sour cream (16 oz; only ~8 oz needed)",
-          "displayText": "1 container sour cream (16 oz; only ~8 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 container tzatziki (16 oz; only ~12 oz needed)",
-          "displayText": "1 container tzatziki (16 oz; only ~12 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "4 packs romaine hearts (3-count each; 12 hearts total)",
-          "displayText": "4 packs romaine hearts (3-count each; 12 hearts total)",
-          "checked": false
-        },
-        {
-          "item": "2 taco seasoning packets (1 oz each)",
-          "displayText": "2 taco seasoning packets (1 oz each)",
-          "checked": false
-        },
-        {
-          "item": "1 can coconut milk (13.5 fl oz; have 2 on hand — topping up to 3)",
-          "displayText": "1 can coconut milk (13.5 fl oz; have 2 on hand — topping up to 3)",
-          "checked": false
-        },
-        {
-          "item": "1 can black beans (15 oz; have 1 on hand — topping up to 2)",
-          "displayText": "1 can black beans (15 oz; have 1 on hand — topping up to 2)",
-          "checked": false
-        },
-        {
-          "item": "2 cans corn (15 oz each)",
-          "displayText": "2 cans corn (15 oz each)",
-          "checked": false
-        },
-        {
-          "item": "1 jar kalamata olives (5.75 oz; need ~¾ cup)",
-          "displayText": "1 jar kalamata olives (5.75 oz; need ~¾ cup)",
-          "checked": false
-        },
-        {
-          "item": "1 bag jasmine rice (2 lb; need ~1.8 lb)",
-          "displayText": "1 bag jasmine rice (2 lb; need ~1.8 lb)",
-          "checked": false
-        },
-        {
-          "item": "1 bag croutons (5 oz; need ~4 cups — grab 2 if bags are small)",
-          "displayText": "1 bag croutons (5 oz; need ~4 cups — grab 2 if bags are small)",
-          "checked": false
-        },
-        {
-          "item": "1 pack corn tortillas (need 24 — add a package size for this)",
-          "displayText": "1 pack corn tortillas (need 24 — add a package size for this)",
-          "checked": false
-        },
-        {
-          "item": "2 bottles caesar dressing (12 oz each)",
-          "displayText": "2 bottles Caesar dressing (12 oz each)",
-          "checked": false
-        },
-        {
-          "item": "1 jar salsa (16 oz)",
-          "displayText": "1 jar salsa (16 oz)",
-          "checked": false
-        },
-        {
-          "item": "2 bags tortilla chips (9 oz each)",
-          "displayText": "2 bags tortilla chips (9 oz each)",
-          "checked": false
-        },
-        {
-          "item": "~4.5 lb boneless chicken thighs",
-          "displayText": "~4.5 lb boneless chicken thighs",
-          "checked": false
-        },
-        {
-          "item": "~5 lb chicken breast",
-          "displayText": "~5 lb chicken breast",
-          "checked": false
-        },
-        {
-          "item": "2 heads garlic (need ~17 cloves)",
-          "displayText": "2 heads garlic (need ~17 cloves)",
-          "checked": false
-        },
-        {
-          "item": "8 lemons",
-          "displayText": "8 lemons",
-          "checked": false
-        },
-        {
-          "item": "10 limes",
-          "displayText": "10 limes",
-          "checked": false
-        },
-        {
-          "item": "2 yellow onions",
-          "displayText": "2 yellow onions",
-          "checked": false
-        },
-        {
-          "item": "2 white onions (need 1.5)",
-          "displayText": "2 white onions (need 1.5)",
-          "checked": false
-        },
-        {
-          "item": "1 red onion (need ¾)",
-          "displayText": "1 red onion (need ¾)",
-          "checked": false
-        },
-        {
-          "item": "3 avocados",
-          "displayText": "3 avocados",
-          "checked": false
-        },
-        {
-          "item": "2 cucumbers (need 1.5)",
-          "displayText": "2 cucumbers (need 1.5)",
-          "checked": false
-        },
-        {
-          "item": "3 pints cherry tomatoes (need ~2.75)",
-          "displayText": "3 pints cherry tomatoes (need ~2.75)",
-          "checked": false
-        },
-        {
-          "item": "3 bags baby spinach (5 oz each; need ~15 oz)",
-          "displayText": "3 bags baby spinach (5 oz each; need ~15 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 bunch cilantro (optional — taco nights, served on the side)",
-          "displayText": "1 bunch cilantro (optional — taco nights, served on the side)",
-          "checked": false
-        },
-        {
-          "item": "ground beef",
-          "displayText": "ground beef — plan uses 4 lb of your ~50 lb freezer stock (1 lb packages) — thaw 4 packs across the two weeks",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "plan uses 4 lb of your ~50 lb freezer stock (1 lb packages) — thaw 4 packs across the two weeks"
-        },
-        {
-          "item": "chuck roast",
-          "displayText": "chuck roast — plan uses 2 of your 4 frozen roasts (~6 lb) — thaw starting tonight",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "plan uses 2 of your 4 frozen roasts (~6 lb) — thaw starting tonight"
-        },
-        {
-          "item": "dried ancho chiles",
-          "displayText": "dried ancho chiles — need 1.5 oz of your 2 oz bag — check stock",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need 1.5 oz of your 2 oz bag — check stock"
-        },
-        {
-          "item": "dried guajillo chiles",
-          "displayText": "dried guajillo chiles — need 1.5 oz of your 2 oz bag — check stock",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need 1.5 oz of your 2 oz bag — check stock"
-        },
-        {
-          "item": "canned tomatoes (28 oz)",
-          "displayText": "canned tomatoes (28 oz) — need 1, have 1 — check stock",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need 1, have 1 — check stock"
-        },
-        {
-          "item": "polenta (corn grits)",
-          "displayText": "polenta (corn grits) — need ~12 oz of your 24 oz bag — check stock",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need ~12 oz of your 24 oz bag — check stock"
-        },
-        {
-          "item": "thai curry paste",
-          "displayText": "Thai curry paste — need 6 tbsp; pantry staple, but that's most of a 4 oz jar — check level",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need 6 tbsp; pantry staple, but that's most of a 4 oz jar — check level"
-        },
-        {
-          "item": "butter",
-          "displayText": "butter — need 6 tbsp (~¾ stick); bought a stick on the Jun 22 list — check stock",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need 6 tbsp (~¾ stick); bought a stick on the Jun 22 list — check stock"
-        },
-        {
-          "item": "bay leaves, dried thyme, garlic powder, cumin",
-          "displayText": "bay leaves, dried thyme, garlic powder, cumin — small amounts; jars bought Jun 22 or on the spice rack — check rack",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "small amounts; jars bought Jun 22 or on the spice rack — check rack"
-        },
-        {
-          "item": "apple cider vinegar",
-          "displayText": "apple cider vinegar — 2 tbsp for the braise — grab a bottle if you're out",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "2 tbsp for the braise — grab a bottle if you're out"
+          "label": null,
+          "items": [
+            {
+              "item": "12 oz monterey jack or oaxaca cheese (~two 8 oz packages if sold that way — add a package size for this)",
+              "displayText": "12 oz monterey jack or oaxaca cheese (~two 8 oz packages if sold that way — add a package size for this)",
+              "checked": false
+            },
+            {
+              "item": "2 wedges parmesan (8 oz each; need ~10.5 oz total)",
+              "displayText": "2 wedges parmesan (8 oz each; need ~10.5 oz total)",
+              "checked": false
+            },
+            {
+              "item": "1 block feta cheese (6 oz)",
+              "displayText": "1 block feta cheese (6 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 bag shredded cheddar (8 oz)",
+              "displayText": "1 bag shredded cheddar (8 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 container sour cream (16 oz; only ~8 oz needed)",
+              "displayText": "1 container sour cream (16 oz; only ~8 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 container tzatziki (16 oz; only ~12 oz needed)",
+              "displayText": "1 container tzatziki (16 oz; only ~12 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "4 packs romaine hearts (3-count each; 12 hearts total)",
+              "displayText": "4 packs romaine hearts (3-count each; 12 hearts total)",
+              "checked": false
+            },
+            {
+              "item": "2 taco seasoning packets (1 oz each)",
+              "displayText": "2 taco seasoning packets (1 oz each)",
+              "checked": false
+            },
+            {
+              "item": "1 can coconut milk (13.5 fl oz; have 2 on hand — topping up to 3)",
+              "displayText": "1 can coconut milk (13.5 fl oz; have 2 on hand — topping up to 3)",
+              "checked": false
+            },
+            {
+              "item": "1 can black beans (15 oz; have 1 on hand — topping up to 2)",
+              "displayText": "1 can black beans (15 oz; have 1 on hand — topping up to 2)",
+              "checked": false
+            },
+            {
+              "item": "2 cans corn (15 oz each)",
+              "displayText": "2 cans corn (15 oz each)",
+              "checked": false
+            },
+            {
+              "item": "1 jar kalamata olives (5.75 oz; need ~¾ cup)",
+              "displayText": "1 jar kalamata olives (5.75 oz; need ~¾ cup)",
+              "checked": false
+            },
+            {
+              "item": "1 bag jasmine rice (2 lb; need ~1.8 lb)",
+              "displayText": "1 bag jasmine rice (2 lb; need ~1.8 lb)",
+              "checked": false
+            },
+            {
+              "item": "1 bag croutons (5 oz; need ~4 cups — grab 2 if bags are small)",
+              "displayText": "1 bag croutons (5 oz; need ~4 cups — grab 2 if bags are small)",
+              "checked": false
+            },
+            {
+              "item": "1 pack corn tortillas (need 24 — add a package size for this)",
+              "displayText": "1 pack corn tortillas (need 24 — add a package size for this)",
+              "checked": false
+            },
+            {
+              "item": "2 bottles caesar dressing (12 oz each)",
+              "displayText": "2 bottles Caesar dressing (12 oz each)",
+              "checked": false
+            },
+            {
+              "item": "1 jar salsa (16 oz)",
+              "displayText": "1 jar salsa (16 oz)",
+              "checked": false
+            },
+            {
+              "item": "2 bags tortilla chips (9 oz each)",
+              "displayText": "2 bags tortilla chips (9 oz each)",
+              "checked": false
+            },
+            {
+              "item": "~4.5 lb boneless chicken thighs",
+              "displayText": "~4.5 lb boneless chicken thighs",
+              "checked": false
+            },
+            {
+              "item": "~5 lb chicken breast",
+              "displayText": "~5 lb chicken breast",
+              "checked": false
+            },
+            {
+              "item": "2 heads garlic (need ~17 cloves)",
+              "displayText": "2 heads garlic (need ~17 cloves)",
+              "checked": false
+            },
+            {
+              "item": "8 lemons",
+              "displayText": "8 lemons",
+              "checked": false
+            },
+            {
+              "item": "10 limes",
+              "displayText": "10 limes",
+              "checked": false
+            },
+            {
+              "item": "2 yellow onions",
+              "displayText": "2 yellow onions",
+              "checked": false
+            },
+            {
+              "item": "2 white onions (need 1.5)",
+              "displayText": "2 white onions (need 1.5)",
+              "checked": false
+            },
+            {
+              "item": "1 red onion (need ¾)",
+              "displayText": "1 red onion (need ¾)",
+              "checked": false
+            },
+            {
+              "item": "3 avocados",
+              "displayText": "3 avocados",
+              "checked": false
+            },
+            {
+              "item": "2 cucumbers (need 1.5)",
+              "displayText": "2 cucumbers (need 1.5)",
+              "checked": false
+            },
+            {
+              "item": "3 pints cherry tomatoes (need ~2.75)",
+              "displayText": "3 pints cherry tomatoes (need ~2.75)",
+              "checked": false
+            },
+            {
+              "item": "3 bags baby spinach (5 oz each; need ~15 oz)",
+              "displayText": "3 bags baby spinach (5 oz each; need ~15 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 bunch cilantro (optional — taco nights, served on the side)",
+              "displayText": "1 bunch cilantro (optional — taco nights, served on the side)",
+              "checked": false
+            },
+            {
+              "item": "ground beef",
+              "displayText": "ground beef — plan uses 4 lb of your ~50 lb freezer stock (1 lb packages) — thaw 4 packs across the two weeks",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "plan uses 4 lb of your ~50 lb freezer stock (1 lb packages) — thaw 4 packs across the two weeks"
+            },
+            {
+              "item": "chuck roast",
+              "displayText": "chuck roast — plan uses 2 of your 4 frozen roasts (~6 lb) — thaw starting tonight",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "plan uses 2 of your 4 frozen roasts (~6 lb) — thaw starting tonight"
+            },
+            {
+              "item": "dried ancho chiles",
+              "displayText": "dried ancho chiles — need 1.5 oz of your 2 oz bag — check stock",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need 1.5 oz of your 2 oz bag — check stock"
+            },
+            {
+              "item": "dried guajillo chiles",
+              "displayText": "dried guajillo chiles — need 1.5 oz of your 2 oz bag — check stock",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need 1.5 oz of your 2 oz bag — check stock"
+            },
+            {
+              "item": "canned tomatoes (28 oz)",
+              "displayText": "canned tomatoes (28 oz) — need 1, have 1 — check stock",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need 1, have 1 — check stock"
+            },
+            {
+              "item": "polenta (corn grits)",
+              "displayText": "polenta (corn grits) — need ~12 oz of your 24 oz bag — check stock",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need ~12 oz of your 24 oz bag — check stock"
+            },
+            {
+              "item": "thai curry paste",
+              "displayText": "Thai curry paste — need 6 tbsp; pantry staple, but that's most of a 4 oz jar — check level",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need 6 tbsp; pantry staple, but that's most of a 4 oz jar — check level"
+            },
+            {
+              "item": "butter",
+              "displayText": "butter — need 6 tbsp (~¾ stick); bought a stick on the Jun 22 list — check stock",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need 6 tbsp (~¾ stick); bought a stick on the Jun 22 list — check stock"
+            },
+            {
+              "item": "bay leaves, dried thyme, garlic powder, cumin",
+              "displayText": "bay leaves, dried thyme, garlic powder, cumin — small amounts; jars bought Jun 22 or on the spice rack — check rack",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "small amounts; jars bought Jun 22 or on the spice rack — check rack"
+            },
+            {
+              "item": "apple cider vinegar",
+              "displayText": "apple cider vinegar — 2 tbsp for the braise — grab a bottle if you're out",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "2 tbsp for the braise — grab a bottle if you're out"
+            }
+          ]
         }
       ]
     },
@@ -5776,326 +5786,331 @@
       "planId": "2026-07-26-two-weeks",
       "title": "Grocery list — 2-week plan (Jul 26–Aug 8)",
       "source": "claude",
-      "generatedAt": "2026-07-25T15:49:07Z",
-      "items": [
+      "generatedAt": "2026-07-25T16:27:26Z",
+      "sections": [
         {
-          "item": "1 bag frozen peas (10 oz; only ~3 oz needed)",
-          "displayText": "1 bag frozen peas (10 oz; only ~3 oz needed)",
-          "checked": false
+          "label": "Trip 1 — before Sunday Jul 26 (batch cook + everything else upfront)",
+          "items": [
+            {
+              "item": "1 bag frozen peas (10 oz; only ~3 oz needed)",
+              "displayText": "1 bag frozen peas (10 oz; only ~3 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bag frozen corn (only ~4 oz needed — add a package size for this)",
+              "displayText": "1 bag frozen corn (only ~4 oz needed — add a package size for this)",
+              "checked": false
+            },
+            {
+              "item": "1 parmesan wedge (8 oz; need ~8 oz total)",
+              "displayText": "1 parmesan wedge (8 oz; need ~8 oz total)",
+              "checked": false
+            },
+            {
+              "item": "1 bag shredded cheddar (8 oz; need ~8 oz total)",
+              "displayText": "1 bag shredded cheddar (8 oz; need ~8 oz total)",
+              "checked": false
+            },
+            {
+              "item": "1 bag shredded mexican cheese blend (8 oz; only ~6 oz needed)",
+              "displayText": "1 bag shredded Mexican cheese blend (8 oz; only ~6 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 container sour cream (16 oz; need ~14 oz total)",
+              "displayText": "1 container sour cream (16 oz; need ~14 oz total)",
+              "checked": false
+            },
+            {
+              "item": "2 containers blue cheese crumbles (4 oz each; need ~16 oz total — add a package size for this)",
+              "displayText": "2 containers blue cheese crumbles (4 oz each; need ~16 oz total — add a package size for this)",
+              "checked": false
+            },
+            {
+              "item": "2 dozen eggs (need 14)",
+              "displayText": "2 dozen eggs (need 14)",
+              "checked": false
+            },
+            {
+              "item": "1 container ricotta (15 oz; only ~8 oz needed — for tomorrow's pancakes)",
+              "displayText": "1 container ricotta (15 oz; only ~8 oz needed — for tomorrow's pancakes)",
+              "checked": false
+            },
+            {
+              "item": "1 small carton milk (only ~1/2 cup needed — skip if you already have milk)",
+              "displayText": "1 small carton milk (only ~1/2 cup needed — skip if you already have milk)",
+              "checked": false
+            },
+            {
+              "item": "1 jar chili powder",
+              "displayText": "1 jar chili powder",
+              "checked": false
+            },
+            {
+              "item": "1 small jar garam masala (add a package size for this)",
+              "displayText": "1 small jar garam masala (add a package size for this)",
+              "checked": false
+            },
+            {
+              "item": "1 can chipotle peppers in adobo (~7 oz; covers the 5 needed)",
+              "displayText": "1 can chipotle peppers in adobo (~7 oz; covers the 5 needed)",
+              "checked": false
+            },
+            {
+              "item": "1 package flour tortillas (large; need 4 — add a package size for this)",
+              "displayText": "1 package flour tortillas (large; need 4 — add a package size for this)",
+              "checked": false
+            },
+            {
+              "item": "1 can black beans (15 oz; have 1 on hand — topping up, only ~1.5 cans needed total)",
+              "displayText": "1 can black beans (15 oz; have 1 on hand — topping up, only ~1.5 cans needed total)",
+              "checked": false
+            },
+            {
+              "item": "1 can corn (15 oz)",
+              "displayText": "1 can corn (15 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 can beef broth (14 oz)",
+              "displayText": "1 can beef broth (14 oz)",
+              "checked": false
+            },
+            {
+              "item": "1 box rigatoni (1 lb)",
+              "displayText": "1 box rigatoni (1 lb)",
+              "checked": false
+            },
+            {
+              "item": "1 bag egg noodles (wide, 12 oz; only 8 oz needed)",
+              "displayText": "1 bag egg noodles (wide, 12 oz; only 8 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bag jasmine rice (2 lb; only ~4.5 oz needed)",
+              "displayText": "1 bag jasmine rice (2 lb; only ~4.5 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bag basmati rice (only ~4.5 oz needed — add a package size for this)",
+              "displayText": "1 bag basmati rice (only ~4.5 oz needed — add a package size for this)",
+              "checked": false
+            },
+            {
+              "item": "1 bag croutons (5 oz; need ~2 cups)",
+              "displayText": "1 bag croutons (5 oz; need ~2 cups)",
+              "checked": false
+            },
+            {
+              "item": "1 bag tortilla chips (9 oz; need well under half — this one bag covers both weeks)",
+              "displayText": "1 bag tortilla chips (9 oz; need well under half — this one bag covers both weeks)",
+              "checked": false
+            },
+            {
+              "item": "1 bottle caesar dressing (12 oz; lunch is rutger-only now, one bottle covers both weeks)",
+              "displayText": "1 bottle Caesar dressing (12 oz; lunch is Rutger-only now, one bottle covers both weeks)",
+              "checked": false
+            },
+            {
+              "item": "1 jar salsa (16 oz; need ~1.75 cups — close, grab a second if you cook heavy-handed)",
+              "displayText": "1 jar salsa (16 oz; need ~1.75 cups — close, grab a second if you cook heavy-handed)",
+              "checked": false
+            },
+            {
+              "item": "1 taco seasoning packet (1 oz)",
+              "displayText": "1 taco seasoning packet (1 oz)",
+              "checked": false
+            },
+            {
+              "item": "4.5 lb boneless chicken thighs (for the base)",
+              "displayText": "4.5 lb boneless chicken thighs (for the base)",
+              "checked": false
+            },
+            {
+              "item": "5.5 lb chicken breast (for lunch prep + both cobb salad weeks — freeze ~2.75 lb for week 2)",
+              "displayText": "5.5 lb chicken breast (for lunch prep + both Cobb Salad weeks — freeze ~2.75 lb for week 2)",
+              "checked": false
+            },
+            {
+              "item": "2 packages turkey bacon (~12 oz/12 slices each; need 24 slices — freeze one package for week 2)",
+              "displayText": "2 packages turkey bacon (~12 oz/12 slices each; need 24 slices — freeze one package for week 2)",
+              "checked": false
+            },
+            {
+              "item": "2 onions",
+              "displayText": "2 onions",
+              "checked": false
+            },
+            {
+              "item": "2 heads garlic",
+              "displayText": "2 heads garlic",
+              "checked": false
+            },
+            {
+              "item": "8 limes",
+              "displayText": "8 limes",
+              "checked": false
+            },
+            {
+              "item": "3 lemons",
+              "displayText": "3 lemons",
+              "checked": false
+            },
+            {
+              "item": "1 knob ginger",
+              "displayText": "1 knob ginger",
+              "checked": false
+            },
+            {
+              "item": "2 carrots",
+              "displayText": "2 carrots",
+              "checked": false
+            },
+            {
+              "item": "1 bunch celery",
+              "displayText": "1 bunch celery",
+              "checked": false
+            },
+            {
+              "item": "3 heads romaine lettuce (week 1's cobb + taco nights)",
+              "displayText": "3 heads romaine lettuce (week 1's cobb + taco nights)",
+              "checked": false
+            },
+            {
+              "item": "1 pack romaine lettuce hearts (3-count — week 1's lunches, rutger-only now)",
+              "displayText": "1 pack romaine lettuce hearts (3-count — week 1's lunches, Rutger-only now)",
+              "checked": false
+            },
+            {
+              "item": "2 pints cherry tomatoes (week 1)",
+              "displayText": "2 pints cherry tomatoes (week 1)",
+              "checked": false
+            },
+            {
+              "item": "2 avocados (week 1)",
+              "displayText": "2 avocados (week 1)",
+              "checked": false
+            },
+            {
+              "item": "1 container cremini mushrooms (8 oz; ~9 oz needed)",
+              "displayText": "1 container cremini mushrooms (8 oz; ~9 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 bunch chives (week 1 — covers both cobb nights)",
+              "displayText": "1 bunch chives (week 1 — covers both Cobb nights)",
+              "checked": false
+            },
+            {
+              "item": "1 bunch fresh parsley",
+              "displayText": "1 bunch fresh parsley",
+              "checked": false
+            },
+            {
+              "item": "1 tomato (week 1)",
+              "displayText": "1 tomato (week 1)",
+              "checked": false
+            },
+            {
+              "item": "1 package corn tortillas (need 8 — week 1's; week 2's is on the trip 2 list)",
+              "displayText": "1 package corn tortillas (need 8 — week 1's; week 2's is on the Trip 2 list)",
+              "checked": false
+            },
+            {
+              "item": "ground beef",
+              "displayText": "ground beef — plan uses ~6.5 lb of your ~50 lb freezer stock (4.5 lb for the dinner base, 1 lb + 1 lb for the two Rutger-only taco-lunch batches) — thaw as needed, no need to buy",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "plan uses ~6.5 lb of your ~50 lb freezer stock (4.5 lb for the dinner base, 1 lb + 1 lb for the two Rutger-only taco-lunch batches) — thaw as needed, no need to buy"
+            },
+            {
+              "item": "canned diced tomatoes",
+              "displayText": "canned diced tomatoes — need 1, have 1 — check stock",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need 1, have 1 — check stock"
+            },
+            {
+              "item": "tomato paste",
+              "displayText": "tomato paste — need ~2 oz of your 6 oz can — check stock",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "need ~2 oz of your 6 oz can — check stock"
+            },
+            {
+              "item": "crushed tomatoes",
+              "displayText": "crushed tomatoes — recipe wants 2 cans; you have 1 San Marzano whole + 1 more canned tomatoes on hand — hand-crush both to cover it, no need to buy",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "recipe wants 2 cans; you have 1 San Marzano whole + 1 more canned tomatoes on hand — hand-crush both to cover it, no need to buy"
+            },
+            {
+              "item": "garlic powder, cumin, smoked paprika",
+              "displayText": "garlic powder, cumin, smoked paprika — small amounts, likely already on your spice rack",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "small amounts, likely already on your spice rack"
+            },
+            {
+              "item": "baking powder, vanilla extract, sugar, butter, maple syrup",
+              "displayText": "baking powder, vanilla extract, sugar, butter, maple syrup — needed for tomorrow's pancakes — check tonight so nothing's missing at breakfast",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "needed for tomorrow's pancakes — check tonight so nothing's missing at breakfast"
+            },
+            {
+              "item": "bay leaf, worcestershire sauce, red wine vinegar, hot sauce",
+              "displayText": "bay leaf, Worcestershire sauce, red wine vinegar, hot sauce — small amounts, likely already in the pantry or fridge door",
+              "checked": false,
+              "stockStatus": "have",
+              "onHandNote": "small amounts, likely already in the pantry or fridge door"
+            }
+          ]
         },
         {
-          "item": "1 bag frozen corn (only ~4 oz needed — add a package size for this)",
-          "displayText": "1 bag frozen corn (only ~4 oz needed — add a package size for this)",
-          "checked": false
-        },
-        {
-          "item": "2 parmesan wedges (8 oz each; need ~12 oz total)",
-          "displayText": "2 parmesan wedges (8 oz each; need ~12 oz total)",
-          "checked": false
-        },
-        {
-          "item": "2 bags shredded cheddar (8 oz each; need ~12 oz total)",
-          "displayText": "2 bags shredded cheddar (8 oz each; need ~12 oz total)",
-          "checked": false
-        },
-        {
-          "item": "1 bag shredded mexican cheese blend (8 oz; only ~6 oz needed)",
-          "displayText": "1 bag shredded Mexican cheese blend (8 oz; only ~6 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "2 containers sour cream (16 oz each; need ~18 oz total)",
-          "displayText": "2 containers sour cream (16 oz each; need ~18 oz total)",
-          "checked": false
-        },
-        {
-          "item": "2 containers blue cheese crumbles (4 oz each; need ~16 oz total — add a package size for this)",
-          "displayText": "2 containers blue cheese crumbles (4 oz each; need ~16 oz total — add a package size for this)",
-          "checked": false
-        },
-        {
-          "item": "2 dozen eggs (need 14)",
-          "displayText": "2 dozen eggs (need 14)",
-          "checked": false
-        },
-        {
-          "item": "1 container ricotta (15 oz; only ~8 oz needed — for tomorrow's pancakes)",
-          "displayText": "1 container ricotta (15 oz; only ~8 oz needed — for tomorrow's pancakes)",
-          "checked": false
-        },
-        {
-          "item": "1 small carton milk (only ~1/2 cup needed — skip if you already have milk)",
-          "displayText": "1 small carton milk (only ~1/2 cup needed — skip if you already have milk)",
-          "checked": false
-        },
-        {
-          "item": "1 jar chili powder",
-          "displayText": "1 jar chili powder",
-          "checked": false
-        },
-        {
-          "item": "1 small jar garam masala (add a package size for this)",
-          "displayText": "1 small jar garam masala (add a package size for this)",
-          "checked": false
-        },
-        {
-          "item": "1 can chipotle peppers in adobo (~7 oz; covers the 5 needed)",
-          "displayText": "1 can chipotle peppers in adobo (~7 oz; covers the 5 needed)",
-          "checked": false
-        },
-        {
-          "item": "1 package flour tortillas (large; need 4 — add a package size for this)",
-          "displayText": "1 package flour tortillas (large; need 4 — add a package size for this)",
-          "checked": false
-        },
-        {
-          "item": "2 cans black beans (15 oz each; have 1 on hand — topping up)",
-          "displayText": "2 cans black beans (15 oz each; have 1 on hand — topping up)",
-          "checked": false
-        },
-        {
-          "item": "2 cans corn (15 oz each)",
-          "displayText": "2 cans corn (15 oz each)",
-          "checked": false
-        },
-        {
-          "item": "1 can beef broth (14 oz)",
-          "displayText": "1 can beef broth (14 oz)",
-          "checked": false
-        },
-        {
-          "item": "1 box rigatoni (1 lb)",
-          "displayText": "1 box rigatoni (1 lb)",
-          "checked": false
-        },
-        {
-          "item": "1 bag egg noodles (wide, 12 oz; only 8 oz needed)",
-          "displayText": "1 bag egg noodles (wide, 12 oz; only 8 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bag jasmine rice (2 lb; only ~4.5 oz needed)",
-          "displayText": "1 bag jasmine rice (2 lb; only ~4.5 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bag basmati rice (only ~4.5 oz needed — add a package size for this)",
-          "displayText": "1 bag basmati rice (only ~4.5 oz needed — add a package size for this)",
-          "checked": false
-        },
-        {
-          "item": "2 bags croutons (5 oz each; need ~4 cups total)",
-          "displayText": "2 bags croutons (5 oz each; need ~4 cups total)",
-          "checked": false
-        },
-        {
-          "item": "1 bag tortilla chips (9 oz — week 1's bag; week 2's is on the trip 2 list so it's fresh)",
-          "displayText": "1 bag tortilla chips (9 oz — week 1's bag; week 2's is on the Trip 2 list so it's fresh)",
-          "checked": false
-        },
-        {
-          "item": "2 bottles caesar dressing (12 oz each)",
-          "displayText": "2 bottles Caesar dressing (12 oz each)",
-          "checked": false
-        },
-        {
-          "item": "2 jars salsa (16 oz each)",
-          "displayText": "2 jars salsa (16 oz each)",
-          "checked": false
-        },
-        {
-          "item": "2 taco seasoning packets (1 oz each)",
-          "displayText": "2 taco seasoning packets (1 oz each)",
-          "checked": false
-        },
-        {
-          "item": "4.5 lb boneless chicken thighs (for the base)",
-          "displayText": "4.5 lb boneless chicken thighs (for the base)",
-          "checked": false
-        },
-        {
-          "item": "8 lb chicken breast (for lunch prep + both cobb salad weeks — freeze ~4 lb for week 2)",
-          "displayText": "8 lb chicken breast (for lunch prep + both Cobb Salad weeks — freeze ~4 lb for week 2)",
-          "checked": false
-        },
-        {
-          "item": "2 packages turkey bacon (~12 oz/12 slices each; need 24 slices — freeze one package for week 2)",
-          "displayText": "2 packages turkey bacon (~12 oz/12 slices each; need 24 slices — freeze one package for week 2)",
-          "checked": false
-        },
-        {
-          "item": "2 onions",
-          "displayText": "2 onions",
-          "checked": false
-        },
-        {
-          "item": "2 heads garlic",
-          "displayText": "2 heads garlic",
-          "checked": false
-        },
-        {
-          "item": "10 limes",
-          "displayText": "10 limes",
-          "checked": false
-        },
-        {
-          "item": "4 lemons",
-          "displayText": "4 lemons",
-          "checked": false
-        },
-        {
-          "item": "1 knob ginger",
-          "displayText": "1 knob ginger",
-          "checked": false
-        },
-        {
-          "item": "2 carrots",
-          "displayText": "2 carrots",
-          "checked": false
-        },
-        {
-          "item": "1 bunch celery",
-          "displayText": "1 bunch celery",
-          "checked": false
-        },
-        {
-          "item": "3 heads romaine lettuce (week 1's cobb + taco nights)",
-          "displayText": "3 heads romaine lettuce (week 1's cobb + taco nights)",
-          "checked": false
-        },
-        {
-          "item": "2 packs romaine lettuce hearts (3-count each — week 1's lunches)",
-          "displayText": "2 packs romaine lettuce hearts (3-count each — week 1's lunches)",
-          "checked": false
-        },
-        {
-          "item": "2 pints cherry tomatoes (week 1)",
-          "displayText": "2 pints cherry tomatoes (week 1)",
-          "checked": false
-        },
-        {
-          "item": "2 avocados (week 1)",
-          "displayText": "2 avocados (week 1)",
-          "checked": false
-        },
-        {
-          "item": "1 container cremini mushrooms (8 oz; ~9 oz needed)",
-          "displayText": "1 container cremini mushrooms (8 oz; ~9 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 bunch chives (week 1 — covers both cobb nights)",
-          "displayText": "1 bunch chives (week 1 — covers both Cobb nights)",
-          "checked": false
-        },
-        {
-          "item": "1 bunch fresh parsley",
-          "displayText": "1 bunch fresh parsley",
-          "checked": false
-        },
-        {
-          "item": "1 tomato (week 1)",
-          "displayText": "1 tomato (week 1)",
-          "checked": false
-        },
-        {
-          "item": "1 package corn tortillas (need 8 — week 1's; week 2's is on the trip 2 list)",
-          "displayText": "1 package corn tortillas (need 8 — week 1's; week 2's is on the Trip 2 list)",
-          "checked": false
-        },
-        {
-          "item": "2 avocados",
-          "displayText": "2 avocados",
-          "checked": false
-        },
-        {
-          "item": "3 heads romaine lettuce (week 2's cobb + taco nights)",
-          "displayText": "3 heads romaine lettuce (week 2's cobb + taco nights)",
-          "checked": false
-        },
-        {
-          "item": "2 packs romaine lettuce hearts (3-count each — week 2's lunches)",
-          "displayText": "2 packs romaine lettuce hearts (3-count each — week 2's lunches)",
-          "checked": false
-        },
-        {
-          "item": "2 pints cherry tomatoes",
-          "displayText": "2 pints cherry tomatoes",
-          "checked": false
-        },
-        {
-          "item": "1 bunch chives (covers both week 2 cobb nights)",
-          "displayText": "1 bunch chives (covers both week 2 Cobb nights)",
-          "checked": false
-        },
-        {
-          "item": "1 bunch cilantro (optional — rutger only, burrito bowl night)",
-          "displayText": "1 bunch cilantro (optional — Rutger only, burrito bowl night)",
-          "checked": false
-        },
-        {
-          "item": "1 tomato",
-          "displayText": "1 tomato",
-          "checked": false
-        },
-        {
-          "item": "1 package corn tortillas (need 8)",
-          "displayText": "1 package corn tortillas (need 8)",
-          "checked": false
-        },
-        {
-          "item": "1 bag tortilla chips (9 oz)",
-          "displayText": "1 bag tortilla chips (9 oz)",
-          "checked": false
-        },
-        {
-          "item": "ground beef",
-          "displayText": "ground beef — plan uses ~8.5 lb of your ~50 lb freezer stock (4.5 lb for the base, 2 lb + 2 lb for the two taco-lunch batches) — thaw as needed, no need to buy",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "plan uses ~8.5 lb of your ~50 lb freezer stock (4.5 lb for the base, 2 lb + 2 lb for the two taco-lunch batches) — thaw as needed, no need to buy"
-        },
-        {
-          "item": "canned diced tomatoes",
-          "displayText": "canned diced tomatoes — need 1, have 1 — check stock",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need 1, have 1 — check stock"
-        },
-        {
-          "item": "tomato paste",
-          "displayText": "tomato paste — need ~2 oz of your 6 oz can — check stock",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "need ~2 oz of your 6 oz can — check stock"
-        },
-        {
-          "item": "crushed tomatoes",
-          "displayText": "crushed tomatoes — recipe wants 2 cans; you have 1 San Marzano whole + 1 more canned tomatoes on hand — hand-crush both to cover it, no need to buy",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "recipe wants 2 cans; you have 1 San Marzano whole + 1 more canned tomatoes on hand — hand-crush both to cover it, no need to buy"
-        },
-        {
-          "item": "garlic powder, cumin, smoked paprika",
-          "displayText": "garlic powder, cumin, smoked paprika — small amounts, likely already on your spice rack",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "small amounts, likely already on your spice rack"
-        },
-        {
-          "item": "baking powder, vanilla extract, sugar, butter, maple syrup",
-          "displayText": "baking powder, vanilla extract, sugar, butter, maple syrup — needed for tomorrow's pancakes — check tonight so nothing's missing at breakfast",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "needed for tomorrow's pancakes — check tonight so nothing's missing at breakfast"
-        },
-        {
-          "item": "bay leaf, worcestershire sauce, red wine vinegar, hot sauce",
-          "displayText": "bay leaf, Worcestershire sauce, red wine vinegar, hot sauce — small amounts, likely already in the pantry or fridge door",
-          "checked": false,
-          "stockStatus": "have",
-          "onHandNote": "small amounts, likely already in the pantry or fridge door"
+          "label": "Trip 2 — before Sunday Aug 2 (restock for week 2)",
+          "items": [
+            {
+              "item": "2 avocados",
+              "displayText": "2 avocados",
+              "checked": false
+            },
+            {
+              "item": "3 heads romaine lettuce (week 2's cobb + taco nights)",
+              "displayText": "3 heads romaine lettuce (week 2's cobb + taco nights)",
+              "checked": false
+            },
+            {
+              "item": "1 pack romaine lettuce hearts (3-count — week 2's lunches, rutger-only now)",
+              "displayText": "1 pack romaine lettuce hearts (3-count — week 2's lunches, Rutger-only now)",
+              "checked": false
+            },
+            {
+              "item": "2 pints cherry tomatoes",
+              "displayText": "2 pints cherry tomatoes",
+              "checked": false
+            },
+            {
+              "item": "1 bunch chives (covers both week 2 cobb nights)",
+              "displayText": "1 bunch chives (covers both week 2 Cobb nights)",
+              "checked": false
+            },
+            {
+              "item": "1 bunch cilantro (optional — rutger only, burrito bowl night)",
+              "displayText": "1 bunch cilantro (optional — Rutger only, burrito bowl night)",
+              "checked": false
+            },
+            {
+              "item": "1 tomato",
+              "displayText": "1 tomato",
+              "checked": false
+            },
+            {
+              "item": "1 package corn tortillas (need 8)",
+              "displayText": "1 package corn tortillas (need 8)",
+              "checked": false
+            }
+          ]
         }
       ]
     },
@@ -6104,121 +6119,126 @@
       "title": "Grocery list — Two-Week Bulk Prep",
       "source": "claude",
       "generatedAt": "2026-05-31T15:28:27Z",
-      "items": [
+      "sections": [
         {
-          "item": "parmesan 8 oz (only ~1.5 oz needed)",
-          "displayText": "parmesan 8 oz (only ~1.5 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 dozen eggs (only 1 needed)",
-          "displayText": "1 dozen eggs (only 1 needed)",
-          "checked": false
-        },
-        {
-          "item": "ground cumin",
-          "displayText": "ground cumin",
-          "checked": false
-        },
-        {
-          "item": "chili powder",
-          "displayText": "chili powder",
-          "checked": false
-        },
-        {
-          "item": "coconut milk 2 cans",
-          "displayText": "coconut milk 2 cans",
-          "checked": false
-        },
-        {
-          "item": "diced tomatoes 2 cans",
-          "displayText": "diced tomatoes 2 cans",
-          "checked": false
-        },
-        {
-          "item": "marinara 24 oz jar",
-          "displayText": "marinara 24 oz jar",
-          "checked": false
-        },
-        {
-          "item": "spaghetti 1 lb box",
-          "displayText": "spaghetti 1 lb box",
-          "checked": false
-        },
-        {
-          "item": "jasmine rice 2 bags (2 lb each)",
-          "displayText": "jasmine rice 2 bags (2 lb each)",
-          "checked": false
-        },
-        {
-          "item": "breadcrumbs 15 oz (only ~½ cup needed)",
-          "displayText": "breadcrumbs 15 oz (only ~½ cup needed)",
-          "checked": false
-        },
-        {
-          "item": "chicken breast ~3.5 lb",
-          "displayText": "chicken breast ~3.5 lb",
-          "checked": false
-        },
-        {
-          "item": "chicken thighs ~3 lb",
-          "displayText": "chicken thighs ~3 lb",
-          "checked": false
-        },
-        {
-          "item": "flank steak ~2 lb",
-          "displayText": "flank steak ~2 lb",
-          "checked": false
-        },
-        {
-          "item": "ground turkey 2 lb",
-          "displayText": "ground turkey 2 lb",
-          "checked": false
-        },
-        {
-          "item": "bell peppers 3",
-          "displayText": "bell peppers 3",
-          "checked": false
-        },
-        {
-          "item": "green beans 1 lb",
-          "displayText": "green beans 1 lb",
-          "checked": false
-        },
-        {
-          "item": "spinach ~10 oz (2 bags)",
-          "displayText": "spinach ~10 oz (2 bags)",
-          "checked": false
-        },
-        {
-          "item": "baby potatoes 1.5 lb bag",
-          "displayText": "baby potatoes 1.5 lb bag",
-          "checked": false
-        },
-        {
-          "item": "onion 4",
-          "displayText": "onion 4",
-          "checked": false
-        },
-        {
-          "item": "garlic 2 heads",
-          "displayText": "garlic 2 heads",
-          "checked": false
-        },
-        {
-          "item": "ginger 1 knob",
-          "displayText": "ginger 1 knob",
-          "checked": false
-        },
-        {
-          "item": "lime 2",
-          "displayText": "lime 2",
-          "checked": false
-        },
-        {
-          "item": "lemon 1",
-          "displayText": "lemon 1",
-          "checked": false
+          "label": null,
+          "items": [
+            {
+              "item": "parmesan 8 oz (only ~1.5 oz needed)",
+              "displayText": "parmesan 8 oz (only ~1.5 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 dozen eggs (only 1 needed)",
+              "displayText": "1 dozen eggs (only 1 needed)",
+              "checked": false
+            },
+            {
+              "item": "ground cumin",
+              "displayText": "ground cumin",
+              "checked": false
+            },
+            {
+              "item": "chili powder",
+              "displayText": "chili powder",
+              "checked": false
+            },
+            {
+              "item": "coconut milk 2 cans",
+              "displayText": "coconut milk 2 cans",
+              "checked": false
+            },
+            {
+              "item": "diced tomatoes 2 cans",
+              "displayText": "diced tomatoes 2 cans",
+              "checked": false
+            },
+            {
+              "item": "marinara 24 oz jar",
+              "displayText": "marinara 24 oz jar",
+              "checked": false
+            },
+            {
+              "item": "spaghetti 1 lb box",
+              "displayText": "spaghetti 1 lb box",
+              "checked": false
+            },
+            {
+              "item": "jasmine rice 2 bags (2 lb each)",
+              "displayText": "jasmine rice 2 bags (2 lb each)",
+              "checked": false
+            },
+            {
+              "item": "breadcrumbs 15 oz (only ~½ cup needed)",
+              "displayText": "breadcrumbs 15 oz (only ~½ cup needed)",
+              "checked": false
+            },
+            {
+              "item": "chicken breast ~3.5 lb",
+              "displayText": "chicken breast ~3.5 lb",
+              "checked": false
+            },
+            {
+              "item": "chicken thighs ~3 lb",
+              "displayText": "chicken thighs ~3 lb",
+              "checked": false
+            },
+            {
+              "item": "flank steak ~2 lb",
+              "displayText": "flank steak ~2 lb",
+              "checked": false
+            },
+            {
+              "item": "ground turkey 2 lb",
+              "displayText": "ground turkey 2 lb",
+              "checked": false
+            },
+            {
+              "item": "bell peppers 3",
+              "displayText": "bell peppers 3",
+              "checked": false
+            },
+            {
+              "item": "green beans 1 lb",
+              "displayText": "green beans 1 lb",
+              "checked": false
+            },
+            {
+              "item": "spinach ~10 oz (2 bags)",
+              "displayText": "spinach ~10 oz (2 bags)",
+              "checked": false
+            },
+            {
+              "item": "baby potatoes 1.5 lb bag",
+              "displayText": "baby potatoes 1.5 lb bag",
+              "checked": false
+            },
+            {
+              "item": "onion 4",
+              "displayText": "onion 4",
+              "checked": false
+            },
+            {
+              "item": "garlic 2 heads",
+              "displayText": "garlic 2 heads",
+              "checked": false
+            },
+            {
+              "item": "ginger 1 knob",
+              "displayText": "ginger 1 knob",
+              "checked": false
+            },
+            {
+              "item": "lime 2",
+              "displayText": "lime 2",
+              "checked": false
+            },
+            {
+              "item": "lemon 1",
+              "displayText": "lemon 1",
+              "checked": false
+            }
+          ]
         }
       ]
     },
@@ -6227,101 +6247,106 @@
       "title": "Grocery list — Week of June 1",
       "source": "claude",
       "generatedAt": "2026-05-31T15:25:38Z",
-      "items": [
+      "sections": [
         {
-          "item": "8 oz parmesan (only ~1.5 oz needed)",
-          "displayText": "8 oz parmesan (only ~1.5 oz needed)",
-          "checked": false
-        },
-        {
-          "item": "1 dozen eggs (only 1 needed)",
-          "displayText": "1 dozen eggs (only 1 needed)",
-          "checked": false
-        },
-        {
-          "item": "1 jar ground cumin",
-          "displayText": "1 jar ground cumin",
-          "checked": false
-        },
-        {
-          "item": "1 jar chili powder",
-          "displayText": "1 jar chili powder",
-          "checked": false
-        },
-        {
-          "item": "1 can coconut milk",
-          "displayText": "1 can coconut milk",
-          "checked": false
-        },
-        {
-          "item": "1 can diced tomatoes",
-          "displayText": "1 can diced tomatoes",
-          "checked": false
-        },
-        {
-          "item": "1 (24 oz) jar marinara sauce",
-          "displayText": "1 (24 oz) jar marinara sauce",
-          "checked": false
-        },
-        {
-          "item": "1 lb box spaghetti",
-          "displayText": "1 lb box spaghetti",
-          "checked": false
-        },
-        {
-          "item": "1 (2 lb) bag jasmine rice",
-          "displayText": "1 (2 lb) bag jasmine rice",
-          "checked": false
-        },
-        {
-          "item": "1 (15 oz) container breadcrumbs (only ~½ cup needed)",
-          "displayText": "1 (15 oz) container breadcrumbs (only ~½ cup needed)",
-          "checked": false
-        },
-        {
-          "item": "~1.5 lb chicken breast",
-          "displayText": "~1.5 lb chicken breast",
-          "checked": false
-        },
-        {
-          "item": "~1.5 lb flank steak",
-          "displayText": "~1.5 lb flank steak",
-          "checked": false
-        },
-        {
-          "item": "2 lb ground turkey",
-          "displayText": "2 lb ground turkey",
-          "checked": false
-        },
-        {
-          "item": "3 bell peppers",
-          "displayText": "3 bell peppers",
-          "checked": false
-        },
-        {
-          "item": "1 (5 oz) bag spinach",
-          "displayText": "1 (5 oz) bag spinach",
-          "checked": false
-        },
-        {
-          "item": "3 onions",
-          "displayText": "3 onions",
-          "checked": false
-        },
-        {
-          "item": "1 head garlic (recipes use ~10 cloves)",
-          "displayText": "1 head garlic (recipes use ~10 cloves)",
-          "checked": false
-        },
-        {
-          "item": "1 knob ginger",
-          "displayText": "1 knob ginger",
-          "checked": false
-        },
-        {
-          "item": "2 limes",
-          "displayText": "2 limes",
-          "checked": false
+          "label": null,
+          "items": [
+            {
+              "item": "8 oz parmesan (only ~1.5 oz needed)",
+              "displayText": "8 oz parmesan (only ~1.5 oz needed)",
+              "checked": false
+            },
+            {
+              "item": "1 dozen eggs (only 1 needed)",
+              "displayText": "1 dozen eggs (only 1 needed)",
+              "checked": false
+            },
+            {
+              "item": "1 jar ground cumin",
+              "displayText": "1 jar ground cumin",
+              "checked": false
+            },
+            {
+              "item": "1 jar chili powder",
+              "displayText": "1 jar chili powder",
+              "checked": false
+            },
+            {
+              "item": "1 can coconut milk",
+              "displayText": "1 can coconut milk",
+              "checked": false
+            },
+            {
+              "item": "1 can diced tomatoes",
+              "displayText": "1 can diced tomatoes",
+              "checked": false
+            },
+            {
+              "item": "1 (24 oz) jar marinara sauce",
+              "displayText": "1 (24 oz) jar marinara sauce",
+              "checked": false
+            },
+            {
+              "item": "1 lb box spaghetti",
+              "displayText": "1 lb box spaghetti",
+              "checked": false
+            },
+            {
+              "item": "1 (2 lb) bag jasmine rice",
+              "displayText": "1 (2 lb) bag jasmine rice",
+              "checked": false
+            },
+            {
+              "item": "1 (15 oz) container breadcrumbs (only ~½ cup needed)",
+              "displayText": "1 (15 oz) container breadcrumbs (only ~½ cup needed)",
+              "checked": false
+            },
+            {
+              "item": "~1.5 lb chicken breast",
+              "displayText": "~1.5 lb chicken breast",
+              "checked": false
+            },
+            {
+              "item": "~1.5 lb flank steak",
+              "displayText": "~1.5 lb flank steak",
+              "checked": false
+            },
+            {
+              "item": "2 lb ground turkey",
+              "displayText": "2 lb ground turkey",
+              "checked": false
+            },
+            {
+              "item": "3 bell peppers",
+              "displayText": "3 bell peppers",
+              "checked": false
+            },
+            {
+              "item": "1 (5 oz) bag spinach",
+              "displayText": "1 (5 oz) bag spinach",
+              "checked": false
+            },
+            {
+              "item": "3 onions",
+              "displayText": "3 onions",
+              "checked": false
+            },
+            {
+              "item": "1 head garlic (recipes use ~10 cloves)",
+              "displayText": "1 head garlic (recipes use ~10 cloves)",
+              "checked": false
+            },
+            {
+              "item": "1 knob ginger",
+              "displayText": "1 knob ginger",
+              "checked": false
+            },
+            {
+              "item": "2 limes",
+              "displayText": "2 limes",
+              "checked": false
+            }
+          ]
         }
       ]
     }
