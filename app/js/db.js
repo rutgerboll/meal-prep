@@ -90,21 +90,33 @@ function getActivePlan() {
 
 // ── Seeding ───────────────────────────────────────────────────────────────────
 // A grocery list written by Claude in chat (grocery-lists/<plan-id>.md) arrives
-// through the seed/sync bundle pre-parsed into display lines. Import it as a
-// one-section list; the item key (the normalized line text) carries check
-// state across re-syncs. The app never writes these back to markdown.
-function chatListRecord(inc) {
-  const items = (inc.items||[]).map(it => ({
+// through the seed/sync bundle pre-parsed into display lines. A list may split
+// its buy lines into multiple trips (e.g. "buy now" vs. "restock before week
+// 2") — each parsed trip becomes its own weekly section here so the app keeps
+// them separate and separately copyable, instead of merging every trip into
+// one list. The item key (the normalized line text) carries check state
+// across re-syncs. The app never writes these back to markdown.
+function chatListItem(it) {
+  return {
     item: it.item, aisle: it.aisle || null,
     neededQty: null, neededUnit: null, buyQty: null, buyUnit: null,
     displayText: it.displayText, leftoverNote: null,
     checked: !!it.checked, missingPU: false,
     stockStatus: it.stockStatus || undefined,
     onHandNote: it.onHandNote || undefined,
+  };
+}
+function chatListRecord(inc) {
+  const rawSections = inc.sections && inc.sections.length ? inc.sections : [{label: null, items: inc.items||[]}];
+  const weekly = rawSections.map((sec, i) => ({
+    week: i+1,
+    label: sec.label || (i===0 ? 'Buy now' : `Trip ${i+1}`),
+    items: (sec.items||[]).map(chatListItem),
   }));
+  const items = weekly.flatMap(w=>w.items);
   return { planId: inc.planId, generatedAt: inc.generatedAt || new Date().toISOString(),
     source: 'claude', title: inc.title || inc.planId,
-    weekly: [{week:1, label:'Buy now', items}], items,
+    weekly, items,
     unknownUnits: [], warnings: [], _key: inc.planId };
 }
 

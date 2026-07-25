@@ -11,7 +11,7 @@ function renderListScreen() {
   }
   const weekly = gl.weekly && gl.weekly.length ? gl.weekly : [{week:1,label:'Buy now',items:gl.items||[]}];
   const genDate = new Date(gl.generatedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  const splitNote = weekly.length>1 ? `<div style="font-size:13px;color:var(--text3);margin-bottom:12px">Fresh items are split by week so they don't wilt — buy each list at the start of its week. Shelf-stable items are all on “Buy now.”</div>` : '';
+  const splitNote = weekly.length>1 ? `<div style="font-size:13px;color:var(--text3);margin-bottom:12px">Split into separate trips so fresh items don't wilt — buy each list at the start of its trip.</div>` : '';
   // Inventory awareness: items already on hand are surfaced separately, not bought.
   const HAVE_BADGE = 'background:rgba(76,124,90,.18);color:var(--pr);padding:1px 7px;border-radius:8px;font-size:11px;font-weight:600;white-space:nowrap';
   const LOW_BADGE = 'background:rgba(196,148,42,.20);color:#b07d12;padding:1px 7px;border-radius:8px;font-size:11px;font-weight:600;white-space:nowrap';
@@ -64,7 +64,7 @@ function renderListScreen() {
     ${sections}
     ${unknownHtml}
     <div style="text-align:center;margin-top:14px"><button class="btn-t" style="font-size:13px" onclick="generateList()">${gl.source==='claude' ? '↻ Rebuild in app (replaces Claude’s list)' : '↻ Regenerate'}</button></div>
-    <div class="sticky"><button class="btn-p" onclick="copyList('${plan.id}',0)">📋 Copy ${weekly.length>1?'“Buy now” list':'for Notes'}</button></div>`;
+    <div class="sticky"><button class="btn-p" onclick="copyList('${plan.id}',0)">📋 Copy ${weekly.length>1?'this list':'for Notes'}</button></div>`;
 }
 
 async function generateList() {
