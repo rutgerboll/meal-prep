@@ -1651,6 +1651,147 @@
       "updatedAt": "2026-06-21T00:00:00Z"
     },
     {
+      "id": "cobb-salad",
+      "title": "Cobb Salad",
+      "servings": 2,
+      "timeMinutes": 35,
+      "tags": [
+        "salad",
+        "chicken",
+        "dinner",
+        "no-pork"
+      ],
+      "source": "generated",
+      "caloriesPerServing": 650,
+      "note": "Classic bacon swapped for turkey bacon — household avoids cut pork (sausage is the only exception).",
+      "isBase": false,
+      "isFinish": false,
+      "baseRecipeId": null,
+      "ingredients": [
+        {
+          "item": "chicken breast",
+          "qty": 0.75,
+          "unit": "lb",
+          "aisle": "meat",
+          "staple": false
+        },
+        {
+          "item": "turkey bacon",
+          "qty": 6,
+          "unit": "slice",
+          "aisle": "meat",
+          "staple": false,
+          "note": "pork bacon substitute"
+        },
+        {
+          "item": "eggs",
+          "qty": 3,
+          "unit": "whole",
+          "aisle": "dairy",
+          "staple": false,
+          "note": "hard-boiled"
+        },
+        {
+          "item": "romaine lettuce",
+          "qty": 1,
+          "unit": "head",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "avocado",
+          "qty": 1,
+          "unit": "each",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "cherry tomatoes",
+          "qty": 1,
+          "unit": "cup",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "blue cheese crumbles",
+          "qty": 0.5,
+          "unit": "cup",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "chives",
+          "qty": 1,
+          "unit": "bunch",
+          "aisle": "produce",
+          "staple": false
+        },
+        {
+          "item": "olive oil",
+          "qty": 3,
+          "unit": "tbsp",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "red wine vinegar",
+          "qty": 1,
+          "unit": "tbsp",
+          "aisle": "condiments",
+          "staple": true
+        },
+        {
+          "item": "Dijon mustard",
+          "qty": 1,
+          "unit": "tsp",
+          "aisle": "condiments",
+          "staple": true
+        },
+        {
+          "item": "honey",
+          "qty": 1,
+          "unit": "tsp",
+          "aisle": "condiments",
+          "staple": true
+        },
+        {
+          "item": "salt",
+          "qty": 0.5,
+          "unit": "tsp",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "black pepper",
+          "qty": 0.25,
+          "unit": "tsp",
+          "aisle": "spices",
+          "staple": true
+        }
+      ],
+      "ratings": {
+        "cookCount": 0,
+        "avgDifficulty": null,
+        "avgActualMinutes": null,
+        "liked": null
+      },
+      "steps": [
+        "Hard-boil the eggs (cover with cold water, boil 10 min, ice bath, peel). Cook chicken breast (pan-sear or bake at 400°F ~20 min) and let rest, then dice. Cook turkey bacon in a skillet until crisp; chop.",
+        "Whisk olive oil, red wine vinegar, Dijon, honey, salt, and pepper for the dressing.",
+        "Chop romaine and spread over two plates or a platter.",
+        "Arrange chicken, turkey bacon, chopped eggs, diced avocado, halved cherry tomatoes, and blue cheese crumbles in rows over the lettuce.",
+        "Scatter chives on top. Drizzle with dressing just before serving."
+      ],
+      "feedbackLog": [],
+      "thawHoursAhead": null,
+      "prepAhead": [],
+      "image": null,
+      "sourcePhotoRef": null,
+      "thumbnail": null,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
       "id": "coconut-chicken-curry-rice",
       "title": "Coconut Chicken Curry with Rice",
       "servings": 4,
@@ -3512,6 +3653,127 @@
       "updatedAt": "2026-06-21T00:00:00Z"
     },
     {
+      "id": "lemon-ricotta-pancakes",
+      "title": "Lemon Ricotta Pancakes",
+      "servings": 2,
+      "timeMinutes": 25,
+      "tags": [
+        "breakfast",
+        "pancakes",
+        "quick"
+      ],
+      "source": "generated",
+      "caloriesPerServing": null,
+      "note": null,
+      "isBase": false,
+      "isFinish": false,
+      "baseRecipeId": null,
+      "ingredients": [
+        {
+          "item": "whole milk ricotta",
+          "qty": 1,
+          "unit": "cup",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "eggs",
+          "qty": 2,
+          "unit": "whole",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "milk",
+          "qty": 0.5,
+          "unit": "cup",
+          "aisle": "dairy",
+          "staple": false
+        },
+        {
+          "item": "lemon",
+          "qty": 1,
+          "unit": "whole",
+          "aisle": "produce",
+          "staple": false,
+          "note": "zest and juice"
+        },
+        {
+          "item": "vanilla extract",
+          "qty": 1,
+          "unit": "tsp",
+          "aisle": "condiments",
+          "staple": true
+        },
+        {
+          "item": "all-purpose flour",
+          "qty": 1,
+          "unit": "cup",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "sugar",
+          "qty": 2,
+          "unit": "tbsp",
+          "aisle": "condiments",
+          "staple": true
+        },
+        {
+          "item": "baking powder",
+          "qty": 2,
+          "unit": "tsp",
+          "aisle": "condiments",
+          "staple": true
+        },
+        {
+          "item": "salt",
+          "qty": 0.25,
+          "unit": "tsp",
+          "aisle": "spices",
+          "staple": true
+        },
+        {
+          "item": "butter",
+          "qty": 2,
+          "unit": "tbsp",
+          "aisle": "dairy",
+          "staple": false,
+          "note": "for the griddle"
+        },
+        {
+          "item": "maple syrup",
+          "qty": 0.25,
+          "unit": "cup",
+          "aisle": "condiments",
+          "staple": true,
+          "note": "for serving"
+        }
+      ],
+      "ratings": {
+        "cookCount": 0,
+        "avgDifficulty": null,
+        "avgActualMinutes": null,
+        "liked": null
+      },
+      "steps": [
+        "In a large bowl, whisk together ricotta, eggs, milk, lemon zest, lemon juice, and vanilla until smooth.",
+        "In a separate bowl, whisk flour, sugar, baking powder, and salt.",
+        "Fold the dry ingredients into the wet ingredients just until combined — a few lumps are fine, don't overmix.",
+        "Heat a griddle or nonstick skillet over medium heat and melt a bit of butter on it.",
+        "Pour 1/4-cup portions of batter onto the griddle. Cook 2–3 min until bubbles form on the surface and edges look set, then flip and cook 1–2 min more until golden.",
+        "Serve warm with maple syrup."
+      ],
+      "feedbackLog": [],
+      "thawHoursAhead": null,
+      "prepAhead": [],
+      "image": null,
+      "sourcePhotoRef": null,
+      "thumbnail": null,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
       "id": "sheet-pan-chicken-potatoes-green-beans",
       "title": "Sheet-Pan Chicken Thighs with Potatoes & Green Beans",
       "servings": 4,
@@ -4594,6 +4856,333 @@
         }
       ],
       "kind": "bulk-2week",
+      "isActive": false,
+      "createdAt": "2026-06-21T00:00:00Z",
+      "updatedAt": "2026-06-21T00:00:00Z"
+    },
+    {
+      "id": "2026-07-26-two-weeks",
+      "label": "2026-07-26-two-weeks",
+      "servingsDefault": 2,
+      "note": null,
+      "entries": [
+        {
+          "recipeId": "garlic-ground-beef-base",
+          "servings": 12,
+          "dayDate": "2026-07-26",
+          "dayLabel": "Sun Jul 26 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chipotle-shredded-chicken-base",
+          "servings": 12,
+          "dayDate": "2026-07-26",
+          "dayLabel": "Sun Jul 26 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 8,
+          "dayDate": "2026-07-26",
+          "dayLabel": "Sun Jul 26 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 8,
+          "dayDate": "2026-07-26",
+          "dayLabel": "Sun Jul 26 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "chicken-caesar-meal-prep-salad",
+          "servings": 8,
+          "dayDate": "2026-08-02",
+          "dayLabel": "Sun Aug 2 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "beef-taco-salad",
+          "servings": 8,
+          "dayDate": "2026-08-02",
+          "dayLabel": "Sun Aug 2 (batch cook)",
+          "meal": "batch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "cobb-salad",
+          "servings": 2,
+          "dayDate": "2026-07-27",
+          "dayLabel": "Mon Jul 27",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-bolognese",
+          "servings": 2,
+          "dayDate": "2026-07-28",
+          "dayLabel": "Tue Jul 28",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-tacos",
+          "servings": 2,
+          "dayDate": "2026-07-29",
+          "dayLabel": "Wed Jul 29",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "cobb-salad",
+          "servings": 2,
+          "dayDate": "2026-07-30",
+          "dayLabel": "Thu Jul 30",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-stroganoff",
+          "servings": 2,
+          "dayDate": "2026-07-31",
+          "dayLabel": "Fri Jul 31",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-quesadillas",
+          "servings": 2,
+          "dayDate": "2026-08-01",
+          "dayLabel": "Sat Aug 1",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "cobb-salad",
+          "servings": 2,
+          "dayDate": "2026-08-03",
+          "dayLabel": "Mon Aug 3",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-keema",
+          "servings": 2,
+          "dayDate": "2026-08-04",
+          "dayLabel": "Tue Aug 4",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-burrito-bowl",
+          "servings": 2,
+          "dayDate": "2026-08-05",
+          "dayLabel": "Wed Aug 5",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "cobb-salad",
+          "servings": 2,
+          "dayDate": "2026-08-06",
+          "dayLabel": "Thu Aug 6",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-bolognese",
+          "servings": 2,
+          "dayDate": "2026-08-07",
+          "dayLabel": "Fri Aug 7",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-tacos",
+          "servings": 2,
+          "dayDate": "2026-08-08",
+          "dayLabel": "Sat Aug 8",
+          "meal": "dinner",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-07-27",
+          "dayLabel": "Mon Jul 27",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-07-28",
+          "dayLabel": "Tue Jul 28",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-07-29",
+          "dayLabel": "Wed Jul 29",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-07-30",
+          "dayLabel": "Thu Jul 30",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-27",
+          "dayLabel": "Mon Jul 27",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-28",
+          "dayLabel": "Tue Jul 28",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-29",
+          "dayLabel": "Wed Jul 29",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-07-30",
+          "dayLabel": "Thu Jul 30",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-08-03",
+          "dayLabel": "Mon Aug 3",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-08-04",
+          "dayLabel": "Tue Aug 4",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-08-05",
+          "dayLabel": "Wed Aug 5",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-chicken-caesar-salad",
+          "servings": 2,
+          "dayDate": "2026-08-06",
+          "dayLabel": "Thu Aug 6",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-08-03",
+          "dayLabel": "Mon Aug 3",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-08-04",
+          "dayLabel": "Tue Aug 4",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-08-05",
+          "dayLabel": "Wed Aug 5",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "finish-beef-taco-salad",
+          "servings": 2,
+          "dayDate": "2026-08-06",
+          "dayLabel": "Thu Aug 6",
+          "meal": "lunch",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        },
+        {
+          "recipeId": "lemon-ricotta-pancakes",
+          "servings": 2,
+          "dayDate": "2026-07-26",
+          "dayLabel": "Sun Jul 26",
+          "meal": "breakfast",
+          "cooked": false,
+          "ruleWarningDismissed": false
+        }
+      ],
+      "kind": "bulk-2week",
       "isActive": true,
       "createdAt": "2026-06-21T00:00:00Z",
       "updatedAt": "2026-06-21T00:00:00Z"
@@ -5180,6 +5769,333 @@
           "checked": false,
           "stockStatus": "have",
           "onHandNote": "2 tbsp for the braise — grab a bottle if you're out"
+        }
+      ]
+    },
+    {
+      "planId": "2026-07-26-two-weeks",
+      "title": "Grocery list — 2-week plan (Jul 26–Aug 8)",
+      "source": "claude",
+      "generatedAt": "2026-07-25T15:49:07Z",
+      "items": [
+        {
+          "item": "1 bag frozen peas (10 oz; only ~3 oz needed)",
+          "displayText": "1 bag frozen peas (10 oz; only ~3 oz needed)",
+          "checked": false
+        },
+        {
+          "item": "1 bag frozen corn (only ~4 oz needed — add a package size for this)",
+          "displayText": "1 bag frozen corn (only ~4 oz needed — add a package size for this)",
+          "checked": false
+        },
+        {
+          "item": "2 parmesan wedges (8 oz each; need ~12 oz total)",
+          "displayText": "2 parmesan wedges (8 oz each; need ~12 oz total)",
+          "checked": false
+        },
+        {
+          "item": "2 bags shredded cheddar (8 oz each; need ~12 oz total)",
+          "displayText": "2 bags shredded cheddar (8 oz each; need ~12 oz total)",
+          "checked": false
+        },
+        {
+          "item": "1 bag shredded mexican cheese blend (8 oz; only ~6 oz needed)",
+          "displayText": "1 bag shredded Mexican cheese blend (8 oz; only ~6 oz needed)",
+          "checked": false
+        },
+        {
+          "item": "2 containers sour cream (16 oz each; need ~18 oz total)",
+          "displayText": "2 containers sour cream (16 oz each; need ~18 oz total)",
+          "checked": false
+        },
+        {
+          "item": "2 containers blue cheese crumbles (4 oz each; need ~16 oz total — add a package size for this)",
+          "displayText": "2 containers blue cheese crumbles (4 oz each; need ~16 oz total — add a package size for this)",
+          "checked": false
+        },
+        {
+          "item": "2 dozen eggs (need 14)",
+          "displayText": "2 dozen eggs (need 14)",
+          "checked": false
+        },
+        {
+          "item": "1 container ricotta (15 oz; only ~8 oz needed — for tomorrow's pancakes)",
+          "displayText": "1 container ricotta (15 oz; only ~8 oz needed — for tomorrow's pancakes)",
+          "checked": false
+        },
+        {
+          "item": "1 small carton milk (only ~1/2 cup needed — skip if you already have milk)",
+          "displayText": "1 small carton milk (only ~1/2 cup needed — skip if you already have milk)",
+          "checked": false
+        },
+        {
+          "item": "1 jar chili powder",
+          "displayText": "1 jar chili powder",
+          "checked": false
+        },
+        {
+          "item": "1 small jar garam masala (add a package size for this)",
+          "displayText": "1 small jar garam masala (add a package size for this)",
+          "checked": false
+        },
+        {
+          "item": "1 can chipotle peppers in adobo (~7 oz; covers the 5 needed)",
+          "displayText": "1 can chipotle peppers in adobo (~7 oz; covers the 5 needed)",
+          "checked": false
+        },
+        {
+          "item": "1 package flour tortillas (large; need 4 — add a package size for this)",
+          "displayText": "1 package flour tortillas (large; need 4 — add a package size for this)",
+          "checked": false
+        },
+        {
+          "item": "2 cans black beans (15 oz each; have 1 on hand — topping up)",
+          "displayText": "2 cans black beans (15 oz each; have 1 on hand — topping up)",
+          "checked": false
+        },
+        {
+          "item": "2 cans corn (15 oz each)",
+          "displayText": "2 cans corn (15 oz each)",
+          "checked": false
+        },
+        {
+          "item": "1 can beef broth (14 oz)",
+          "displayText": "1 can beef broth (14 oz)",
+          "checked": false
+        },
+        {
+          "item": "1 box rigatoni (1 lb)",
+          "displayText": "1 box rigatoni (1 lb)",
+          "checked": false
+        },
+        {
+          "item": "1 bag egg noodles (wide, 12 oz; only 8 oz needed)",
+          "displayText": "1 bag egg noodles (wide, 12 oz; only 8 oz needed)",
+          "checked": false
+        },
+        {
+          "item": "1 bag jasmine rice (2 lb; only ~4.5 oz needed)",
+          "displayText": "1 bag jasmine rice (2 lb; only ~4.5 oz needed)",
+          "checked": false
+        },
+        {
+          "item": "1 bag basmati rice (only ~4.5 oz needed — add a package size for this)",
+          "displayText": "1 bag basmati rice (only ~4.5 oz needed — add a package size for this)",
+          "checked": false
+        },
+        {
+          "item": "2 bags croutons (5 oz each; need ~4 cups total)",
+          "displayText": "2 bags croutons (5 oz each; need ~4 cups total)",
+          "checked": false
+        },
+        {
+          "item": "1 bag tortilla chips (9 oz — week 1's bag; week 2's is on the trip 2 list so it's fresh)",
+          "displayText": "1 bag tortilla chips (9 oz — week 1's bag; week 2's is on the Trip 2 list so it's fresh)",
+          "checked": false
+        },
+        {
+          "item": "2 bottles caesar dressing (12 oz each)",
+          "displayText": "2 bottles Caesar dressing (12 oz each)",
+          "checked": false
+        },
+        {
+          "item": "2 jars salsa (16 oz each)",
+          "displayText": "2 jars salsa (16 oz each)",
+          "checked": false
+        },
+        {
+          "item": "2 taco seasoning packets (1 oz each)",
+          "displayText": "2 taco seasoning packets (1 oz each)",
+          "checked": false
+        },
+        {
+          "item": "4.5 lb boneless chicken thighs (for the base)",
+          "displayText": "4.5 lb boneless chicken thighs (for the base)",
+          "checked": false
+        },
+        {
+          "item": "8 lb chicken breast (for lunch prep + both cobb salad weeks — freeze ~4 lb for week 2)",
+          "displayText": "8 lb chicken breast (for lunch prep + both Cobb Salad weeks — freeze ~4 lb for week 2)",
+          "checked": false
+        },
+        {
+          "item": "2 packages turkey bacon (~12 oz/12 slices each; need 24 slices — freeze one package for week 2)",
+          "displayText": "2 packages turkey bacon (~12 oz/12 slices each; need 24 slices — freeze one package for week 2)",
+          "checked": false
+        },
+        {
+          "item": "2 onions",
+          "displayText": "2 onions",
+          "checked": false
+        },
+        {
+          "item": "2 heads garlic",
+          "displayText": "2 heads garlic",
+          "checked": false
+        },
+        {
+          "item": "10 limes",
+          "displayText": "10 limes",
+          "checked": false
+        },
+        {
+          "item": "4 lemons",
+          "displayText": "4 lemons",
+          "checked": false
+        },
+        {
+          "item": "1 knob ginger",
+          "displayText": "1 knob ginger",
+          "checked": false
+        },
+        {
+          "item": "2 carrots",
+          "displayText": "2 carrots",
+          "checked": false
+        },
+        {
+          "item": "1 bunch celery",
+          "displayText": "1 bunch celery",
+          "checked": false
+        },
+        {
+          "item": "3 heads romaine lettuce (week 1's cobb + taco nights)",
+          "displayText": "3 heads romaine lettuce (week 1's cobb + taco nights)",
+          "checked": false
+        },
+        {
+          "item": "2 packs romaine lettuce hearts (3-count each — week 1's lunches)",
+          "displayText": "2 packs romaine lettuce hearts (3-count each — week 1's lunches)",
+          "checked": false
+        },
+        {
+          "item": "2 pints cherry tomatoes (week 1)",
+          "displayText": "2 pints cherry tomatoes (week 1)",
+          "checked": false
+        },
+        {
+          "item": "2 avocados (week 1)",
+          "displayText": "2 avocados (week 1)",
+          "checked": false
+        },
+        {
+          "item": "1 container cremini mushrooms (8 oz; ~9 oz needed)",
+          "displayText": "1 container cremini mushrooms (8 oz; ~9 oz needed)",
+          "checked": false
+        },
+        {
+          "item": "1 bunch chives (week 1 — covers both cobb nights)",
+          "displayText": "1 bunch chives (week 1 — covers both Cobb nights)",
+          "checked": false
+        },
+        {
+          "item": "1 bunch fresh parsley",
+          "displayText": "1 bunch fresh parsley",
+          "checked": false
+        },
+        {
+          "item": "1 tomato (week 1)",
+          "displayText": "1 tomato (week 1)",
+          "checked": false
+        },
+        {
+          "item": "1 package corn tortillas (need 8 — week 1's; week 2's is on the trip 2 list)",
+          "displayText": "1 package corn tortillas (need 8 — week 1's; week 2's is on the Trip 2 list)",
+          "checked": false
+        },
+        {
+          "item": "2 avocados",
+          "displayText": "2 avocados",
+          "checked": false
+        },
+        {
+          "item": "3 heads romaine lettuce (week 2's cobb + taco nights)",
+          "displayText": "3 heads romaine lettuce (week 2's cobb + taco nights)",
+          "checked": false
+        },
+        {
+          "item": "2 packs romaine lettuce hearts (3-count each — week 2's lunches)",
+          "displayText": "2 packs romaine lettuce hearts (3-count each — week 2's lunches)",
+          "checked": false
+        },
+        {
+          "item": "2 pints cherry tomatoes",
+          "displayText": "2 pints cherry tomatoes",
+          "checked": false
+        },
+        {
+          "item": "1 bunch chives (covers both week 2 cobb nights)",
+          "displayText": "1 bunch chives (covers both week 2 Cobb nights)",
+          "checked": false
+        },
+        {
+          "item": "1 bunch cilantro (optional — rutger only, burrito bowl night)",
+          "displayText": "1 bunch cilantro (optional — Rutger only, burrito bowl night)",
+          "checked": false
+        },
+        {
+          "item": "1 tomato",
+          "displayText": "1 tomato",
+          "checked": false
+        },
+        {
+          "item": "1 package corn tortillas (need 8)",
+          "displayText": "1 package corn tortillas (need 8)",
+          "checked": false
+        },
+        {
+          "item": "1 bag tortilla chips (9 oz)",
+          "displayText": "1 bag tortilla chips (9 oz)",
+          "checked": false
+        },
+        {
+          "item": "ground beef",
+          "displayText": "ground beef — plan uses ~8.5 lb of your ~50 lb freezer stock (4.5 lb for the base, 2 lb + 2 lb for the two taco-lunch batches) — thaw as needed, no need to buy",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "plan uses ~8.5 lb of your ~50 lb freezer stock (4.5 lb for the base, 2 lb + 2 lb for the two taco-lunch batches) — thaw as needed, no need to buy"
+        },
+        {
+          "item": "canned diced tomatoes",
+          "displayText": "canned diced tomatoes — need 1, have 1 — check stock",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "need 1, have 1 — check stock"
+        },
+        {
+          "item": "tomato paste",
+          "displayText": "tomato paste — need ~2 oz of your 6 oz can — check stock",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "need ~2 oz of your 6 oz can — check stock"
+        },
+        {
+          "item": "crushed tomatoes",
+          "displayText": "crushed tomatoes — recipe wants 2 cans; you have 1 San Marzano whole + 1 more canned tomatoes on hand — hand-crush both to cover it, no need to buy",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "recipe wants 2 cans; you have 1 San Marzano whole + 1 more canned tomatoes on hand — hand-crush both to cover it, no need to buy"
+        },
+        {
+          "item": "garlic powder, cumin, smoked paprika",
+          "displayText": "garlic powder, cumin, smoked paprika — small amounts, likely already on your spice rack",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "small amounts, likely already on your spice rack"
+        },
+        {
+          "item": "baking powder, vanilla extract, sugar, butter, maple syrup",
+          "displayText": "baking powder, vanilla extract, sugar, butter, maple syrup — needed for tomorrow's pancakes — check tonight so nothing's missing at breakfast",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "needed for tomorrow's pancakes — check tonight so nothing's missing at breakfast"
+        },
+        {
+          "item": "bay leaf, worcestershire sauce, red wine vinegar, hot sauce",
+          "displayText": "bay leaf, Worcestershire sauce, red wine vinegar, hot sauce — small amounts, likely already in the pantry or fridge door",
+          "checked": false,
+          "stockStatus": "have",
+          "onHandNote": "small amounts, likely already in the pantry or fridge door"
         }
       ]
     },
