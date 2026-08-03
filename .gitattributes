@@ -1,0 +1,18 @@
+#  tm:begin gitattributes
+# Generated views of the control DB. A "conflict" in one of these carries no information the
+# DB does not already hold, and a line-level merge of them is always wrong: keep whichever
+# side wins, then `tm render` regenerates the byte-for-byte truth.
+#
+# `merge=ours` is NOT a built-in driver — it names one that must be registered locally, once
+# per clone, because git refuses to let a repo ship executable merge-driver commands through
+# versioned files. Without it git still stops for manual resolution on these paths despite
+# this block. Worktrees share the parent's config, so one run covers all of them:
+#
+#     git config merge.ours.driver true
+#
+# `tm sync` prints that command when it is missing and never runs it. See T6.9.
+program/BOARD.md merge=ours
+program/LOG.md merge=ours
+program/INBOX.md merge=ours
+program/mission-control.json merge=ours
+#  tm:end gitattributes

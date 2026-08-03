@@ -20,6 +20,9 @@ feedback-inbox-*.jsonl
 # Claude Code local settings (user-specific)
 .claude/settings.local.json
 
+# Task worktrees (git plumbing, never source)
+.claude/worktrees/
+
 # Editor
 .vscode/
 *.swp

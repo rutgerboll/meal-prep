@@ -1,0 +1,385 @@
+{
+ "schema": "mission-control/v1",
+ "slug": "meal-planner",
+ "program": "Meal Planner app",
+ "label": "Meal Planner",
+ "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
+ "generatedAt": "2026-08-03T16:08:50+00:00",
+ "asOf": "2026-08-03",
+ "currentWave": "Wave 0 — foundation (0/1 done)",
+ "contractVersion": "",
+ "nextTaskId": "T0.1",
+ "nextTaskDerived": "T0.1",
+ "nextTaskStated": "T0.1",
+ "kickoffStale": null,
+ "kickoff": {
+  "taskId": "T0.1",
+  "title": "verify and freeze the contract",
+  "noteMd": "`program/CONTRACT.md` was drafted during onboarding by adapting the kit's analysis-shaped\ntemplate into a **build** contract — repo-state vs installed-state denominators, the running\napp as the only instrument that proves user-visible behavior, ≥2 comparators. None of it has\nbeen checked against a running app or a real seed build. T0.1 exercises it, fixes what's\nwrong, and freezes it at v1.0, because every later task is bound by whichever version it\nreads. It also settles the one question all of Wave 1 hangs on: whether the Claude-side\nmeal-planning skills are even reachable from a session on this machine.",
+  "prompt": "Work task T0.1 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir (works from any worktree); all program files\nlive there. Read first, in order: README.md, CONTRACT.md, tasks/T0.1.md (incl. Amendments),\nGOTCHAS.md, every [READ-FIRST] entry in LOG.md, then the findings named in your brief's Reads.\nDo not re-derive what any of those already establish.\n\nRules that matter most:\n- CONTRACT.md is binding. Verify it against reality — do not trust documentation alone.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- Stay in scope; state your coverage honestly in your headline.\n- Claim before working: `tm claim T0.1` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.1.md per CONTRACT §6 · `tm done T0.1 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.1` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt.",
+  "taskIds": [
+   "T0.1"
+  ],
+  "warning": "",
+  "model": "opus",
+  "effort": "high"
+ },
+ "blocking": [],
+ "readFirst": [
+  {
+   "date": "2026-08-02 08:32",
+   "task": "PROGRAM",
+   "tag": "READ-FIRST",
+   "actor": "rutgerboll@Rutgers-Mini",
+   "text": "PROGRAM SETUP — Meal Planner app registered on the tm control plane. program/ scaffolded in the main checkout; CONTRACT.md drafted as a BUILD contract (repo-state vs installed-state denominators, running-app-as-instrument, >=2 comparators) and is NOT frozen — T0.1 verifies and freezes it. CLAUDE.md router created at the project root with the kit fence. Execution is sequential: seed.json, the running meal-server, and the shared markdown library are global mutable state."
+  }
+ ],
+ "pmActivity": [],
+ "blockedCount": 0,
+ "blockedTasks": [],
+ "blockers": [],
+ "nextTaskRoutedBy": [],
+ "log": [
+  {
+   "date": "2026-08-02 08:32",
+   "task": "PROGRAM",
+   "tag": "READ-FIRST",
+   "actor": "rutgerboll@Rutgers-Mini",
+   "text": "PROGRAM SETUP — Meal Planner app registered on the tm control plane. program/ scaffolded in the main checkout; CONTRACT.md drafted as a BUILD contract (repo-state vs installed-state denominators, running-app-as-instrument, >=2 comparators) and is NOT frozen — T0.1 verifies and freezes it. CLAUDE.md router created at the project root with the kit fence. Execution is sequential: seed.json, the running meal-server, and the shared markdown library are global mutable state."
+  }
+ ],
+ "state": {
+  "settledDecisionsMd": "- **Keyless & private.** No API key ships in the app. In-app conversational planning was\n  built, then removed for security; the Mac-mini + Tailscale bridge replaced it. Not\n  reopened without the user.\n- **Planning is conversational; execution is the app.** Recipe and plan *generation* lives\n  in the Claude skills; the app assembles from the library and never authors it.\n- **Sync is one-way pull + a feedback push.** Live two-way sync (ROADMAP #8) is explicitly\n  deferred and out of scope for every current wave.\n- **Design system is \"Sage\", dark-first, borderless hairline rows** (`DESIGN-SYSTEM.md`).\n  Settled — extend it, don't revisit it.\n- **Execution is sequential** (README §Execution model): `seed.json`, the running server,\n  and the shared markdown library are global mutable state.",
+  "openQuestionsMd": "- **Where do the Claude-side meal-planning skills live on disk?** Onboarding could not find\n  `recipe-capture` / `meal-planner` under `~/.claude/plugins` or anywhere else searched.\n  All of Wave 1 depends on the answer — T0.1 settles it.\n- Does the CONTRACT's repo-state vs installed-state split describe what a phone actually\n  experiences, or is it a plausible story written from the source? (T0.1)\n- At 3–4 weeks, what does \"week 2 mirrors from the freezer\" become? Genuine design\n  question, not a loop bound. (T2.1)\n- Has the in-app \"Heads up\" card actually fallen short in real use? Wave 3's gate depends\n  on it, and only the user can answer. (T3.1)",
+  "authoritativeMd": "*(none yet — the first findings file establishes the first one)*",
+  "withdrawnMd": "*(none)*",
+  "spendMd": ""
+ },
+ "gotchasMd": "# Meal Planner app — GOTCHAS\n\nAPPEND ONLY (use `tm gotcha \"…\" [--task ID]`). One bullet per trap, immediately on\ndiscovery — not at end of session. Point at the knowledge/ file if one exists.\n- (2026-08-02) app/sw.js precaches index.html AND every app/js/*.js under one `const CACHE`, but scripts/pre-commit only fires on app/index.html. A JS-only change commits clean and ships silently stale to installed phones. Bump CACHE by hand for any app/js/ edit.\n- (2026-08-02) build_seed.py resolves the markdown library as ../.. from app/, which does NOT resolve from a git worktree. Set MP_BASE_DIR=\"/Users/rutgerboll/Documents/Claude/Projects/Meal planning\" before running it from a worktree.\n",
+ "inboxOpen": 0,
+ "decisions": [],
+ "decideOpen": 0,
+ "approvedTasks": [],
+ "grants": [],
+ "proposals": [],
+ "handbacks": [],
+ "handbacksOpen": 0,
+ "reviewsOpen": 0,
+ "flagsOpen": 0,
+ "orchSpawns": [],
+ "orchHalted": "",
+ "heldTasks": [],
+ "heldCount": 0,
+ "liveCount": 0,
+ "kickoffLanes": [
+  {
+   "tasks": [
+    "T0.1"
+   ],
+   "wave": "Wave 0 — foundation",
+   "title": "Verify the build contract against the repo, then freeze it",
+   "parallel": false,
+   "effort": "high",
+   "model": "opus",
+   "headline": "",
+   "reads": [],
+   "status": "ready",
+   "prompt": "Work task T0.1 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir (works from any worktree); all program files\nlive there. Read first, in order: README.md, CONTRACT.md, tasks/T0.1.md (incl. Amendments),\nGOTCHAS.md, every [READ-FIRST] entry in LOG.md, then the findings named in your brief's Reads.\nDo not re-derive what any of those already establish.\n\nRules that matter most:\n- CONTRACT.md is binding. Verify it against reality — do not trust documentation alone.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- Stay in scope; state your coverage honestly in your headline.\n- Claim before working: `tm claim T0.1` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.1.md per CONTRACT §6 · `tm done T0.1 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.1` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt.",
+   "promptGenerated": false,
+   "promptMissing": false
+  }
+ ],
+ "sessionsRunning": [],
+ "landedToday": [],
+ "staleHeld": 0,
+ "lastLandedAt": "",
+ "waitingOnYouOldestAt": "",
+ "staleHeldOldestAt": "",
+ "liveMostRecentAt": "",
+ "attentionTier": "name",
+ "waves": [
+  {
+   "name": "Wave 0 — foundation",
+   "gate": "Contract frozen before any Wave 1 task starts.",
+   "tasks": [
+    {
+     "id": "T0.1",
+     "parallel": false,
+     "name": "Verify the build contract against the repo, then freeze it",
+     "effort": "high",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [],
+     "blockedOn": [],
+     "touches": [],
+     "wave": "Wave 0 — foundation",
+     "briefPath": "program/tasks/T0.1.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-02T13:35:27+00:00",
+     "briefMd": "# T0.1 — Verify the build contract against the repo, then freeze it\n\n**Wave:** 0 — foundation · **Effort:** high · **Model:** Opus 5 · **Depends on:** —\n\n> Read README.md and CONTRACT.md first. The three rules most likely to be broken here:\n> (1) verify against the **running app and real data**, not against documentation — the\n> contract's own §3 says reading source is a hypothesis; (2) ≥2 comparators or the verdict\n> is INCONCLUSIVE; (3) do not silently fix the contract's prose — every change is a\n> changelog entry, because later tasks are bound by whichever version they read.\n\n## Why this task exists\n\n`program/CONTRACT.md` was drafted during onboarding by adapting the kit's *analysis*-shaped\ntemplate to a *build* program. It was written from `ROADMAP.md`, `CLAUDE.md`, and a skim of\n`app/` — it has never been checked against a running app or a real seed build. Every claim\nin it is plausible and unverified, which is exactly the state that makes a contract\ndangerous: later tasks will treat it as binding.\n\n## Objective\n\nEstablish, by exercising the real system, whether each of CONTRACT §1–§10 is true as\nwritten; correct what isn't; then freeze it at v1.0. Specifically settle: does the\nrepo-state / installed-state split in §1 describe what actually happens on a phone; are the\n§3 instruments real and reachable from a session; and are the §8 hygiene incantations\nliterally correct (copy-pasteable, not approximately right).\n\n## In scope\n\n- Run `build_seed.py` from **both** the main checkout and a worktree; confirm the\n  `MP_BASE_DIR` trap in §8 and record the exact working incantation.\n- Run `embed_seed.py`; confirm what it does and does not carry (thumbnails stripped?).\n- Serve the app (`meal-server.py` or the browser pane) and confirm §3's \"running app\" is a\n  usable instrument from inside a session, including a clean console check.\n- Trace the service-worker update path: change a file under `app/js/`, confirm whether\n  `scripts/pre-commit` catches it (GOTCHAS says it does not — verify, don't assume) and\n  what an installed phone actually sees.\n- Confirm §2's boundary: where the Claude-side skills physically live, and whether a\n  session can even read them. **If they are not on this filesystem, say so plainly** — it\n  changes what Wave 1 can be.\n- Fix CONTRACT.md, bump to v1.0, add the freeze line and a changelog entry.\n\n## Out of scope\n\n- **Do not build any roadmap feature.** No Wave 1/2/3 work, however tempting.\n- Do not change `app/` behavior. You may make a throwaway edit to test the sw path — revert it.\n- Do not deploy to the Mac mini unless verifying the installed-state denominator requires\n  it, and if you do, say so and leave the mini on a clean checkout.\n\n## Starting points\n\n- `program/CONTRACT.md` (the draft under test), `program/README.md` §Execution model\n- `CLAUDE.md` landmines · `program/GOTCHAS.md` (two entries, both untested claims)\n- `ROADMAP.md` Part 2 + Phase-2 schema note · `SYNC-SETUP.md` · `spec/spec.md`\n- `app/build_seed.py`, `app/embed_seed.py`, `app/sw.js`, `scripts/pre-commit`, `app/deploy.sh`\n\n## Known traps for THIS task\n\n- The markdown library lives **outside the repo** in the parent `Meal planning/` directory\n  and is shared with the Claude skills. Rebuilding the seed touches shared state — you are\n  the only session running, keep it that way (README §Execution model).\n- `app/seed.json` is already dirty in the main checkout (`git status`). Understand why\n  before you overwrite it.\n- A fresh IndexedDB is not evidence about migrations. If you test the installed-state\n  claim, test against a browser profile that already has the app.\n- `deploy.sh` refuses on a dirty checkout **by design**. That's the contract working, not a bug.\n\n## Deliverable\n\n`findings/T0.1.md` per CONTRACT §6, plus a **frozen `CONTRACT.md` v1.0** whose §8 is\nliterally copy-pasteable. Anything durable about the instruments → `knowledge/` + auto-memory.\n\n## Done when\n\nCONTRACT.md carries `🔒 FROZEN <date> by T0.1 · v1.0`, every section that changed is in the\nchangelog, each §8 incantation has been run at least once by you, and the findings file\nnames its comparators per §4.\n",
+     "findingMd": "",
+     "inbox": [],
+     "worktree": null
+    }
+   ]
+  },
+  {
+   "name": "Wave 1 — close the schema loop (skill side)",
+   "gate": "Both skills round-trip a schemaVersion-2 recipe end to end.",
+   "tasks": [
+    {
+     "id": "T1.1",
+     "parallel": false,
+     "name": "Teach recipe-capture the schemaVersion-2 keys (image, thaw_hours_ahead, prep_ahead)",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.1"
+     ],
+     "blockedOn": [],
+     "touches": [],
+     "wave": "Wave 1 — close the schema loop (skill side)",
+     "briefPath": "program/tasks/T1.1.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-02T13:35:28+00:00",
+     "briefMd": "# T1.1 — Teach `recipe-capture` the schemaVersion-2 keys\n\n**Wave:** 1 — close the schema loop (skill side) · **Effort:** medium · **Model:** Opus 5\n**Depends on:** T0.1 · **Reads:** findings/T0.1.md\n\n> Read README.md and CONTRACT.md first. Most likely to be broken here: CONTRACT §2 puts the\n> Claude-side skills **outside** default scope — this brief is the explicit exception that\n> puts `recipe-capture` in scope, and nothing else. And §4: a skill that \"looks right\" is\n> one comparator; you need a captured recipe that survives `build_seed.py` **and** shows up\n> in the app.\n\n## Why this task exists\n\nROADMAP #5 and the Phase-2 schema note both end on the same unfinished sentence. The app\nside of schemaVersion 2 shipped on 2026-06-25: `build_seed.py` parses `thaw_hours_ahead`,\n`prep_ahead`, and `image`; the app surfaces thaw reminders, the 🌙 Prep ahead card, and\nthumbnails; sync flows them through. But the **capture** side never learned the keys, so\nnothing new writes them. The pipeline is live and dark — 52 `IMG_*.jpeg` files sit in\n`recipe pics/` with no recipe pointing at them, and every recipe captured since the\nmigration is a schemaVersion-1 recipe in a schemaVersion-2 world.\n\n## Objective\n\nMake the `recipe-capture` skill emit `image`, `thaw_hours_ahead`, and `prep_ahead` in\nrecipe frontmatter whenever the source supports them, such that a recipe captured through\nthe skill lights up thaw reminders, the prep-ahead card, and a thumbnail in the app with no\nmanual editing of the markdown.\n\n## In scope\n\n- The `recipe-capture` skill definition only.\n- The three keys, their formats per ROADMAP's Phase-2 schema block (`thaw_hours_ahead:` int\n  or null; `prep_ahead:` a list; `image:` a filename in `recipe pics/`).\n- When to populate each: freezer-bound proteins get a lead time, night-before steps get\n  lifted out of the method into `prep_ahead`, a photo-sourced capture records its own filename.\n- Backward compatibility: a schemaVersion-1 recipe missing all three must keep parsing.\n\n## Out of scope\n\n- **`meal-planner` — that is T1.2.** Don't do both in one session.\n- Retro-fitting the existing recipe library. Assigning images to the 52 backlog photos is\n  the user's curation call, not a code change; if this task makes it cheap, say so in the\n  findings and stop.\n- Anything under `app/`. If the parser turns out to be wrong, `tm log READ-FIRST` and raise\n  it — don't fix it here.\n\n## Starting points\n\n- `ROADMAP.md` → Part 2 #3, #5 and Phase-2 \"schema (schemaVersion 2)\" block — the\n  authoritative key list\n- `app/build_seed.py` — the certified reader (CONTRACT §3); its parsing *is* the spec\n- findings/T0.1.md — in particular whether the skills are reachable on this filesystem\n- The parent library's existing recipes as format examples\n\n## Known traps for THIS task\n\n- **The skills may not live on this filesystem.** Onboarding could not find them under\n  `~/.claude/plugins` or anywhere obvious; they are surfaced to sessions as\n  `meal-planning:recipe-capture` without a discoverable path. Resolve this **first** — if\n  they can only be edited through the desktop app, the deliverable is a precise patch spec\n  for the user, not an edit, and the brief's \"Done when\" changes accordingly. Say which.\n- `build_seed.py` needs `MP_BASE_DIR` from a worktree (GOTCHAS).\n- Writing a test recipe into the real library pollutes shared state the user cooks from.\n  Use an obviously-named throwaway and remove it, or work in a copy.\n- The `image:` value is a filename relative to `recipe pics/`, not a path. Thumbnails are\n  cached by `(path, mtime)` — a renamed file re-generates.\n\n## Deliverable\n\n`findings/T1.1.md` per CONTRACT §6, plus either the edited skill or a copy-pasteable patch\nspec, plus one worked example: a recipe captured through the new path, shown parsing and\nrendering.\n\n## Done when\n\nA recipe captured via the skill produces all three keys where applicable, `build_seed.py`\npicks them up, and the app shows the thaw reminder / prep-ahead card / thumbnail — verified\nin the running app, not inferred from `seed.json`.\n",
+     "findingMd": "",
+     "inbox": [],
+     "worktree": null
+    },
+    {
+     "id": "T1.2",
+     "parallel": false,
+     "name": "Teach meal-planner to nudge an un-captured cookbook-backlog photo",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.1",
+      "T1.1"
+     ],
+     "blockedOn": [],
+     "touches": [],
+     "wave": "Wave 1 — close the schema loop (skill side)",
+     "briefPath": "program/tasks/T1.2.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-02T13:35:28+00:00",
+     "briefMd": "# T1.2 — Teach `meal-planner` to nudge an un-captured cookbook-backlog photo\n\n**Wave:** 1 — close the schema loop (skill side) · **Effort:** medium · **Model:** Opus 5\n**Depends on:** T0.1, T1.1 · **Reads:** findings/T0.1.md, findings/T1.1.md\n\n> Read README.md and CONTRACT.md first. §2 excludes the Claude-side skills by default; this\n> brief scopes in `meal-planner` and nothing else. §5 matters here: do not generalize from\n> one generated plan — plans vary in length and meal slots, so say which shapes you tried.\n\n## Why this task exists\n\nThe cookbook backlog is photos of recipes the user meant to cook and hasn't. The app now\n*displays* it well (3-up thumbnail grid, \"＋ Capture\" overlay, thumbnails on captured rows,\ndone 2026-06-25), but display was never the bottleneck — nothing ever *suggests* one, so\nthe backlog only shrinks when the user remembers it exists. ROADMAP #5 flags the remaining\npiece as inherently Claude-side: the app is keyless and offline, so the nudge has to come\nfrom the planner. T1.1 makes captured recipes carry an `image`; this closes the loop by\nsending the user back to the pile.\n\n## Objective\n\nMake `meal-planner` periodically surface an un-captured backlog photo as a candidate when\nbuilding a plan — often enough that the backlog actually drains, rarely enough that it\ndoesn't crowd out the library or fight the planner's existing balancing (cuisine spread,\nliked recipes, base/finish structure).\n\n## In scope\n\n- The `meal-planner` skill definition only.\n- Deciding and **writing down** the nudge policy: how often, at what point in planning, and\n  what makes a backlog photo a good candidate right now.\n- The hand-off: a nudged photo that the user accepts must route through `recipe-capture`\n  (T1.1) before it can land on a plan — a plan may not reference a recipe that isn't in the\n  library, or the grocery sum breaks.\n- Not nagging: a declined suggestion shouldn't come back next week unchanged.\n\n## Out of scope\n\n- **`recipe-capture` — that was T1.1.**\n- Changing the app's backlog screen. It already does its job.\n- Auto-capturing a photo without the user choosing it. Capture is a judgment call on an\n  image; silently inventing a recipe from a photo is worse than not suggesting one.\n\n## Starting points\n\n- `ROADMAP.md` Part 2 #5 (\"the planner periodically suggesting a backlog recipe belongs in\n  the `meal-planner` skill\")\n- findings/T1.1.md — the capture path this depends on, and whether skills are editable here\n- `app/build_seed.py` + `app/js/cookbook-backlog.js` — how backlog entries and their\n  captured/un-captured state are actually represented\n- `preferences.md` in the parent library — the planner's existing constraints\n\n## Known traps for THIS task\n\n- **Skill reachability** — same trap as T1.1. If T1.1 concluded the skills can't be edited\n  from a session, this task's deliverable is a patch spec too. Don't rediscover that.\n- The planner already balances several things at once (cuisine adjacency, liked recipes,\n  base capacity, week-2-from-freezer mirroring). A nudge that ignores those produces a plan\n  the user rejects wholesale, which is worse than no nudge.\n- \"Un-captured\" is state that lives in the library, not the app. Verify how it's determined\n  before keying the policy off it.\n- Batch-prep reality: fresh components are assembled day-of and never portioned ahead — a\n  backlog suggestion that assumes make-ahead portioning will read as wrong.\n\n## Deliverable\n\n`findings/T1.2.md` per CONTRACT §6, plus the edited skill (or patch spec), plus the nudge\npolicy written down somewhere durable — `knowledge/` if it's a fact about the system, the\nskill itself if it's behavior.\n\n## Done when\n\nGenerating a plan surfaces a backlog candidate at the intended rate across at least two\ndifferently-shaped plan requests (§5), an accepted candidate reaches the library through\n`recipe-capture` and then a plan, and a declined one doesn't immediately reappear.\n",
+     "findingMd": "",
+     "inbox": [],
+     "worktree": null
+    }
+   ]
+  },
+  {
+   "name": "Wave 2 — multi-week planning in-app",
+   "gate": "A 4-week plan builds in-app and its grocery split survives it.",
+   "tasks": [
+    {
+     "id": "T2.1",
+     "parallel": false,
+     "name": "Extend the in-app suggester and builder past 2 weeks",
+     "effort": "high",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.1"
+     ],
+     "blockedOn": [],
+     "touches": [],
+     "wave": "Wave 2 — multi-week planning in-app",
+     "briefPath": "program/tasks/T2.1.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-02T13:35:29+00:00",
+     "briefMd": "# T2.1 — Extend the in-app suggester and builder past 2 weeks\n\n**Wave:** 2 — multi-week planning in-app · **Effort:** high · **Model:** Opus 5\n**Depends on:** T0.1 · **Reads:** findings/T0.1.md\n\n> Read README.md and CONTRACT.md first. Sharpest rules here: §5 — you may not generalize\n> from one plan length; a 3-week plan working proves nothing about 4. And §1 — \"works\" means\n> reachable from the phone, so a change to `app/js/*` that doesn't bump `sw.js` isn't done.\n\n## Why this task exists\n\nROADMAP #7. The two halves of the app disagree about how long a plan can be: the **grocery\nengine already handles 3–4 week plans** — it splits fresh produce per the week it's used so\nnothing wilts, and generalizes past two — while the **in-app suggester and manual builder\nonly make 2-week plans**. Longer plans exist today only if Claude generates them and they\nsync in, which means the in-app path silently caps a capability the rest of the app has.\n\n## Objective\n\nLet the in-app \"Suggest a plan\" and the manual builder produce plans of 3 and 4 weeks that\nhold up to the same standard as the 2-week plan: cuisine spread maintained, no two\nsame-cuisine nights adjacent, liked recipes favored, base capacity respected, and the\nresulting grocery list splitting correctly per week.\n\n## In scope\n\n- `app/js/plan-builder.js` and `app/js/screen-plan.js` — the suggester's balancing and the\n  builder's UI for a variable number of weeks.\n- The week-2-from-the-freezer mirroring rule: decide and document what it *means* at 3–4\n  weeks. Mirroring week 1 three times is not obviously right; neither is cooking fresh\n  every week. This is the real design question in the task, not the loop bound.\n- Base capacity across a longer horizon (a base's portions are bought once; a 4-week plan\n  may need more bases, not more finishes off the same base).\n- Confirming the grocery split actually holds at 3 and 4 weeks rather than trusting\n  ROADMAP's claim that it generalizes.\n\n## Out of scope\n\n- The Claude-side `meal-planner` skill. It can already make long plans; this is the in-app path.\n- Live two-way sync (ROADMAP #8) — explicitly deferred, and nothing here should assume it.\n- Redesigning the Plan screen. Borderless hairline rows under `.ssec` overlines is settled\n  (`DESIGN-SYSTEM.md`); extend the pattern, don't revisit it.\n\n## Starting points\n\n- `ROADMAP.md` Part 2 #7 and Part 1 → Plan tab / Grocery (the per-week perishable split)\n- `app/js/plan-builder.js`, `app/js/screen-plan.js`, `app/js/grocery-engine.js`\n- `DESIGN-SYSTEM.md` · `COOK-UX-BRIEF.md` (portion-aware availability, which longer plans stress)\n- The real plans in the parent `meal-plans/` directory — including any 3–4 week ones\n\n## Known traps for THIS task\n\n- **`sw.js` CACHE bump.** Every file you'll touch is precached, and `scripts/pre-commit`\n  only guards `index.html` — a JS-only change commits clean and ships stale (GOTCHAS).\n- Portion-aware availability caps a recipe by how many times it's planned. Over 4 weeks the\n  interaction between capacity, mirroring, and \"used up\" is where this will actually break.\n- Existing installs carry plans in IndexedDB. A longer plan must not corrupt or drop a\n  2-week plan already stored — test against a populated DB, not a fresh one (CONTRACT §5).\n- `build_seed.py` needs `MP_BASE_DIR` from a worktree (GOTCHAS).\n- The grocery split's \"Buy for week 2 (around …)\" labelling has to stay legible at 4 weeks.\n\n## Deliverable\n\n`findings/T2.1.md` per CONTRACT §6, plus the shipped change with a bumped `sw.js` CACHE,\nplus the mirroring decision written down (`knowledge/` or `ROADMAP.md`) so the next session\ndoesn't relitigate it.\n\n## Done when\n\nA 3-week and a 4-week plan both build via the suggester **and** the manual builder, each\nproduces a correctly split grocery list, a pre-existing 2-week plan survives the upgrade\nuntouched, the console is clean on the Plan and List screens, and `sw.js` is bumped.\n",
+     "findingMd": "",
+     "inbox": [],
+     "worktree": null
+    }
+   ]
+  },
+  {
+   "name": "Wave 3 — reminders (revisit)",
+   "gate": "Only opened if in-app Heads up proves insufficient.",
+   "tasks": [
+    {
+     "id": "T3.1",
+     "parallel": false,
+     "name": "Probe iOS PWA push for thaw/prep reminders — feasibility before build",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.1"
+     ],
+     "blockedOn": [],
+     "touches": [],
+     "wave": "Wave 3 — reminders (revisit)",
+     "briefPath": "program/tasks/T3.1.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-02T13:35:29+00:00",
+     "briefMd": "# T3.1 — Probe iOS PWA push for thaw/prep reminders: feasibility before build\n\n**Wave:** 3 — reminders (revisit) · **Effort:** medium · **Model:** Opus 5\n**Depends on:** T0.1 · **Reads:** findings/T0.1.md\n\n> Read README.md and CONTRACT.md first. This is a **probe** — its deliverable is a decision,\n> and \"we should not build this\" is a complete, successful outcome. §4 still binds: a claim\n> about what iOS does needs two comparators, and vendor documentation is not one of them on\n> its own.\n\n## Why this task exists\n\nROADMAP #9, and the wave gate says it plainly: **only open this if the in-app \"Heads up\"\ncard has proven insufficient in real use.** The decision on record was to prefer in-app\nreminders over notifications. Push on iOS is constrained — it needs the PWA actually\ninstalled to the home screen plus an explicit permission grant, and the app is keyless and\nserved privately over Tailscale from the user's own Mac mini, which is an unusual shape for\na push setup. Before anyone writes a service-worker push handler, someone should establish\nwhether it works at all on this deployment.\n\n## Objective\n\nDetermine whether a thaw/prep reminder can be delivered as a real iOS notification from\n*this* deployment — installed PWA, Tailscale-private origin, `meal-server.py` on the Mac\nmini, no third-party service and no API key — and what it would cost. Produce a\nrecommendation: build, build differently, or close #9 for good.\n\n## In scope\n\n- What iOS actually requires today for web push to an installed PWA (permission model,\n  installation requirement, HTTPS/origin constraints).\n- Whether the Tailscale HTTPS origin and `meal-server.py` can satisfy those constraints,\n  including whether a push subscription survives on a private tailnet origin.\n- What a push server would mean for the keyless principle — VAPID keys are keys.\n- The realistic failure mode: a reminder that must fire *while the phone is asleep and off\n  the tailnet* is the actual use case, and it's the one most likely not to work.\n- A concrete alternative if push fails: e.g. a scheduled Claude-side nudge, or making the\n  existing in-app \"Heads up\" harder to miss.\n\n## Out of scope\n\n- **Building it.** If the answer is \"yes, feasible\", the build is a follow-on task you add\n  with `tm add` — don't start it in this session.\n- Any hosted or third-party push service. That reopens the keyless decision, which is\n  settled (README §Anti-patterns) and is the user's call, not this task's.\n- Changing the in-app \"Heads up\" behavior. You may *recommend* changes.\n\n## Starting points\n\n- `ROADMAP.md` Part 2 #9 and Part 1 → PWA/platform · \"Considered and set aside\"\n- `SYNC-SETUP.md` — how the Tailscale HTTPS exposure actually works\n- `app/sw.js`, `app/js/pwa.js`, `app/manifest.webmanifest`\n- The existing thaw logic — `thawReminders()` / `thawHoursFor()` — which already computes\n  *what* to remind about; only delivery is in question\n- **Ask the user first**: has the in-app Heads up actually fallen short? The gate depends\n  on their answer, and it's a two-line question.\n\n## Known traps for THIS task\n\n- **Documentation is one comparator.** iOS web-push behavior has changed repeatedly and is\n  widely misreported; a claim needs a real check on a real installed PWA, or it's marked\n  INCONCLUSIVE (CONTRACT §4). Don't launder a blog post into a verdict.\n- A notification test that only ever fires with the app open proves nothing about the case\n  that matters.\n- \"Keyless & private\" is a founding principle, not a preference. Any design that ships a\n  key into the app is dead on arrival regardless of how well push works.\n- Scope creep into #8 (two-way sync) — a push channel is not a sync channel.\n\n## Deliverable\n\n`findings/T3.1.md` per CONTRACT §6, with an explicit **build / build-differently / close**\nrecommendation and its weakest link named. If the answer is \"close\", propose the ROADMAP\nedit that retires #9.\n\n## Done when\n\nThe recommendation is made, each iOS claim behind it carries two comparators or is labelled\nINCONCLUSIVE, and either a follow-on build task exists on the board (`tm add`) or the\nfindings say why #9 should close.\n",
+     "findingMd": "",
+     "inbox": [],
+     "worktree": null
+    }
+   ]
+  }
+ ],
+ "stale": false,
+ "staleSince": null,
+ "docs": [
+  {
+   "path": "program/CONTRACT.md",
+   "group": "program",
+   "title": "Meal Planner app — CONTRACT",
+   "chars": 5900,
+   "modified": "2026-08-02 08:31"
+  },
+  {
+   "path": "program/GOTCHAS.md",
+   "group": "program",
+   "title": "Meal Planner app — GOTCHAS",
+   "chars": 690,
+   "modified": "2026-08-02 08:32"
+  },
+  {
+   "path": "program/KICKOFF.md",
+   "group": "program",
+   "title": "Meal Planner app — session kickoffs",
+   "chars": 2144,
+   "modified": "2026-08-02 08:39"
+  },
+  {
+   "path": "program/README.md",
+   "group": "program",
+   "title": "Meal Planner app — operating manual",
+   "chars": 8742,
+   "modified": "2026-08-02 12:09"
+  },
+  {
+   "path": "program/STATE.md",
+   "group": "program",
+   "title": "Meal Planner app — STATE",
+   "chars": 1957,
+   "modified": "2026-08-02 08:39"
+  },
+  {
+   "path": "program/tasks/T0.1.md",
+   "group": "tasks",
+   "title": "T0.1 — Verify the build contract against the repo, then freeze it",
+   "chars": 4139,
+   "modified": "2026-08-02 08:37"
+  },
+  {
+   "path": "program/tasks/T1.1.md",
+   "group": "tasks",
+   "title": "T1.1 — Teach `recipe-capture` the schemaVersion-2 keys",
+   "chars": 4064,
+   "modified": "2026-08-02 08:38"
+  },
+  {
+   "path": "program/tasks/T1.2.md",
+   "group": "tasks",
+   "title": "T1.2 — Teach `meal-planner` to nudge an un-captured cookbook-backlog photo",
+   "chars": 3928,
+   "modified": "2026-08-02 08:38"
+  },
+  {
+   "path": "program/tasks/T2.1.md",
+   "group": "tasks",
+   "title": "T2.1 — Extend the in-app suggester and builder past 2 weeks",
+   "chars": 3914,
+   "modified": "2026-08-02 08:39"
+  },
+  {
+   "path": "program/tasks/T3.1.md",
+   "group": "tasks",
+   "title": "T3.1 — Probe iOS PWA push for thaw/prep reminders: feasibility before build",
+   "chars": 4126,
+   "modified": "2026-08-02 08:39"
+  },
+  {
+   "path": "ROADMAP.md",
+   "group": "root",
+   "title": "Meal Planner — Roadmap & Build Briefing",
+   "chars": 13759,
+   "modified": "2026-06-27 14:15",
+   "citedBy": "program/CONTRACT.md"
+  },
+  {
+   "path": "DESIGN-SYSTEM.md",
+   "group": "root",
+   "title": "Meal Planner — Design System (v3: \"Sage\")",
+   "chars": 3537,
+   "modified": "2026-06-27 13:41",
+   "citedBy": "program/CONTRACT.md"
+  },
+  {
+   "path": "spec/spec.md",
+   "group": "root",
+   "title": "Meal Planning App — Product, Design & Technical Spec",
+   "chars": 51140,
+   "modified": "2026-07-11 15:49",
+   "citedBy": "program/CONTRACT.md"
+  },
+  {
+   "path": "CONTEXT.md",
+   "group": "root",
+   "title": "Project Context — Meal Planning App for Rutger",
+   "chars": 6137,
+   "modified": "2026-06-21 15:57",
+   "citedBy": "program/README.md"
+  },
+  {
+   "path": "SYNC-SETUP.md",
+   "group": "root",
+   "title": "Sync setup — Mac mini + Tailscale (HTTPS)",
+   "chars": 5306,
+   "modified": "2026-07-25 10:52",
+   "citedBy": "program/README.md"
+  },
+  {
+   "path": "COOK-UX-BRIEF.md",
+   "group": "root",
+   "title": "Design brief — Unify the \"Cook\" screen meal-slot UX",
+   "chars": 5942,
+   "modified": "2026-06-24 19:22",
+   "citedBy": "program/README.md"
+  },
+  {
+   "path": "CLAUDE.md",
+   "group": "root",
+   "title": "Meal Planner app — project guide",
+   "chars": 3162,
+   "modified": "2026-08-02 08:31",
+   "citedBy": "program/tasks/T0.1.md"
+  }
+ ]
+}
