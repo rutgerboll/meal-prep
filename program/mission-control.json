@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-03T16:08:50+00:00",
+ "generatedAt": "2026-08-03T21:11:41+00:00",
  "asOf": "2026-08-03",
  "currentWave": "Wave 0 — foundation (0/1 done)",
  "contractVersion": "",
@@ -39,6 +39,7 @@
  "blockedTasks": [],
  "blockers": [],
  "nextTaskRoutedBy": [],
+ "nextTaskLaneBlocked": [],
  "log": [
   {
    "date": "2026-08-02 08:32",
@@ -46,6 +47,20 @@
    "tag": "READ-FIRST",
    "actor": "rutgerboll@Rutgers-Mini",
    "text": "PROGRAM SETUP — Meal Planner app registered on the tm control plane. program/ scaffolded in the main checkout; CONTRACT.md drafted as a BUILD contract (repo-state vs installed-state denominators, running-app-as-instrument, >=2 comparators) and is NOT frozen — T0.1 verifies and freezes it. CLAUDE.md router created at the project root with the kit fence. Execution is sequential: seed.json, the running meal-server, and the shared markdown library are global mutable state."
+  },
+  {
+   "date": "2026-08-03 13:05",
+   "task": "PROGRAM",
+   "tag": "SCOPE",
+   "actor": "rutgerboll@Rutgers-Mini#loop-def",
+   "text": "LOOP DEFINITION (propose-only, D-1). Authored knowledge/prioritization.md (V=3S+2K+2L over\npipeline-integrity / kitchen-impact / leverage, with H tracked outside V; gates G1 freeze-before-build,\nG2 cooking-cycle, G3 human-instrument, G4 lane-is-the-instrument, G5 never-commit-seed.json,\nG6 manual-CACHE-bump, G7 event-driven re-rank) and knowledge/loops.md (all three loop prompts).\nBoard state has not moved; no task claimed. Two findings a future session should not re-derive:\n(1) the parallelism ceiling here is 1, and 2 at most after T0.1 — T1.1 and T2.1 may never run\nconcurrently because both need build_seed.py output AND the running app; (2) Wave 1's deliverable\nshape is settled by precedent, not open — plugin-updates/README-INSTALL.md records that the\ninstalled plugin is read-only in a session, so T1.1/T1.2 ship a SKILL.md patch spec plus a user\ninstall step, which makes their end-to-end \"Done when\" human-gated."
+  },
+  {
+   "date": "2026-08-03 13:10",
+   "task": "PROGRAM",
+   "tag": "SCOPE",
+   "actor": "user",
+   "text": "Decision D-1 answered by the user from the PWA: Start only the board-watch loop; leave the PM and inbox loops defined but unstarted. → Accept"
   }
  ],
  "state": {
@@ -57,7 +72,54 @@
  },
  "gotchasMd": "# Meal Planner app — GOTCHAS\n\nAPPEND ONLY (use `tm gotcha \"…\" [--task ID]`). One bullet per trap, immediately on\ndiscovery — not at end of session. Point at the knowledge/ file if one exists.\n- (2026-08-02) app/sw.js precaches index.html AND every app/js/*.js under one `const CACHE`, but scripts/pre-commit only fires on app/index.html. A JS-only change commits clean and ships silently stale to installed phones. Bump CACHE by hand for any app/js/ edit.\n- (2026-08-02) build_seed.py resolves the markdown library as ../.. from app/, which does NOT resolve from a git worktree. Set MP_BASE_DIR=\"/Users/rutgerboll/Documents/Claude/Projects/Meal planning\" before running it from a worktree.\n",
  "inboxOpen": 0,
- "decisions": [],
+ "decisions": [
+  {
+   "id": "D-1",
+   "question": "Start only the board-watch loop; leave the PM and inbox loops defined but unstarted.",
+   "context_line": "Loop-definition session: framework + all three prompts authored. This board has 5 open tasks, 0 DONE, 1 LOG entry, 0 inbox items ever, and a parallelism ceiling of 1 — a PM loop would have nothing to watch, but four real drift items are already sitting in the repo.",
+   "options": [
+    {
+     "label": "Accept",
+     "description": "Adopt the framework, start the board-watch routine (daily x7, then weekly Sat; sonnet/medium). PM + inbox loops stay dormant with the stated thresholds.",
+     "recommended": true
+    },
+    {
+     "label": "Framework only",
+     "description": "Adopt knowledge/prioritization.md as the ranking view; start no loop at all. Drift keeps accumulating unwatched.",
+     "recommended": false
+    },
+    {
+     "label": "Start all three",
+     "description": "Override the fold/dormant call and run PM, inbox and board-watch as standing loops now.",
+     "recommended": false
+    },
+    {
+     "label": "Reject",
+     "description": "Throw the package out; the board keeps running on the session-start checklist alone.",
+     "recommended": false
+    }
+   ],
+   "status": "answered",
+   "links": [
+    {
+     "label": "Prioritization framework",
+     "doc_path": "knowledge/prioritization.md"
+    },
+    {
+     "label": "Loop definitions (all three prompts)",
+     "doc_path": "knowledge/loops.md"
+    }
+   ],
+   "asked_by": "rutgerboll@Rutgers-Mini#loop-def",
+   "asked_at": "2026-08-03T18:05:42+00:00",
+   "kind": "decision",
+   "answered": {
+    "choice": "Accept",
+    "note": "",
+    "at": "2026-08-03T18:10:56+00:00"
+   }
+  }
+ ],
  "decideOpen": 0,
  "approvedTasks": [],
  "grants": [],
@@ -65,6 +127,7 @@
  "handbacks": [],
  "handbacksOpen": 0,
  "reviewsOpen": 0,
+ "reviewHeldCount": 0,
  "flagsOpen": 0,
  "orchSpawns": [],
  "orchHalted": "",
@@ -86,7 +149,8 @@
    "status": "ready",
    "prompt": "Work task T0.1 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir (works from any worktree); all program files\nlive there. Read first, in order: README.md, CONTRACT.md, tasks/T0.1.md (incl. Amendments),\nGOTCHAS.md, every [READ-FIRST] entry in LOG.md, then the findings named in your brief's Reads.\nDo not re-derive what any of those already establish.\n\nRules that matter most:\n- CONTRACT.md is binding. Verify it against reality — do not trust documentation alone.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- Stay in scope; state your coverage honestly in your headline.\n- Claim before working: `tm claim T0.1` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.1.md per CONTRACT §6 · `tm done T0.1 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.1` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt.",
    "promptGenerated": false,
-   "promptMissing": false
+   "promptMissing": false,
+   "touchesUndeclared": true
   }
  ],
  "sessionsRunning": [],
@@ -377,9 +441,25 @@
    "path": "CLAUDE.md",
    "group": "root",
    "title": "Meal Planner app — project guide",
-   "chars": 3162,
-   "modified": "2026-08-02 08:31",
+   "chars": 3152,
+   "modified": "2026-08-03 12:14",
    "citedBy": "program/tasks/T0.1.md"
+  },
+  {
+   "path": "knowledge/prioritization.md",
+   "group": "knowledge",
+   "title": "Prioritization framework — Meal Planner app",
+   "chars": 17669,
+   "modified": "2026-08-03 13:03",
+   "citedBy": "D-1 (decision link)"
+  },
+  {
+   "path": "knowledge/loops.md",
+   "group": "knowledge",
+   "title": "Standing management loops — Meal Planner app",
+   "chars": 20159,
+   "modified": "2026-08-03 13:05",
+   "citedBy": "D-1 (decision link)"
   }
  ]
 }
