@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Documents/Projects/Task-Management/bin/tm.py\" notice 2>/dev/null || true",
+            "command": "python3 \"$HOME/Projects/Task-Management/bin/tm.py\" notice 2>/dev/null || true",
             "timeout": 5
           }
         ]
