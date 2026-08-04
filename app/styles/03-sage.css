@@ -1,64 +1,9 @@
 /* The "Sage" design system (DESIGN-SYSTEM.md). Loaded AFTER 02-base.css because
    that is how it was pasted in, and its !important overrides depend on it. */
-/* =====================================================================
-   SAGE — personal design system
-   Drop-in restyle for the Meal Planner app. Dark-first, flat, hairline.
-   Reuses the app's existing CSS variable NAMES, so every existing screen
-   re-themes automatically. Also neutralises the old glassmorphism.
-
-   HOW TO INSTALL
-   1. In index.html, replace the two :root / html[data-theme="dark"]
-      token lines in <style> with the token blocks below (or just paste
-      this whole file into a <style> AFTER the existing one — the
-      !important overrides will win).
-   2. Default the app to dark: <html lang="en" data-theme="dark">.
-   3. Load a heading font once in <head>:
-      <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-   ===================================================================== */
-
-/* ---- TOKENS : LIGHT (default) ------------------------------------ */
-:root{
-  --bg-app:#F3F4F1; --bg-card:#FFFFFF; --bg-alt:#EBEDE8; --bg-in:#EBEDE8;
-  --text:#191C20; --text2:#586069; --text3:#888F98; --textop:#FFFFFF;
-  --bdr:#DFE2DC; --bdrs:#ECEEE9;
-  --pr:#4C7C5A; --prd:#3E6A4B; --prl:#E4EFE6;
-  --secondary:#5C7A63; --secondary-tint:#E6EFE7; --secondary-ink:#3C5A43;
-  --ok:#4C7C5A; --warn:#A8670F; --danger:#B65A3D; --info:#5A6E66;
-  --chip-bg:#EBEDE8; --chip-fg:#586069;
-  --glass:#FFFFFF; --glass-strong:#FFFFFF; --glass-bdr:#DFE2DC; --navglass:#FFFFFF;
-  --bg-grad1:#F3F4F1; --bg-grad2:#F3F4F1; --bg-grad3:#F3F4F1;
-  --font-head:'Schibsted Grotesk', system-ui, sans-serif;
-}
-
-/* ---- TOKENS : DARK (primary) ------------------------------------- */
-html[data-theme="dark"]{
-  --bg-app:#0F1114; --bg-card:#171A20; --bg-alt:#212630; --bg-in:#212630;
-  --text:#F1F3F6; --text2:#A4ADBA; --text3:#69727E; --textop:#0E1A12;
-  --bdr:#2A2F39; --bdrs:#20242C;
-  --pr:#9CC39C; --prd:#8AB58A; --prl:#18231A;
-  --secondary:#86A98F; --secondary-tint:#1F2A22; --secondary-ink:#A9C9B0;
-  --ok:#9CC39C; --warn:#D9A24A; --danger:#E0876B; --info:#8FB0A6;
-  --chip-bg:#212630; --chip-fg:#A4ADBA;
-  --glass:#171A20; --glass-strong:#1A1E25; --glass-bdr:#2A2F39; --navglass:#171A20;
-  --bg-grad1:#0F1114; --bg-grad2:#0F1114; --bg-grad3:#0F1114;
-}
+/* "Sage" — the app's design system (DESIGN-SYSTEM.md).
+   Tokens live in 01-tokens.css; what remains here is component styling. */
 
 /* ---- FLAT : kill the glass everywhere ---------------------------- */
-.card,#nav,.sticky,.sheet,.fld input,.fld select,.fld textarea,
-.glass,.glass-strong{
-  -webkit-backdrop-filter:none !important;
-  backdrop-filter:none !important;
-}
-.card{
-  background:var(--bg-card) !important;
-  border:1px solid var(--bdr) !important;
-  box-shadow:none !important;
-  border-radius:16px;
-}
-#nav,.sticky{ background:var(--bg-card) !important; }
-.sheet{ background:var(--bg-card) !important; }
-.fld input,.fld select,.fld textarea{ background:var(--bg-alt) !important; }
-html,body{ background:var(--bg-app) !important; }
 
 /* Headings adopt the display face */
 .sh .stitle,.sec,.day-ttl,.rc-ttl{ font-family:var(--font-head); letter-spacing:-0.01em; }
