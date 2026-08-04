@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T21:22:54+00:00",
+ "generatedAt": "2026-08-04T21:24:57+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -185,6 +185,13 @@
    "tag": "DONE",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "T0.12 done. Schibsted Grotesk is self-hosted in app/assets/fonts/ and precached; zero requests\nnow leave the machine on load. Proved offline by KILLING the server (curl -> 000) and reloading\nfrom the service-worker cache: document.fonts.check('600 30px \"Schibsted Grotesk\"') is true.\n\nTWO FILES, NOT FOUR. The family is a VARIABLE font: Google returns eight @font-face blocks but\nonly two distinct URLs (latin, latin-ext), each spanning 400-700, 67 KB total. Count distinct\nsrc URLs, not blocks. Also measured which weights the app actually renders: 600 (342 elements)\nand 700 (10). Weights 400 and 500 are used by nothing and never reached \"loaded\". I kept the\nfull range anyway since it is the same two files and it stops a future style silently falling\nback.\n\nREAD THIS BEFORE TRUSTING findings/T0.7.md AND findings/T0.8.md's BASELINES. Applying T0.12\nmade all 10 computed-style hashes differ, which looked like a regression. It was not: stashing\nT0.12 and re-measuring with fonts fully LOADED reproduced exactly the values I was getting with\nT0.12 applied. So the delta was font-load state. T0.7 and T0.8 baselined while the webfont was\nstill loading — fallback metrics in `height`. They compared fallback-to-fallback consistently,\nso their CONCLUSIONS hold, but they never exercised the loaded-font state, which is what a user\nsees. The loaded-state baseline is now in knowledge/instruments.md and is the one to carry\nforward: dark #/plan 39:77b78797, #/recipes 60:f66e8fb3, #/list 29:783f68e6, #/cook 45:18638ff7,\n#/more 23:0e737f23; light 39:82666055, 60:fa7f4eb8, 29:73b0df10, 45:57f44cad, 23:82bb9a43.\n\nRULE ADDED TO knowledge/instruments.md: check document.fonts.status === 'loaded' before\nmeasuring anything text-dependent. font-display:swap guarantees a window where you measure the\nwrong thing, and the zero-timer measurement pattern makes you MORE likely to land in it because\nit does not wait.\n\nTrap for the next person self-hosting a Google font: fetch the CSS with a modern browser\nUser-Agent or the endpoint serves ttf instead of woff2; copy the unicode-range values verbatim\nor the browser fetches every subset on every page; and precache the files AND bump CACHE, or you\nhave moved the offline failure rather than fixed it."
+  },
+  {
+   "date": "2026-08-04 16:24",
+   "task": "T0.11",
+   "tag": "DONE",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "T0.11 decided: DEFER, with a trigger. No files moved.\n\nTWO CORRECTIONS TO knowledge/structure-proposal.md, which I wrote from reading rather than\nmeasuring:\n1. \"The service worker's scope changes; a scope change can orphan an installed phone's\n   registration\" is WRONG. meal-server.py serves with directory=SCRIPT_DIR, so the web root IS\n   whatever directory the app files sit in. Moving app/ -> client/ and pointing the server there\n   leaves every URL identical. Installed phones would see nothing. That was the biggest claimed\n   risk and it is not real.\n2. The ../.. depth hazard is WRONG too — app/ and server/ are both one level under the repo\n   root, so meal-server.py's feedback path and build_seed.py's BASE_DIR still resolve.\n\nThe only genuinely fiddly part is ~/Library/LaunchAgents/com.mealplanner.server.plist, which\nholds an absolute path to app/meal-server.py, lives outside the repo, is covered by no test or\nhook, and needs a bootout/bootstrap cycle.\n\nWHY DEFER ANYWAY: the move edits that plist, and the launchd job currently cannot start the\nserver at all (EPERM / Full Disk Access, LOG #11). Production is running on deploy.sh's manual\nfallback. Editing the plist of a job that already cannot start, on the machine serving the\nuser's phone, with no supervised way back, is the wrong order. Also, everything that was\nactually COSTING something is now fixed by T0.2/T0.7/T0.8/T0.9/T0.10/T0.12; what the move adds\nis legibility, which scores zero on pipeline-integrity. And it would falsify CONTRACT §2/§3/§8\nand force a fourth version bump in a day.\n\nTRIGGER — do it when BOTH hold: (1) Full Disk Access granted and ./deploy.sh prints \"via\nlaunchd\" rather than \"manual background process\", so there is a rehearsed rollback; (2) someone\nis already editing the plist or deploy.sh for another reason. If the FDA grant never happens,\nthat logic inverts — the plist is dead weight and the move should proceed on the fallback alone.\nDo it adjacently with T0.13, which touches the same files."
   }
  ],
  "state": {
@@ -285,6 +292,17 @@
  "landedToday": [
   {
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "task": "T0.11",
+   "title": "The directory move: client/ pipeline/ server/ docs/ — only if the earlier steps leave a reason",
+   "at": "2026-08-04T21:24:57+00:00",
+   "merge": "unknown",
+   "commits": 0,
+   "suite": "none",
+   "verdict": "NO-GO",
+   "findingsPath": "findings/T0.11.md"
+  },
+  {
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "task": "T0.12",
    "title": "Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline",
    "at": "2026-08-04T21:22:53+00:00",
@@ -362,7 +380,7 @@
   }
  ],
  "staleHeld": 0,
- "lastLandedAt": "2026-08-04T21:22:53+00:00",
+ "lastLandedAt": "2026-08-04T21:24:57+00:00",
  "waitingOnYouOldestAt": "",
  "staleHeldOldestAt": "",
  "liveMostRecentAt": "",
@@ -996,8 +1014,8 @@
      "name": "The directory move: client/ pipeline/ server/ docs/ — only if the earlier steps leave a reason",
      "effort": "high",
      "model": "opus",
-     "status": "TODO",
-     "verdict": "",
+     "status": "DONE",
+     "verdict": "NO-GO",
      "reads": [
       "T0.7",
       "T0.8",
@@ -1014,18 +1032,36 @@
      "sandboxReason": "",
      "wave": "0d — structure & CSS repair",
      "briefPath": "program/tasks/T0.11.md",
-     "findingsLink": "",
-     "headline": "",
-     "claimedBy": "",
-     "claimedAt": "",
-     "doneBy": "",
-     "updatedAt": "2026-08-04T19:47:29+00:00",
-     "findingPath": "",
+     "findingsLink": "findings/T0.11.md",
+     "headline": "Deferred: cheaper than the proposal claimed (URLs would not change) but the launchd job cannot start, and the move edits its plist.",
+     "claimedBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "claimedAt": "2026-08-04T21:23:18+00:00",
+     "doneBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "updatedAt": "2026-08-04T21:24:57+00:00",
+     "findingPath": "program/findings/T0.11.md",
      "briefBytes": 4538,
-     "findingBytes": 0,
+     "findingBytes": 7622,
      "inbox": [],
-     "lifecycle": [],
-     "lifecycleDrift": null,
+     "lifecycle": [
+      {
+       "stage": "claim",
+       "ts": "2026-08-04T21:23:18+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "",
+       "measured": false
+      },
+      {
+       "stage": "done",
+       "ts": "2026-08-04T21:24:56+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "NO-GO",
+       "measured": false
+      }
+     ],
+     "lifecycleDrift": {
+      "stage": "merge",
+      "label": "DONE — not merged"
+     },
      "worktree": null
     },
     {
@@ -1148,8 +1184,8 @@
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 26442,
-   "modified": "2026-08-04 16:22"
+   "chars": 28757,
+   "modified": "2026-08-04 16:24"
   },
   {
    "path": "program/README.md",
@@ -1290,6 +1326,13 @@
    "title": "T0.10 — Untrack the generated artifacts so `deploy.sh` works again",
    "chars": 8260,
    "modified": "2026-08-04 15:35"
+  },
+  {
+   "path": "program/findings/T0.11.md",
+   "group": "findings",
+   "title": "T0.11 — The directory move: `client/` `pipeline/` `server/` `docs/`",
+   "chars": 7549,
+   "modified": "2026-08-04 16:24"
   },
   {
    "path": "program/findings/T0.12.md",

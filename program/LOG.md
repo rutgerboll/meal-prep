@@ -396,3 +396,34 @@ Trap for the next person self-hosting a Google font: fetch the CSS with a modern
 User-Agent or the endpoint serves ttf instead of woff2; copy the unicode-range values verbatim
 or the browser fetches every subset on every page; and precache the files AND bump CACHE, or you
 have moved the offline failure rather than fixed it.
+
+## 2026-08-04 16:24 · T0.11 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+T0.11 decided: DEFER, with a trigger. No files moved.
+
+TWO CORRECTIONS TO knowledge/structure-proposal.md, which I wrote from reading rather than
+measuring:
+1. "The service worker's scope changes; a scope change can orphan an installed phone's
+   registration" is WRONG. meal-server.py serves with directory=SCRIPT_DIR, so the web root IS
+   whatever directory the app files sit in. Moving app/ -> client/ and pointing the server there
+   leaves every URL identical. Installed phones would see nothing. That was the biggest claimed
+   risk and it is not real.
+2. The ../.. depth hazard is WRONG too — app/ and server/ are both one level under the repo
+   root, so meal-server.py's feedback path and build_seed.py's BASE_DIR still resolve.
+
+The only genuinely fiddly part is ~/Library/LaunchAgents/com.mealplanner.server.plist, which
+holds an absolute path to app/meal-server.py, lives outside the repo, is covered by no test or
+hook, and needs a bootout/bootstrap cycle.
+
+WHY DEFER ANYWAY: the move edits that plist, and the launchd job currently cannot start the
+server at all (EPERM / Full Disk Access, LOG #11). Production is running on deploy.sh's manual
+fallback. Editing the plist of a job that already cannot start, on the machine serving the
+user's phone, with no supervised way back, is the wrong order. Also, everything that was
+actually COSTING something is now fixed by T0.2/T0.7/T0.8/T0.9/T0.10/T0.12; what the move adds
+is legibility, which scores zero on pipeline-integrity. And it would falsify CONTRACT §2/§3/§8
+and force a fourth version bump in a day.
+
+TRIGGER — do it when BOTH hold: (1) Full Disk Access granted and ./deploy.sh prints "via
+launchd" rather than "manual background process", so there is a rehearsed rollback; (2) someone
+is already editing the plist or deploy.sh for another reason. If the FDA grant never happens,
+that logic inverts — the plist is dead weight and the move should proceed on the fallback alone.
+Do it adjacently with T0.13, which touches the same files.
