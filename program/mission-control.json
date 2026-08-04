@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T21:12:07+00:00",
+ "generatedAt": "2026-08-04T21:15:01+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -171,6 +171,13 @@
    "tag": "DONE",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "T0.8 done. Every design token is declared exactly ONCE (58 duplicate declarations gone), and\n!important is down from 20 to 4 — the four .hidden display utilities, which were never the\nproblem. All ten screen x theme computed-style hashes are unchanged, verified after each of the\nthree edit stages separately rather than only at the end.\n\nTHE KEY MOVE, for anyone doing similar work here: Sage's !important rules existed to neutralise\nglassmorphism still sitting in the base layer. Deleting the !important alone would have brought\nthe frosted glass BACK. For each of five rules I rewrote the base declaration to the value Sage\nwas forcing, then deleted Sage's override entirely. Collapse, don't strip.\n\nTHE INSTRUMENT NOW WORKS AND T0.7 SAID IT COULDN'T. The blocker was never the number of\nproperties — it was TIMERS. A hidden browser pane throttles setTimeout, so `await sleep(400)`\nbetween navigations stretches to seconds and blows every 30s budget. The app renders\nsynchronously, so navigate(route) followed immediately by a measurement in the same call works:\nthe full 10-combination battery runs in 2 MILLISECONDS. Pattern is in knowledge/instruments.md.\n\nTRAP THAT COST ME TWO FALSE RESULTS: the service worker is cache-first, so it keeps serving\nedited CSS from cache and a CACHE bump alone did not clear it within a session. Twice I measured\nwhat I believed was new CSS and was actually reading the old files — caught only because a\nsheet's cssRules.length did not match the file on disk. ALWAYS check that before trusting a\nmeasurement. Unregistering the SW and clearing caches is what finally worked.\n\nDEFERRED, and filed as T0.13: the brief's final rename to tokens/base/components/screens. That\nis not a rename — sorting rules into \"components\" and \"screens\" interleaves 02-base.css and\n03-sage.css, reordering rules across the boundary where same-specificity conflicts are currently\nresolved by source order. The payoff is naming; the risk is a silent cascade change. T0.11 may\nmake it moot."
+  },
+  {
+   "date": "2026-08-04 16:14",
+   "task": "T0.9",
+   "tag": "DONE",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "T0.9 done. design/design-system.md -> docs/archive/design-system-v1-spiced-linen.md via git mv,\nwith an ARCHIVED header and its \"source of truth for the engineer\" sentence struck. DESIGN-\nSYSTEM.md is now the only document claiming design authority, and says so.\n\nTHE USEFUL PART WAS THE CHECKING, NOT THE MOVE. Three sections of the old doc are genuinely\nabsent from Sage and looked worth promoting: the 4px spacing scale, iconography, and mobile\ninteraction patterns. Before promoting I grepped: `--space-*` appears in ZERO of the four CSS\nfiles, and prototype.html — which its component anatomy is written against — does not exist in\nthis repo. So the spacing scale was never implemented; publishing it in the authoritative doc\nwould have minted a fiction as spec, which is the exact failure this task existed to fix. I\ncarried across a LABELLED POINTER instead: the sections are named as \"unverified proposals, not\na record of the code\", with instructions to check against the app before promoting. T0.5 is the\nright place to decide whether they should actually be implemented.\n\nAlso fixed a stale line in DESIGN-SYSTEM.md: it named \"app/ <style> (the appended Sage block)\"\nas the token source of truth. T0.7/T0.8 made that false; it now points at\napp/styles/01-tokens.css. The design doc had been documenting the very structure this wave\ndismantled — worth a look at other docs for the same lag.\n\nNothing in code, CLAUDE.md, ROADMAP.md or the specs referenced the stale path. It held authority\nin its own text and nowhere else, which is how it misled anyone who found it by browsing.\n\nNOTE FOR T0.11: docs/ now exists with one tenant (docs/archive/). If the directory move is\ndeclined, docs/archive/ sits beside spec/ and logs/ as a third documentation location. Fold\nthem in, or decide not to and say so. Separately, logs/ still holds five June files with nothing\nsaying whether they are current — same class of problem, smaller blast radius."
   }
  ],
  "state": {
@@ -271,6 +278,17 @@
  "landedToday": [
   {
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "task": "T0.9",
+   "title": "One design-system doc: archive the stale 383-line one that claims to be source of truth",
+   "at": "2026-08-04T21:14:59+00:00",
+   "merge": "unknown",
+   "commits": 0,
+   "suite": "none",
+   "verdict": "PASS",
+   "findingsPath": "findings/T0.9.md"
+  },
+  {
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "task": "T0.8",
    "title": "Delete the dead token set and the !important scaffolding it required",
    "at": "2026-08-04T21:12:05+00:00",
@@ -326,7 +344,7 @@
   }
  ],
  "staleHeld": 0,
- "lastLandedAt": "2026-08-04T21:12:05+00:00",
+ "lastLandedAt": "2026-08-04T21:14:59+00:00",
  "waitingOnYouOldestAt": "",
  "staleHeldOldestAt": "",
  "liveMostRecentAt": "",
@@ -853,8 +871,8 @@
      "name": "One design-system doc: archive the stale 383-line one that claims to be source of truth",
      "effort": "low",
      "model": "opus",
-     "status": "TODO",
-     "verdict": "",
+     "status": "DONE",
+     "verdict": "PASS",
      "reads": [],
      "blockedOn": [],
      "touches": [
@@ -866,18 +884,36 @@
      "sandboxReason": "docs only; no app surface, no server, no seed",
      "wave": "0d — structure & CSS repair",
      "briefPath": "program/tasks/T0.9.md",
-     "findingsLink": "",
-     "headline": "",
-     "claimedBy": "",
-     "claimedAt": "",
-     "doneBy": "",
-     "updatedAt": "2026-08-04T19:47:23+00:00",
-     "findingPath": "",
+     "findingsLink": "findings/T0.9.md",
+     "headline": "Spiced Linen spec archived with its authority claim struck; found its spacing scale was never implemented (--space-* absent from all CSS).",
+     "claimedBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "claimedAt": "2026-08-04T21:12:31+00:00",
+     "doneBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "updatedAt": "2026-08-04T21:14:59+00:00",
+     "findingPath": "program/findings/T0.9.md",
      "briefBytes": 3094,
-     "findingBytes": 0,
+     "findingBytes": 5775,
      "inbox": [],
-     "lifecycle": [],
-     "lifecycleDrift": null,
+     "lifecycle": [
+      {
+       "stage": "claim",
+       "ts": "2026-08-04T21:12:31+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "",
+       "measured": false
+      },
+      {
+       "stage": "done",
+       "ts": "2026-08-04T21:14:57+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "PASS",
+       "measured": false
+      }
+     ],
+     "lifecycleDrift": {
+      "stage": "merge",
+      "label": "DONE — not merged"
+     },
      "worktree": null
     },
     {
@@ -1076,8 +1112,8 @@
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 22346,
-   "modified": "2026-08-04 16:12"
+   "chars": 24423,
+   "modified": "2026-08-04 16:14"
   },
   {
    "path": "program/README.md",
@@ -1241,6 +1277,13 @@
    "modified": "2026-08-04 16:11"
   },
   {
+   "path": "program/findings/T0.9.md",
+   "group": "findings",
+   "title": "T0.9 — One design-system doc",
+   "chars": 5734,
+   "modified": "2026-08-04 16:14"
+  },
+  {
    "path": "SYNC-SETUP.md",
    "group": "root",
    "title": "Sync setup — Mac mini + Tailscale (HTTPS)",
@@ -1252,8 +1295,8 @@
    "path": "knowledge/instruments.md",
    "group": "knowledge",
    "title": "Instruments — how to actually measure this app",
-   "chars": 6355,
-   "modified": "2026-08-04 15:36",
+   "chars": 8103,
+   "modified": "2026-08-04 16:12",
    "citedBy": "program/CONTRACT.md"
   },
   {
@@ -1276,8 +1319,8 @@
    "path": "DESIGN-SYSTEM.md",
    "group": "root",
    "title": "Meal Planner — Design System (v3: \"Sage\")",
-   "chars": 3537,
-   "modified": "2026-06-27 13:41",
+   "chars": 4382,
+   "modified": "2026-08-04 16:14",
    "citedBy": "program/CONTRACT.md"
   },
   {
@@ -1313,14 +1356,6 @@
    "citedBy": "program/LOG.md"
   },
   {
-   "path": "design/design-system.md",
-   "group": "root",
-   "title": "Meal Planning App — Design System",
-   "chars": 16871,
-   "modified": "2026-06-21 16:31",
-   "citedBy": "program/LOG.md"
-  },
-  {
    "path": "CONTEXT.md",
    "group": "root",
    "title": "Project Context — Meal Planning App for Rutger",
@@ -1335,6 +1370,14 @@
    "chars": 5942,
    "modified": "2026-06-24 19:22",
    "citedBy": "program/README.md"
+  },
+  {
+   "path": "docs/archive/design-system-v1-spiced-linen.md",
+   "group": "root",
+   "title": "design-system-v1-spiced-linen.md",
+   "chars": 17962,
+   "modified": "2026-08-04 16:14",
+   "citedBy": "program/tasks/T0.9.md"
   }
  ]
 }

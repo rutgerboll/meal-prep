@@ -336,3 +336,31 @@ is not a rename — sorting rules into "components" and "screens" interleaves 02
 03-sage.css, reordering rules across the boundary where same-specificity conflicts are currently
 resolved by source order. The payoff is naming; the risk is a silent cascade change. T0.11 may
 make it moot.
+
+## 2026-08-04 16:14 · T0.9 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+T0.9 done. design/design-system.md -> docs/archive/design-system-v1-spiced-linen.md via git mv,
+with an ARCHIVED header and its "source of truth for the engineer" sentence struck. DESIGN-
+SYSTEM.md is now the only document claiming design authority, and says so.
+
+THE USEFUL PART WAS THE CHECKING, NOT THE MOVE. Three sections of the old doc are genuinely
+absent from Sage and looked worth promoting: the 4px spacing scale, iconography, and mobile
+interaction patterns. Before promoting I grepped: `--space-*` appears in ZERO of the four CSS
+files, and prototype.html — which its component anatomy is written against — does not exist in
+this repo. So the spacing scale was never implemented; publishing it in the authoritative doc
+would have minted a fiction as spec, which is the exact failure this task existed to fix. I
+carried across a LABELLED POINTER instead: the sections are named as "unverified proposals, not
+a record of the code", with instructions to check against the app before promoting. T0.5 is the
+right place to decide whether they should actually be implemented.
+
+Also fixed a stale line in DESIGN-SYSTEM.md: it named "app/ <style> (the appended Sage block)"
+as the token source of truth. T0.7/T0.8 made that false; it now points at
+app/styles/01-tokens.css. The design doc had been documenting the very structure this wave
+dismantled — worth a look at other docs for the same lag.
+
+Nothing in code, CLAUDE.md, ROADMAP.md or the specs referenced the stale path. It held authority
+in its own text and nowhere else, which is how it misled anyone who found it by browsing.
+
+NOTE FOR T0.11: docs/ now exists with one tenant (docs/archive/). If the directory move is
+declined, docs/archive/ sits beside spec/ and logs/ as a third documentation location. Fold
+them in, or decide not to and say so. Separately, logs/ still holds five June files with nothing
+saying whether they are current — same class of problem, smaller blast radius.
