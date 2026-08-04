@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T19:15:02+00:00",
+ "generatedAt": "2026-08-04T19:41:49+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -15,7 +15,7 @@
  "kickoff": {
   "taskId": "T1.1",
   "title": "teach `recipe-capture` the three phase-2 recipe keys",
-  "noteMd": "T0.1 froze the contract and settled the question Wave 1 was waiting on: all five Claude-side\nskills **are** on this filesystem, readable, and none is writable. So T1.1 ships a `SKILL.md`\npatch spec plus a user install step (Settings → Capabilities), not an edit in place —\nCONTRACT §2 now carries the search incantation and the deliverable shape.\n\nTwo things to know before you start, both from `findings/T0.1.md`:\n\n- **Certify the server before you measure on it** — `curl` a real path; a listening port is\n  not a working server (LOG [READ-FIRST] #7, CONTRACT §3). It is healthy again as of\n  2026-08-04 14:08 after a three-day silent outage of unknown cause.\n- **The seed is at `schemaVersion: 3`, not 2.** The brief's \"schemaVersion-2 keys\" is a\n  historical label; the three keys are real and present in today's seed (`image`,\n  `thawHoursAhead`, `prepAhead`). Don't go hunting for a v2 seed to match.\n\nAlso open, and worth pulling forward if the user prefers: **T0.2** closes a hole that fails\nsilently and permanently on an installed phone (`scripts/pre-commit` doesn't cover\n`app/js/*.js`), and its `deploy.sh` half would also have caught the outage above — the health\ncheck is `lsof … LISTEN`, which a 404ing server passes.",
+  "noteMd": "T0.1 froze the contract and settled the question Wave 1 was waiting on: all five Claude-side\nskills **are** on this filesystem, readable, and none is writable. So T1.1 ships a `SKILL.md`\npatch spec plus a user install step (Settings → Capabilities), not an edit in place —\nCONTRACT §2 now carries the search incantation and the deliverable shape.\n\nTwo things to know before you start, both from `findings/T0.1.md`:\n\n- **Certify the server before you measure on it** — `curl` a real path; a listening port is\n  not a working server (LOG [READ-FIRST] #7, CONTRACT §3). It is healthy again as of\n  2026-08-04 14:08 after a three-day silent outage of unknown cause.\n- **The seed is at `schemaVersion: 3`, not 2.** The brief's \"schemaVersion-2 keys\" is a\n  historical label; the three keys are real and present in today's seed (`image`,\n  `thawHoursAhead`, `prepAhead`). Don't go hunting for a v2 seed to match.\n\nAlso open, and worth pulling forward if the user prefers:\n\n- **T0.2** closes a hole that fails silently and permanently on an installed phone\n  (`scripts/pre-commit` doesn't cover `app/js/*.js`), and its `deploy.sh` half would also have\n  caught the outage above — the health check is `lsof … LISTEN`, which a 404ing server passes.\n- **T0.4** is the cheapest thing on the board: there is no test suite in this repo at all, and\n  a smoke-level one would have caught three of T0.1's findings by itself. It is also the gate\n  on this board ever taking orchestrated workers.\n- **T0.5 / T0.6** are the two audits promoted from the inbox — UI currency and structure. They\n  share evidence (`knowledge/structure-proposal.md`) and their briefs tell them to coordinate.",
   "prompt": "Work task T1.1 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir (works from any worktree); all program files\nlive there. Read first, in order: README.md, CONTRACT.md (now FROZEN at v1.0 — §1's four\ndenominators replace \"repo vs installed\"), tasks/T1.1.md (incl. Amendments), GOTCHAS.md,\nevery [READ-FIRST] entry in LOG.md, then findings/T0.1.md, which your Reads names.\nDo not re-derive what any of those already establish — especially where the skills live,\nwhat a session may do to them, and how to serve the app.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- The skills are READ-ONLY. Deliver a SKILL.md patch spec + a user install step, not an edit.\n- Stay in scope; state your coverage honestly in your headline.\n- Claim before working: `tm claim T1.1` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T1.1.md per CONTRACT §6 · `tm done T1.1 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T1.1` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt.",
   "taskIds": [
    "T1.1"
@@ -111,6 +111,13 @@
    "tag": "READ-FIRST",
    "actor": "rutgerboll@Rutgers-Mini#T0.1",
    "text": "CORRECTION TO ENTRY #4 — THE SERVER IS FIXED, AND MY DIAGNOSIS WAS WRONG. Entry #4 said the\nlaunchd server's 404/500 was caused by /usr/bin/python3 lacking Full Disk Access. That is\nrefuted. While cleaning up my own test server I ran an over-broad pkill -f \"meal-server.py\"\nthat also killed the launchd process (pid 89492, up since 25 Jul); launchd restarted it at\n14:08:33, and the fresh process serves everything correctly: 200 on /index.html, /sw.js,\n/js/pwa.js, /manifest.webmanifest, /icon-192.png, and 1,087,727 bytes on /sync.json —\nincluding through tailscale on the phone's own HTTPS URL. Same LaunchAgent, same plist, same\ninterpreter. So Full Disk Access is granted and always was; a missing grant cannot be the\ncause. The kill was unintended (I meant to stop only my own instance on 8766) and I am\nreporting it as such, not as a repair I planned.\n\nWhat survives from #4, all still measured: the old process served 404 on every static path\nand 500 on /sync.json for days WHILE HOLDING THE PORT; a listening port is therefore not\nevidence of a working server, and deploy.sh's lsof-LISTEN health check would have printed\nits success tick over it (T0.2 fixes that). Last known-good sync before the outage was\n2026-08-01 08:52.\n\nWhat is now unknown: why a long-running process lost the ability to read under ~/Documents\nwhile a fresh one has no trouble. Candidates nobody has tested — a TCC grant re-evaluated\nagainst an already-running process, an OS update (host is Darwin 25.3.0) invalidating the\nrunning process's authorization, or a firmlink/volume change under the path. Do not repeat\nthe FDA story as the cause. If the outage recurs, capture evidence BEFORE restarting: the\nrestart is the thing that destroys the only specimen.\n\nPractical rule, unchanged in effect: curl a real path before trusting any server, and if the\nlaunchd one is answering 404s, `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`\nis now a known-working remedy."
+  },
+  {
+   "date": "2026-08-04 14:41",
+   "task": "T0.1",
+   "tag": "SCOPE",
+   "actor": "rutgerboll@Rutgers-Mini#T0.1",
+   "text": "INBOX TRIAGED — all three open items promoted to tasks and closed (470 UI currency audit, 471\nrefactor assessment, 472 spawn-capability bootstrap). New wave 0c — codebase health: T0.4,\nT0.5, T0.6, briefs written. T0.6 also absorbs a direct user question asked the same day about\nthe ideal file layout.\n\nDo not start T0.5 or T0.6 without reading knowledge/structure-proposal.md — T0.1 measured the\nanswer to a large part of both while verifying the contract, and re-deriving it is wasted\nmoney. Headline: app/index.html is 92% CSS by non-generated bytes (23,531 of 25,492) across\nthree inline <style> blocks, with NO .css file in the repo, and it ships two conflicting token\nsets — 29 of block 1's 31 :root tokens are dead, overridden by the Sage block pasted after\nthem, which is the shortcut that block's own install comment offers. 20 !important\ndeclarations hold it together. Block 1's 125 base selectors are still live, so the block\ncannot simply be deleted; it is the token layer that is dead. Separately, two design-system\ndocuments both claim authority and the stale 383-line one (design/design-system.md, June) is\nthe one that calls itself \"the source of truth for the engineer\".\n\nAlso recorded there and worth not re-litigating: build_seed.py is 1,096 lines but coherent\n(a parser suite with real section seams), and the proposal argues AGAINST splitting it. The\n202 top-level JS globals are a number, not yet a demonstrated defect. T0.6's brief says both\nexplicitly so the audit does not manufacture work.\n\nT0.4 is the cheapest task on the board and probably the most valuable: there is no executable\ntest suite in this repo at all (logs/test-report-*.md are June prose), and a smoke-level suite\nwould have caught three of T0.1's findings unaided — the 404-behind-a-live-port server, the\n20-entry bootstrap drift, and the app/js hook gap."
   }
  ],
  "state": {
@@ -121,7 +128,7 @@
   "spendMd": ""
  },
  "gotchasMd": "# Meal Planner app — GOTCHAS\n\nAPPEND ONLY (use `tm gotcha \"…\" [--task ID]`). One bullet per trap, immediately on\ndiscovery — not at end of session. Point at the knowledge/ file if one exists.\n- (2026-08-02) app/sw.js precaches index.html AND every app/js/*.js under one `const CACHE`, but scripts/pre-commit only fires on app/index.html. A JS-only change commits clean and ships silently stale to installed phones. Bump CACHE by hand for any app/js/ edit.\n- (2026-08-02) build_seed.py resolves the markdown library as ../.. from app/, which does NOT resolve from a git worktree. Set MP_BASE_DIR=\"/Users/rutgerboll/Documents/Claude/Projects/Meal planning\" before running it from a worktree.\n- (2026-08-04, T0.1) A listening port is not a working server. com.mealplanner.server held\n8765 for days while returning 404 on every static path and 500 on /sync.json — the\nLaunchAgent cannot read under ~/Documents without Full Disk Access for /usr/bin/python3.\nSYNC-SETUP.md predicts a silent crash-loop; the real behaviour is worse, it stays up. Always\ncurl a real path. deploy.sh's health check is lsof LISTEN, so it prints the success tick over\nexactly this failure. See knowledge/instruments.md. · rutgerboll@Rutgers-Mini#T0.1\n- (2026-08-04, T0.1) app/seed.json is server-owned runtime output, not a source file that\nsomeone forgot to commit. meal-server.py re-runs build_seed.py and rewrites it on every\n/sync.json request, so the main checkout is permanently dirty and deploy.sh's\ndirty-checkout guard refuses every time. A fresh build reproduces the uncommitted copy\nbyte-for-byte; HEAD's copy is the stale one. Never git add -A here. · rutgerboll@Rutgers-Mini#T0.1\n- (2026-08-04, T0.1) build_seed.py does NOT refresh the inline `const SEED` in index.html —\nembed_seed.py is a separate, easily-skipped step, and skipping it is currently live: the\ncommitted bootstrap disagrees with the markdown library on 20 plan entries. Invisible while\nthe mini is up (the app auto-syncs on load), wrong-and-silent on a fresh install when it is\nnot. · rutgerboll@Rutgers-Mini#T0.1\n- (2026-08-04, T0.1) CORRECTS the earlier T0.1 gotcha above that blamed Full Disk Access. The\n404-behind-a-live-port outage was real, but the cause was NOT a missing FDA grant: an\naccidental pkill killed the stuck process, launchd restarted it, and the fresh process serves\neverything correctly under the same plist. Cause unknown. Two rules that do survive — curl a\nreal path before trusting any server (lsof LISTEN passes on a dead one), and stop your own\ntest server BY PID (kill $(lsof -ti :8766 -sTCP:LISTEN)), never pkill -f meal-server.py, which\ntakes the phone's server down with it. · rutgerboll@Rutgers-Mini#T0.1\n",
- "inboxOpen": 3,
+ "inboxOpen": 0,
  "decisions": [
   {
    "id": "D-1",
@@ -213,7 +220,7 @@
    "actor": "rutgerboll@Rutgers-Mini#T0.1",
    "task": "T0.1",
    "title": "Verify the build contract against the repo, then freeze it",
-   "at": "2026-08-04T19:14:51+00:00",
+   "at": "2026-08-04T19:41:44+00:00",
    "merge": "merged",
    "commits": 0,
    "suite": "none",
@@ -222,7 +229,7 @@
   }
  ],
  "staleHeld": 0,
- "lastLandedAt": "2026-08-04T19:14:51+00:00",
+ "lastLandedAt": "2026-08-04T19:41:44+00:00",
  "waitingOnYouOldestAt": "",
  "staleHeldOldestAt": "",
  "liveMostRecentAt": "",
@@ -252,7 +259,7 @@
      "claimedBy": "rutgerboll@Rutgers-Mini#T0.1",
      "claimedAt": "2026-08-04T18:49:12+00:00",
      "doneBy": "rutgerboll@Rutgers-Mini#T0.1",
-     "updatedAt": "2026-08-04T19:14:51+00:00",
+     "updatedAt": "2026-08-04T19:41:44+00:00",
      "findingPath": "program/findings/T0.1.md",
      "briefBytes": 4190,
      "findingBytes": 13794,
@@ -278,12 +285,16 @@
        "actor": "tm:observed",
        "detail": "claude/meal-planner-t0-1-6b6aca @ fbd610853e69 is an ancestor of main",
        "measured": true
+      },
+      {
+       "stage": "retire",
+       "ts": "2026-08-04T19:37:49+00:00",
+       "actor": "tm:observed",
+       "detail": "no worktree or branch names this task anymore",
+       "measured": true
       }
      ],
-     "lifecycleDrift": {
-      "stage": "retire",
-      "label": "merged — not retired"
-     },
+     "lifecycleDrift": null,
      "worktree": null
     }
    ]
@@ -504,6 +515,112 @@
      "worktree": null
     }
    ]
+  },
+  {
+   "name": "0c — codebase health (from inbox)",
+   "gate": "The board can measure itself green, and the two audits have landed as evidence.",
+   "tasks": [
+    {
+     "id": "T0.4",
+     "parallel": false,
+     "name": "Spawn-capability bootstrap: a smoke suite the gate can measure, and tm orch config --suite-cmd",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.1"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "tests/",
+      "scripts/"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0c — codebase health (from inbox)",
+     "briefPath": "program/tasks/T0.4.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:37:48+00:00",
+     "findingPath": "",
+     "briefBytes": 4204,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    },
+    {
+     "id": "T0.5",
+     "parallel": false,
+     "name": "UI currency audit: inventory the app's CSS/component conventions vs current practice — audit only, no refactor",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.1"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "program/findings/"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0c — codebase health (from inbox)",
+     "briefPath": "program/tasks/T0.5.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:37:53+00:00",
+     "findingPath": "",
+     "briefBytes": 4414,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    },
+    {
+     "id": "T0.6",
+     "parallel": false,
+     "name": "Structure + refactor assessment: name and cost the top structural debts, decide the file layout",
+     "effort": "high",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.1"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "program/findings/"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0c — codebase health (from inbox)",
+     "briefPath": "program/tasks/T0.6.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:37:57+00:00",
+     "findingPath": "",
+     "briefBytes": 4537,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    }
+   ]
   }
  ],
  "stale": false,
@@ -527,15 +644,15 @@
    "path": "program/KICKOFF.md",
    "group": "program",
    "title": "Meal Planner app — session kickoffs",
-   "chars": 5209,
-   "modified": "2026-08-04 14:13"
+   "chars": 5645,
+   "modified": "2026-08-04 14:41"
   },
   {
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 10022,
-   "modified": "2026-08-04 14:14"
+   "chars": 11940,
+   "modified": "2026-08-04 14:41"
   },
   {
    "path": "program/README.md",
@@ -548,8 +665,8 @@
    "path": "program/STATE.md",
    "group": "program",
    "title": "Meal Planner app — STATE",
-   "chars": 5454,
-   "modified": "2026-08-04 14:13"
+   "chars": 6508,
+   "modified": "2026-08-04 14:41"
   },
   {
    "path": "program/tasks/T0.1.md",
@@ -571,6 +688,27 @@
    "title": "T0.3 — Re-embed the inline SEED bootstrap",
    "chars": 2499,
    "modified": "2026-08-04 14:05"
+  },
+  {
+   "path": "program/tasks/T0.4.md",
+   "group": "tasks",
+   "title": "T0.4 — Spawn-capability bootstrap: a suite the gate can measure",
+   "chars": 4186,
+   "modified": "2026-08-04 14:40"
+  },
+  {
+   "path": "program/tasks/T0.5.md",
+   "group": "tasks",
+   "title": "T0.5 — UI currency audit: current conventions vs. what this app does",
+   "chars": 4376,
+   "modified": "2026-08-04 14:40"
+  },
+  {
+   "path": "program/tasks/T0.6.md",
+   "group": "tasks",
+   "title": "T0.6 — Structure + refactor assessment: name and cost the debts, decide the layout",
+   "chars": 4509,
+   "modified": "2026-08-04 14:39"
   },
   {
    "path": "program/tasks/T1.1.md",
@@ -656,6 +794,14 @@
    "citedBy": "program/CONTRACT.md"
   },
   {
+   "path": "knowledge/structure-proposal.md",
+   "group": "knowledge",
+   "title": "Proposed file structure — a proposal, not a settled truth",
+   "chars": 10688,
+   "modified": "2026-08-04 14:39",
+   "citedBy": "program/KICKOFF.md"
+  },
+  {
    "path": "CLAUDE.md",
    "group": "root",
    "title": "Meal Planner app — project guide",
@@ -669,6 +815,14 @@
    "title": "Standing management loops — Meal Planner app",
    "chars": 20159,
    "modified": "2026-08-03 13:05",
+   "citedBy": "program/LOG.md"
+  },
+  {
+   "path": "design/design-system.md",
+   "group": "root",
+   "title": "Meal Planning App — Design System",
+   "chars": 16871,
+   "modified": "2026-06-21 16:31",
    "citedBy": "program/LOG.md"
   },
   {

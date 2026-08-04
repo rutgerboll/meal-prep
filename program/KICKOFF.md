@@ -19,10 +19,16 @@ Two things to know before you start, both from `findings/T0.1.md`:
   historical label; the three keys are real and present in today's seed (`image`,
   `thawHoursAhead`, `prepAhead`). Don't go hunting for a v2 seed to match.
 
-Also open, and worth pulling forward if the user prefers: **T0.2** closes a hole that fails
-silently and permanently on an installed phone (`scripts/pre-commit` doesn't cover
-`app/js/*.js`), and its `deploy.sh` half would also have caught the outage above — the health
-check is `lsof … LISTEN`, which a 404ing server passes.
+Also open, and worth pulling forward if the user prefers:
+
+- **T0.2** closes a hole that fails silently and permanently on an installed phone
+  (`scripts/pre-commit` doesn't cover `app/js/*.js`), and its `deploy.sh` half would also have
+  caught the outage above — the health check is `lsof … LISTEN`, which a 404ing server passes.
+- **T0.4** is the cheapest thing on the board: there is no test suite in this repo at all, and
+  a smoke-level one would have caught three of T0.1's findings by itself. It is also the gate
+  on this board ever taking orchestrated workers.
+- **T0.5 / T0.6** are the two audits promoted from the inbox — UI currency and structure. They
+  share evidence (`knowledge/structure-proposal.md`) and their briefs tell them to coordinate.
 
 ```
 Work task T1.1 of the Meal Planner app program in this project.

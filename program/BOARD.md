@@ -38,3 +38,12 @@ Gate note: The stale-code guard and the deploy health check tell the truth.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | T0.2 | Close the two measured pipeline holes: pre-commit misses app/js/*.js, deploy.sh calls a 404ing server healthy | medium | opus | TODO |  | T0.1 |  | scripts/pre-commit,app/deploy.sh |  | unknown |  |  |  |
 | 2 | T0.3 | Re-embed the inline SEED bootstrap: index.html disagrees with the library on 20 plan entries | low | opus | TODO |  | T0.1 |  | app/index.html,app/seed.json |  | unknown |  |  |  |
+
+## 0c — codebase health (from inbox)
+Gate note: The board can measure itself green, and the two audits have landed as evidence.
+
+| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T0.4 | Spawn-capability bootstrap: a smoke suite the gate can measure, and tm orch config --suite-cmd | medium | opus | TODO |  | T0.1 |  | tests/,scripts/ |  | unknown |  |  |  |
+| 2 | T0.5 | UI currency audit: inventory the app's CSS/component conventions vs current practice — audit only, no refactor | medium | opus | TODO |  | T0.1 |  | program/findings/ |  | unknown |  |  |  |
+| 3 | T0.6 | Structure + refactor assessment: name and cost the top structural debts, decide the file layout | high | opus | TODO |  | T0.1 |  | program/findings/ |  | unknown |  |  |  |
