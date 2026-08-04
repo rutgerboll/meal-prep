@@ -427,3 +427,38 @@ launchd" rather than "manual background process", so there is a rehearsed rollba
 is already editing the plist or deploy.sh for another reason. If the FDA grant never happens,
 that logic inverts — the plist is dead weight and the move should proceed on the fallback alone.
 Do it adjacently with T0.13, which touches the same files.
+
+## 2026-08-04 16:53 · T0.14 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
+DEV AND DEPLOY ARE THE SAME DIRECTORY. Raised by the user 2026-08-04 and confirmed by
+measurement, not by reading: the launchd job runs .../app-build/app/meal-server.py, the running
+process's cwd is .../app-build/app, and git rev-parse --show-toplevel is .../app-build.
+meal-server.py serves directory=SCRIPT_DIR, so the web root IS the checkout we edit.
+Demonstrated by appending a comment to app/index.html WITHOUT committing and curling the
+production URL — it came straight back.
+
+What that means, all live right now:
+- A merge to main IS a deploy. Wave 0d reached the phone the moment each task merged. It worked
+  out; nothing made it a decision.
+- Ordinary git operations move production. checkout, stash and rebase all rewrite the served
+  tree. T0.10's park-merge-restore briefly removed app/seed.json from under a live server.
+- deploy.sh is decorative. Its `git pull --ff-only origin main` runs in the checkout the code
+  already lives in — measured a no-op (0 behind, 0 ahead). It restarts and health-checks, which
+  is real; it does not deploy.
+- Worktrees have been mitigating this (wave 0d edited only in .claude/worktrees/wave-0d), but
+  that is convention and it ends at the merge.
+
+Filed as T0.14 with a brief. Proposed shape is a SIBLING GIT WORKTREE on a `release` branch at
+Meal planning/app-deploy — not a second clone. Two facts that make it cheap, both verified:
+(1) build_seed.py and meal-server.py derive their base as SCRIPT_DIR/../.., and from
+app-deploy/app that resolves to Meal planning/ exactly as it does from app-build/app, so NO
+MP_BASE_DIR is needed in the plist; (2) a worktree shares .git, so it costs ~300 KB of working
+files and the pre-commit hook applies to both.
+
+GATED ON THE SAME THING AS T0.11: repointing the LaunchAgent means editing the plist, and the
+launchd job cannot start the server at all until Full Disk Access is granted (LOG #11). Do not
+start T0.14 until ./deploy.sh reports "via launchd". If T0.11 is also happening, do both in one
+pass so the plist is written once.
+
+NOTE FOR WHOEVER TAKES IT: this falsifies CONTRACT §1's denominator 2, which currently says the
+mini serves the working tree. That is a contract change — version bump plus a [READ-FIRST]
+entry, per the contract's own rule.

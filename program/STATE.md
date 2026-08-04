@@ -30,6 +30,18 @@ Every one has a findings file. Net effect, all verified on a running app:
 
 **All of it is already live to the phone** — the mini serves the main checkout's working tree.
 Production verified: every path 200 including through Tailscale, `CACHE` at `mealplanner-v32`.
+Pushed to `origin/main`.
+
+**And that sentence is the problem** (user, 2026-08-04): **we develop in the directory we
+deploy from.** Measured, not inferred — an *uncommitted* edit to `app/index.html` came straight
+back from the production URL. So a merge to `main` is a deploy, ordinary git operations move
+production, and `deploy.sh`'s `git pull` is a verified no-op in the checkout the code already
+lives in. Filed as **T0.14**: a sibling `app-deploy` git worktree on a `release` branch. Two
+things make it cheap, both verified — `SCRIPT_DIR/../..` resolves to the library from
+`app-deploy/app` exactly as it does today (no `MP_BASE_DIR` in the plist), and a worktree shares
+`.git` (~300 KB, not a second clone). **Gated on the same plist edit as T0.11, so on the Full
+Disk Access grant.** It also falsifies CONTRACT §1's denominator 2, which is a version bump when
+it lands.
 **Contract:** 🔒 CONTRACT v1.1 — **frozen** 2026-08-04 by T0.1
 
 ### T0.1 · 2026-08-04

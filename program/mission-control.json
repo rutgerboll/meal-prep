@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T21:27:06+00:00",
+ "generatedAt": "2026-08-04T21:53:54+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -15,7 +15,7 @@
  "kickoff": {
   "taskId": "T0.3",
   "title": "re-embed the bootstrap, then T0.4 — build a test suite",
-  "noteMd": "Wave 0d is done (T0.2, T0.10, T0.7, T0.8, T0.9, T0.12; T0.11 deferred with reasons). See\nSTATE.md for what landed. Two cheap, high-value things are left before anything else:\n\n- **T0.3** — the inline `const SEED` in `index.html` still disagrees with the library on **20\n  plan entries** (verified again 2026-08-04, post-wave). It is a ten-minute task and it is wrong\n  data a fresh install would show. Note the new sharp edge: `app/seed.json` is now\n  `.gitignore`d, so committing a wanted seed refresh needs **`git add -f`**.\n- **T0.4** — there is still **no executable test suite in this repo at all**. Wave 0d verified\n  everything by hand, three times over, and the checks it invented (asset-list agreement,\n  bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is\n  also the gate on this board ever taking orchestrated workers.\n\n**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). Production\nis on `deploy.sh`'s manual fallback and will not survive a reboot.\n\nRead `knowledge/instruments.md` before measuring anything — wave 0d rewrote it, and the\nzero-timer measurement pattern plus the `document.fonts.status` gate will save you the hour they\ncost T0.7 and T0.8.",
+  "noteMd": "Wave 0d is done (T0.2, T0.10, T0.7, T0.8, T0.9, T0.12; T0.11 deferred with reasons). See\nSTATE.md for what landed. Two cheap, high-value things are left before anything else:\n\n- **T0.3** — the inline `const SEED` in `index.html` still disagrees with the library on **20\n  plan entries** (verified again 2026-08-04, post-wave). It is a ten-minute task and it is wrong\n  data a fresh install would show. Note the new sharp edge: `app/seed.json` is now\n  `.gitignore`d, so committing a wanted seed refresh needs **`git add -f`**.\n- **T0.4** — there is still **no executable test suite in this repo at all**. Wave 0d verified\n  everything by hand, three times over, and the checks it invented (asset-list agreement,\n  bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is\n  also the gate on this board ever taking orchestrated workers.\n\n**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). It now\nunblocks three things, not one: production stops dying on reboot, **T0.11** (directory move) and\n**T0.14** (separate the deploy target from the dev checkout) both become doable, and they share\none plist edit — do them in a single pass.\n\n**T0.14 is the one to read if you only read one.** We currently develop in the directory we\ndeploy from: an uncommitted edit to `app/index.html` is served to the phone immediately, a merge\nto `main` is a deploy, and `deploy.sh`'s pull is a measured no-op. LOG [READ-FIRST] #18.\n\nRead `knowledge/instruments.md` before measuring anything — wave 0d rewrote it, and the\nzero-timer measurement pattern plus the `document.fonts.status` gate will save you the hour they\ncost T0.7 and T0.8.",
   "prompt": "Work task T0.3 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir. Read first, in order: README.md, CONTRACT.md\n(FROZEN v1.2), tasks/T0.3.md, GOTCHAS.md, every [READ-FIRST] entry in LOG.md, then\nfindings/T0.1.md and knowledge/instruments.md.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- >=2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- app/seed.json is gitignored now: a wanted seed commit needs `git add -f`, deliberately.\n- Bumping CACHE is mandatory for any index.html change; the hook will demand it.\n- Claim before working: `tm claim T0.3` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.3.md per CONTRACT §6 · `tm done T0.3 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.3` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt (T0.4).",
   "taskIds": [
    "T0.3"
@@ -61,6 +61,13 @@
    "tag": "READ-FIRST",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "CORRECTION TO ENTRY #7 — FULL DISK ACCESS *IS* THE CAUSE, AND THE PHONE'S SERVER WILL NOT\nSURVIVE A REBOOT. Entry #7 retracted the FDA diagnosis on the strength of one healthy process\nappearing after an accidental pkill. That retraction was wrong. Running deploy.sh end to end\nfor the first time (T0.10) made launchd try to start the server, and its own stderr says:\n\n  /Library/Developer/CommandLineTools/usr/bin/python3: can't open file\n  '.../app-build/app/meal-server.py': [Errno 1] Operation not permitted\n\nNine times, last exit code = 2, job in spawn-throttle. Errno 1 is EPERM, not ENOENT (2) — the\npath is correct and the file reads fine from a session shell, so this is a permission denial\non ~/Documents for a LaunchAgent-invoked binary. That is exactly what SYNC-SETUP.md documents.\nCONTRACT v1.0 was right, v1.1 was the error, v1.2 is the correction.\n\nThe log was there the whole time. I checked /tmp/mealplanner-server.err once, before the\nrestart, when it did not exist, and never went back. §3 now says to read it FIRST.\n\nOPERATIONAL STATE, which someone needs to act on: production is being served by deploy.sh's\nMANUAL FALLBACK (a nohup'd process, PPID 1, started 15:33), not by launchd. It is healthy, it\nserves the tailnet, and it survives a session ending — but it does NOT survive a reboot or a\nlogout. If the phone stops syncing and nobody has touched anything, this is why.\n\nThe fix is a USER action and cannot be done from a session: System Settings -> Privacy &\nSecurity -> Full Disk Access -> + -> Cmd-Shift-G -> /usr/bin/python3 -> enable. Then\n`cd app && ./deploy.sh` and confirm it says \"via launchd\" rather than \"manual background\nprocess\". Until that line changes, the launchd path is still broken.\n\nStill unexplained and not worth a third guess: why the 14:08 process ran healthily with\nlaunchd's own argv while launchd cannot exec that path now. It does not change the remedy."
+  },
+  {
+   "date": "2026-08-04 16:53",
+   "task": "T0.14",
+   "tag": "READ-FIRST",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "DEV AND DEPLOY ARE THE SAME DIRECTORY. Raised by the user 2026-08-04 and confirmed by\nmeasurement, not by reading: the launchd job runs .../app-build/app/meal-server.py, the running\nprocess's cwd is .../app-build/app, and git rev-parse --show-toplevel is .../app-build.\nmeal-server.py serves directory=SCRIPT_DIR, so the web root IS the checkout we edit.\nDemonstrated by appending a comment to app/index.html WITHOUT committing and curling the\nproduction URL — it came straight back.\n\nWhat that means, all live right now:\n- A merge to main IS a deploy. Wave 0d reached the phone the moment each task merged. It worked\n  out; nothing made it a decision.\n- Ordinary git operations move production. checkout, stash and rebase all rewrite the served\n  tree. T0.10's park-merge-restore briefly removed app/seed.json from under a live server.\n- deploy.sh is decorative. Its `git pull --ff-only origin main` runs in the checkout the code\n  already lives in — measured a no-op (0 behind, 0 ahead). It restarts and health-checks, which\n  is real; it does not deploy.\n- Worktrees have been mitigating this (wave 0d edited only in .claude/worktrees/wave-0d), but\n  that is convention and it ends at the merge.\n\nFiled as T0.14 with a brief. Proposed shape is a SIBLING GIT WORKTREE on a `release` branch at\nMeal planning/app-deploy — not a second clone. Two facts that make it cheap, both verified:\n(1) build_seed.py and meal-server.py derive their base as SCRIPT_DIR/../.., and from\napp-deploy/app that resolves to Meal planning/ exactly as it does from app-build/app, so NO\nMP_BASE_DIR is needed in the plist; (2) a worktree shares .git, so it costs ~300 KB of working\nfiles and the pre-commit hook applies to both.\n\nGATED ON THE SAME THING AS T0.11: repointing the LaunchAgent means editing the plist, and the\nlaunchd job cannot start the server at all until Full Disk Access is granted (LOG #11). Do not\nstart T0.14 until ./deploy.sh reports \"via launchd\". If T0.11 is also happening, do both in one\npass so the plist is written once.\n\nNOTE FOR WHOEVER TAKES IT: this falsifies CONTRACT §1's denominator 2, which currently says the\nmini serves the working tree. That is a contract change — version bump plus a [READ-FIRST]\nentry, per the contract's own rule."
   }
  ],
  "pmActivity": [],
@@ -188,6 +195,13 @@
    "tag": "DONE",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "T0.11 decided: DEFER, with a trigger. No files moved.\n\nTWO CORRECTIONS TO knowledge/structure-proposal.md, which I wrote from reading rather than\nmeasuring:\n1. \"The service worker's scope changes; a scope change can orphan an installed phone's\n   registration\" is WRONG. meal-server.py serves with directory=SCRIPT_DIR, so the web root IS\n   whatever directory the app files sit in. Moving app/ -> client/ and pointing the server there\n   leaves every URL identical. Installed phones would see nothing. That was the biggest claimed\n   risk and it is not real.\n2. The ../.. depth hazard is WRONG too — app/ and server/ are both one level under the repo\n   root, so meal-server.py's feedback path and build_seed.py's BASE_DIR still resolve.\n\nThe only genuinely fiddly part is ~/Library/LaunchAgents/com.mealplanner.server.plist, which\nholds an absolute path to app/meal-server.py, lives outside the repo, is covered by no test or\nhook, and needs a bootout/bootstrap cycle.\n\nWHY DEFER ANYWAY: the move edits that plist, and the launchd job currently cannot start the\nserver at all (EPERM / Full Disk Access, LOG #11). Production is running on deploy.sh's manual\nfallback. Editing the plist of a job that already cannot start, on the machine serving the\nuser's phone, with no supervised way back, is the wrong order. Also, everything that was\nactually COSTING something is now fixed by T0.2/T0.7/T0.8/T0.9/T0.10/T0.12; what the move adds\nis legibility, which scores zero on pipeline-integrity. And it would falsify CONTRACT §2/§3/§8\nand force a fourth version bump in a day.\n\nTRIGGER — do it when BOTH hold: (1) Full Disk Access granted and ./deploy.sh prints \"via\nlaunchd\" rather than \"manual background process\", so there is a rehearsed rollback; (2) someone\nis already editing the plist or deploy.sh for another reason. If the FDA grant never happens,\nthat logic inverts — the plist is dead weight and the move should proceed on the fallback alone.\nDo it adjacently with T0.13, which touches the same files."
+  },
+  {
+   "date": "2026-08-04 16:53",
+   "task": "T0.14",
+   "tag": "READ-FIRST",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "DEV AND DEPLOY ARE THE SAME DIRECTORY. Raised by the user 2026-08-04 and confirmed by\nmeasurement, not by reading: the launchd job runs .../app-build/app/meal-server.py, the running\nprocess's cwd is .../app-build/app, and git rev-parse --show-toplevel is .../app-build.\nmeal-server.py serves directory=SCRIPT_DIR, so the web root IS the checkout we edit.\nDemonstrated by appending a comment to app/index.html WITHOUT committing and curling the\nproduction URL — it came straight back.\n\nWhat that means, all live right now:\n- A merge to main IS a deploy. Wave 0d reached the phone the moment each task merged. It worked\n  out; nothing made it a decision.\n- Ordinary git operations move production. checkout, stash and rebase all rewrite the served\n  tree. T0.10's park-merge-restore briefly removed app/seed.json from under a live server.\n- deploy.sh is decorative. Its `git pull --ff-only origin main` runs in the checkout the code\n  already lives in — measured a no-op (0 behind, 0 ahead). It restarts and health-checks, which\n  is real; it does not deploy.\n- Worktrees have been mitigating this (wave 0d edited only in .claude/worktrees/wave-0d), but\n  that is convention and it ends at the merge.\n\nFiled as T0.14 with a brief. Proposed shape is a SIBLING GIT WORKTREE on a `release` branch at\nMeal planning/app-deploy — not a second clone. Two facts that make it cheap, both verified:\n(1) build_seed.py and meal-server.py derive their base as SCRIPT_DIR/../.., and from\napp-deploy/app that resolves to Meal planning/ exactly as it does from app-build/app, so NO\nMP_BASE_DIR is needed in the plist; (2) a worktree shares .git, so it costs ~300 KB of working\nfiles and the pre-commit hook applies to both.\n\nGATED ON THE SAME THING AS T0.11: repointing the LaunchAgent means editing the plist, and the\nlaunchd job cannot start the server at all until Full Disk Access is granted (LOG #11). Do not\nstart T0.14 until ./deploy.sh reports \"via launchd\". If T0.11 is also happening, do both in one\npass so the plist is written once.\n\nNOTE FOR WHOEVER TAKES IT: this falsifies CONTRACT §1's denominator 2, which currently says the\nmini serves the working tree. That is a contract change — version bump plus a [READ-FIRST]\nentry, per the contract's own rule."
   }
  ],
  "state": {
@@ -1148,12 +1162,48 @@
      "lifecycle": [],
      "lifecycleDrift": null,
      "worktree": null
+    },
+    {
+     "id": "T0.14",
+     "parallel": false,
+     "name": "Separate the deploy target from the dev checkout — the phone is served from the working tree we edit",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.10"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "app/deploy.sh",
+      "app/meal-server.py",
+      "CLAUDE.md",
+      "program/CONTRACT.md"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "program/tasks/T0.14.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T21:53:28+00:00",
+     "findingPath": "",
+     "briefBytes": 6411,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
     }
    ]
   }
  ],
  "stale": true,
- "staleSince": "2026-08-04T21:27:05+00:00",
+ "staleSince": "2026-08-04T21:53:52+00:00",
  "docs": [
   {
    "path": "program/CONTRACT.md",
@@ -1173,15 +1223,15 @@
    "path": "program/KICKOFF.md",
    "group": "program",
    "title": "Meal Planner app — session kickoffs",
-   "chars": 7969,
-   "modified": "2026-08-04 16:27"
+   "chars": 8413,
+   "modified": "2026-08-04 16:53"
   },
   {
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 30835,
-   "modified": "2026-08-04 16:26"
+   "chars": 33163,
+   "modified": "2026-08-04 16:53"
   },
   {
    "path": "program/README.md",
@@ -1194,8 +1244,8 @@
    "path": "program/STATE.md",
    "group": "program",
    "title": "Meal Planner app — STATE",
-   "chars": 9681,
-   "modified": "2026-08-04 16:26"
+   "chars": 10557,
+   "modified": "2026-08-04 16:53"
   },
   {
    "path": "program/tasks/T0.1.md",
@@ -1224,6 +1274,13 @@
    "title": "T0.12 — Self-host the heading font",
    "chars": 4024,
    "modified": "2026-08-04 14:51"
+  },
+  {
+   "path": "program/tasks/T0.14.md",
+   "group": "tasks",
+   "title": "T0.14 — Separate the deploy target from the dev checkout",
+   "chars": 6342,
+   "modified": "2026-08-04 16:53"
   },
   {
    "path": "program/tasks/T0.2.md",

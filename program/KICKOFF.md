@@ -17,8 +17,14 @@ STATE.md for what landed. Two cheap, high-value things are left before anything 
   bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is
   also the gate on this board ever taking orchestrated workers.
 
-**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). Production
-is on `deploy.sh`'s manual fallback and will not survive a reboot.
+**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). It now
+unblocks three things, not one: production stops dying on reboot, **T0.11** (directory move) and
+**T0.14** (separate the deploy target from the dev checkout) both become doable, and they share
+one plist edit — do them in a single pass.
+
+**T0.14 is the one to read if you only read one.** We currently develop in the directory we
+deploy from: an uncommitted edit to `app/index.html` is served to the phone immediately, a merge
+to `main` is a deploy, and `deploy.sh`'s pull is a measured no-op. LOG [READ-FIRST] #18.
 
 Read `knowledge/instruments.md` before measuring anything — wave 0d rewrote it, and the
 zero-timer measurement pattern plus the `document.fonts.status` gate will save you the hour they
