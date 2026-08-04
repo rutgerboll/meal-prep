@@ -46,4 +46,16 @@ Gate note: The board can measure itself green, and the two audits have landed as
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | T0.4 | Spawn-capability bootstrap: a smoke suite the gate can measure, and tm orch config --suite-cmd | medium | opus | TODO |  | T0.1 |  | tests/,scripts/ |  | unknown |  |  |  |
 | 2 | T0.5 | UI currency audit: inventory the app's CSS/component conventions vs current practice — audit only, no refactor | medium | opus | TODO |  | T0.1 |  | program/findings/ |  | unknown |  |  |  |
-| 3 | T0.6 | Structure + refactor assessment: name and cost the top structural debts, decide the file layout | high | opus | TODO |  | T0.1 |  | program/findings/ |  | unknown |  |  |  |
+| 3 | T0.6 | Audit the areas wave 0d does not cover — JS coupling, parser surface, sync/migration paths | high | opus | TODO |  | T0.1 |  | program/findings/ |  | unknown |  |  |  |
+
+## 0d — structure & CSS repair
+Gate note: One token set, in files, with the app pixel-identical and the phone picking it up.
+
+| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T0.7 | Extract the inline CSS to app/styles/*.css — zero visual change | high | opus | TODO |  | T0.2 |  | app/index.html,app/styles/,app/sw.js,scripts/pre-commit |  | unknown |  |  |  |
+| 2 | T0.8 | Delete the dead token set and the !important scaffolding it required | medium | opus | TODO |  | T0.7 |  | app/styles/,app/sw.js |  | unknown |  |  |  |
+| 3 | T0.9 | One design-system doc: archive the stale 383-line one that claims to be source of truth | low | opus | TODO |  |  |  | DESIGN-SYSTEM.md,design/,docs/ |  | fit | docs only; no app surface, no server, no seed |  |  |
+| 4 | T0.10 | dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again | medium | opus | TODO |  | T0.2 |  | app/deploy.sh,.gitignore,app/seed.json,app/build_seed.py,app/embed_seed.py,app/meal-server.py |  | unknown |  |  |  |
+| 5 | T0.11 | The directory move: client/ pipeline/ server/ docs/ — only if the earlier steps leave a reason | high | opus | TODO |  | T0.7,T0.8,T0.10 |  | app/,scripts/,docs/,CLAUDE.md |  | unknown |  |  |  |
+| 6 | T0.12 | Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline | low | opus | TODO |  | T0.7 |  | app/index.html,app/styles/,app/sw.js,app/assets/ |  | unknown |  |  |  |

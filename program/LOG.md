@@ -157,3 +157,36 @@ T0.4 is the cheapest task on the board and probably the most valuable: there is 
 test suite in this repo at all (logs/test-report-*.md are June prose), and a smoke-level suite
 would have caught three of T0.1's findings unaided — the 404-behind-a-live-port server, the
 20-entry bootstrap drift, and the app/js hook gap.
+
+## 2026-08-04 14:53 · T0.1 · [SCOPE] · rutgerboll@Rutgers-Mini#T0.1
+WAVE 0d WIRED FOR EXECUTION — the user approved the structure sequence on 2026-08-04 ("go
+ahead and wire up the tasks to make these moves then we can execute"). Six tasks with briefs:
+T0.7 extract the inline CSS to app/styles/*.css with ZERO visual change; T0.8 delete the 29
+dead tokens and the ~15 !important declarations that only existed to fight them; T0.9 one
+design-system doc; T0.10 dist/ so deploy.sh's guard works again; T0.12 self-host the heading
+font; T0.11 the directory move, explicitly optional.
+
+RUN ORDER IS NOT THE BOARD ORDER and the reason matters: T0.2 first (working guards before
+shipping code to installed phones), then T0.10 (deploy.sh is the ROLLBACK PATH and is
+currently dead — restore it before the risky work, not after), then T0.7 -> T0.8, with T0.9
+runnable any time and T0.11 last if at all. KICKOFF carries the table. tm render still says
+next: T1.1 because waves cannot be reordered (kit inbox 475); that is mechanical, not a
+priority judgement, and KICKOFF says so out loud rather than silently contradicting the DB.
+
+Two brief reconciliations, so nobody works from a stale copy:
+- deploy.sh's dirty-checkout guard moved OUT of T0.2 and INTO T0.10, which also owns whether
+  the generated artifacts move to dist/. T0.2 now fixes only the health check and must say in
+  its finding that deploy is still blocked, so a green T0.2 is not read as a working deploy.
+- T0.6 was re-scoped before anyone claimed it. Its layout-decision half is answered by the
+  user; what remains is the ground wave 0d does NOT cover — JS coupling (not the global count),
+  build_seed.py's parser correctness surface, the sync/feedback round trip, db.js migration
+  handling, and offline/unreachable error paths. Retiring it is a legitimate outcome.
+
+NEW DEFECT found while wiring, not previously logged: the heading font (Schibsted Grotesk) is
+loaded from fonts.googleapis.com on every page load and appears in NO precache list --
+grep -c fonts app/sw.js returns 0. So --font-head silently falls back to system-ui whenever
+the phone is offline, which is the one condition this app exists to handle. It is also a
+third-party request from an app whose keyless/private stance was paid for by REMOVING a
+shipped API key. Nobody chose it; it arrived as line 3 of the Sage design system's install
+instructions. T0.12, and its proof obligation is the offline case specifically:
+document.fonts.check('600 30px "Schibsted Grotesk"') must be true with the network down.

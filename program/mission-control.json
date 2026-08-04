@@ -4,21 +4,21 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T19:41:49+00:00",
+ "generatedAt": "2026-08-04T19:54:01+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
  "nextTaskId": "T1.1",
  "nextTaskDerived": "T1.1",
- "nextTaskStated": "T1.1",
+ "nextTaskStated": "T0.2",
  "kickoffStale": null,
  "kickoff": {
-  "taskId": "T1.1",
-  "title": "teach `recipe-capture` the three phase-2 recipe keys",
-  "noteMd": "T0.1 froze the contract and settled the question Wave 1 was waiting on: all five Claude-side\nskills **are** on this filesystem, readable, and none is writable. So T1.1 ships a `SKILL.md`\npatch spec plus a user install step (Settings → Capabilities), not an edit in place —\nCONTRACT §2 now carries the search incantation and the deliverable shape.\n\nTwo things to know before you start, both from `findings/T0.1.md`:\n\n- **Certify the server before you measure on it** — `curl` a real path; a listening port is\n  not a working server (LOG [READ-FIRST] #7, CONTRACT §3). It is healthy again as of\n  2026-08-04 14:08 after a three-day silent outage of unknown cause.\n- **The seed is at `schemaVersion: 3`, not 2.** The brief's \"schemaVersion-2 keys\" is a\n  historical label; the three keys are real and present in today's seed (`image`,\n  `thawHoursAhead`, `prepAhead`). Don't go hunting for a v2 seed to match.\n\nAlso open, and worth pulling forward if the user prefers:\n\n- **T0.2** closes a hole that fails silently and permanently on an installed phone\n  (`scripts/pre-commit` doesn't cover `app/js/*.js`), and its `deploy.sh` half would also have\n  caught the outage above — the health check is `lsof … LISTEN`, which a 404ing server passes.\n- **T0.4** is the cheapest thing on the board: there is no test suite in this repo at all, and\n  a smoke-level one would have caught three of T0.1's findings by itself. It is also the gate\n  on this board ever taking orchestrated workers.\n- **T0.5 / T0.6** are the two audits promoted from the inbox — UI currency and structure. They\n  share evidence (`knowledge/structure-proposal.md`) and their briefs tell them to coordinate.",
-  "prompt": "Work task T1.1 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir (works from any worktree); all program files\nlive there. Read first, in order: README.md, CONTRACT.md (now FROZEN at v1.0 — §1's four\ndenominators replace \"repo vs installed\"), tasks/T1.1.md (incl. Amendments), GOTCHAS.md,\nevery [READ-FIRST] entry in LOG.md, then findings/T0.1.md, which your Reads names.\nDo not re-derive what any of those already establish — especially where the skills live,\nwhat a session may do to them, and how to serve the app.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- The skills are READ-ONLY. Deliver a SKILL.md patch spec + a user install step, not an edit.\n- Stay in scope; state your coverage honestly in your headline.\n- Claim before working: `tm claim T1.1` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T1.1.md per CONTRACT §6 · `tm done T1.1 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T1.1` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt.",
+  "taskId": "T0.2",
+  "title": "make the guards tell the truth, then run wave 0d",
+  "noteMd": "> **This deliberately disagrees with `tm render`, which says `next: T1.1`.** That is mechanical\n> wave ordering, and waves have no reorder verb (filed as kit inbox 475). The user chose this\n> sequence explicitly on 2026-08-04 — *\"go ahead and wire up the tasks to make these moves then\n> we can execute\"* — so run wave 0d, and treat T1.1 as queued behind it, not skipped.\n\n**The execution order, and why it is this order.** Nothing here is parallel; the gates are real.\n\n| # | task | why here |\n|---|---|---|\n| 1 | **T0.2** | Fixes the stale-code hook and the deploy health check. Everything below ships code to an installed phone; do it with working guards, not without. |\n| 2 | **T0.10** | Untracks the generated seed so `deploy.sh` can actually run. **This is the rollback path** — restore it before the risky work, not after. |\n| 3 | **T0.7** | Extract the CSS to files. Zero visual change, proved by a computed-style diff. |\n| 4 | **T0.8** | Now delete the 29 dead tokens and the ~15 `!important`s that only existed to fight them. |\n| 5 | **T0.9** | One design-system doc. Independent of all the above — run it any time, including in parallel if you want a cheap win first. |\n| 6 | **T0.12** | Self-host the font so the offline app stops silently losing its typography. |\n| 7 | **T0.11** | The directory move — **and \"not worth doing\" is a correct outcome.** Decide after the rest have landed. |\n\nT0.4 (the smoke suite) is not in that chain but pays for itself immediately: there is no\nexecutable test suite in this repo at all, and a basic one would have caught three of T0.1's\nfindings unaided. Running it early makes every task above cheaper to verify.",
+  "prompt": "Work task T0.2 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir. Read first, in order: README.md, CONTRACT.md\n(FROZEN v1.1 — §1's four denominators replace \"repo vs installed\"), tasks/T0.2.md, GOTCHAS.md,\nevery [READ-FIRST] entry in LOG.md, then findings/T0.1.md, which your Reads names.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- Test the hook, don't read it: throwaway commits on your branch, then `git reset --hard`.\n- Do NOT run deploy.sh to test it — it pulls. Exercise its checks in isolation.\n- The dirty-checkout guard is T0.10's, not yours. Leave it alone.\n- Claim before working: `tm claim T0.2` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.2.md per CONTRACT §6 · `tm done T0.2 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.2` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt (T0.10 unless you learned something that reorders it).",
   "taskIds": [
-   "T1.1"
+   "T0.2"
   ],
   "warning": "",
   "promptGenerated": false,
@@ -118,6 +118,13 @@
    "tag": "SCOPE",
    "actor": "rutgerboll@Rutgers-Mini#T0.1",
    "text": "INBOX TRIAGED — all three open items promoted to tasks and closed (470 UI currency audit, 471\nrefactor assessment, 472 spawn-capability bootstrap). New wave 0c — codebase health: T0.4,\nT0.5, T0.6, briefs written. T0.6 also absorbs a direct user question asked the same day about\nthe ideal file layout.\n\nDo not start T0.5 or T0.6 without reading knowledge/structure-proposal.md — T0.1 measured the\nanswer to a large part of both while verifying the contract, and re-deriving it is wasted\nmoney. Headline: app/index.html is 92% CSS by non-generated bytes (23,531 of 25,492) across\nthree inline <style> blocks, with NO .css file in the repo, and it ships two conflicting token\nsets — 29 of block 1's 31 :root tokens are dead, overridden by the Sage block pasted after\nthem, which is the shortcut that block's own install comment offers. 20 !important\ndeclarations hold it together. Block 1's 125 base selectors are still live, so the block\ncannot simply be deleted; it is the token layer that is dead. Separately, two design-system\ndocuments both claim authority and the stale 383-line one (design/design-system.md, June) is\nthe one that calls itself \"the source of truth for the engineer\".\n\nAlso recorded there and worth not re-litigating: build_seed.py is 1,096 lines but coherent\n(a parser suite with real section seams), and the proposal argues AGAINST splitting it. The\n202 top-level JS globals are a number, not yet a demonstrated defect. T0.6's brief says both\nexplicitly so the audit does not manufacture work.\n\nT0.4 is the cheapest task on the board and probably the most valuable: there is no executable\ntest suite in this repo at all (logs/test-report-*.md are June prose), and a smoke-level suite\nwould have caught three of T0.1's findings unaided — the 404-behind-a-live-port server, the\n20-entry bootstrap drift, and the app/js hook gap."
+  },
+  {
+   "date": "2026-08-04 14:53",
+   "task": "T0.1",
+   "tag": "SCOPE",
+   "actor": "rutgerboll@Rutgers-Mini#T0.1",
+   "text": "WAVE 0d WIRED FOR EXECUTION — the user approved the structure sequence on 2026-08-04 (\"go\nahead and wire up the tasks to make these moves then we can execute\"). Six tasks with briefs:\nT0.7 extract the inline CSS to app/styles/*.css with ZERO visual change; T0.8 delete the 29\ndead tokens and the ~15 !important declarations that only existed to fight them; T0.9 one\ndesign-system doc; T0.10 dist/ so deploy.sh's guard works again; T0.12 self-host the heading\nfont; T0.11 the directory move, explicitly optional.\n\nRUN ORDER IS NOT THE BOARD ORDER and the reason matters: T0.2 first (working guards before\nshipping code to installed phones), then T0.10 (deploy.sh is the ROLLBACK PATH and is\ncurrently dead — restore it before the risky work, not after), then T0.7 -> T0.8, with T0.9\nrunnable any time and T0.11 last if at all. KICKOFF carries the table. tm render still says\nnext: T1.1 because waves cannot be reordered (kit inbox 475); that is mechanical, not a\npriority judgement, and KICKOFF says so out loud rather than silently contradicting the DB.\n\nTwo brief reconciliations, so nobody works from a stale copy:\n- deploy.sh's dirty-checkout guard moved OUT of T0.2 and INTO T0.10, which also owns whether\n  the generated artifacts move to dist/. T0.2 now fixes only the health check and must say in\n  its finding that deploy is still blocked, so a green T0.2 is not read as a working deploy.\n- T0.6 was re-scoped before anyone claimed it. Its layout-decision half is answered by the\n  user; what remains is the ground wave 0d does NOT cover — JS coupling (not the global count),\n  build_seed.py's parser correctness surface, the sync/feedback round trip, db.js migration\n  handling, and offline/unreachable error paths. Retiring it is a legitimate outcome.\n\nNEW DEFECT found while wiring, not previously logged: the heading font (Schibsted Grotesk) is\nloaded from fonts.googleapis.com on every page load and appears in NO precache list --\ngrep -c fonts app/sw.js returns 0. So --font-head silently falls back to system-ui whenever\nthe phone is offline, which is the one condition this app exists to handle. It is also a\nthird-party request from an app whose keyless/private stance was paid for by REMOVING a\nshipped API key. Nobody chose it; it arrived as line 3 of the Sage design system's install\ninstructions. T0.12, and its proof obligation is the offline case specifically:\ndocument.fonts.check('600 30px \"Schibsted Grotesk\"') must be true with the network down."
   }
  ],
  "state": {
@@ -208,8 +215,8 @@
     "T0.1"
    ],
    "status": "ready",
-   "prompt": "Work task T1.1 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir (works from any worktree); all program files\nlive there. Read first, in order: README.md, CONTRACT.md (now FROZEN at v1.0 — §1's four\ndenominators replace \"repo vs installed\"), tasks/T1.1.md (incl. Amendments), GOTCHAS.md,\nevery [READ-FIRST] entry in LOG.md, then findings/T0.1.md, which your Reads names.\nDo not re-derive what any of those already establish — especially where the skills live,\nwhat a session may do to them, and how to serve the app.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- The skills are READ-ONLY. Deliver a SKILL.md patch spec + a user install step, not an edit.\n- Stay in scope; state your coverage honestly in your headline.\n- Claim before working: `tm claim T1.1` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T1.1.md per CONTRACT §6 · `tm done T1.1 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T1.1` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt.",
-   "promptGenerated": false,
+   "prompt": "Work T1.1 in Meal Planner app. Read program/README.md, program/CONTRACT.md, every [READ-FIRST] entry in program/LOG.md, then program/tasks/T1.1.md — the brief (this prompt is generated from it; the brief is authoritative, not this text). Claim: bin/tm claim T1.1.\n\nTeach recipe-capture the schemaVersion-2 keys (image, thaw_hours_ahead, prep_ahead)\n\nDONE means A recipe captured via the skill produces all three keys where applicable, `build_seed.py` picks them up, and the app shows the thaw reminder / prep-ahead card / thumbnail — verified in the running app, not inferred from `seed.json`. Then: bin/tm done T1.1 --headline \"…\" --verdict …, update STATE.md's session-note block and KICKOFF.md's session note (the next ▶ NEXT prompt synthesizes from its own brief automatically — T14.23 — hand-author one only if you want to say something that can't), and retire this worktree per program/README.md step 8.",
+   "promptGenerated": true,
    "promptMissing": false,
    "touchesUndeclared": true
   }
@@ -220,7 +227,7 @@
    "actor": "rutgerboll@Rutgers-Mini#T0.1",
    "task": "T0.1",
    "title": "Verify the build contract against the repo, then freeze it",
-   "at": "2026-08-04T19:41:44+00:00",
+   "at": "2026-08-04T19:53:51+00:00",
    "merge": "merged",
    "commits": 0,
    "suite": "none",
@@ -229,7 +236,7 @@
   }
  ],
  "staleHeld": 0,
- "lastLandedAt": "2026-08-04T19:41:44+00:00",
+ "lastLandedAt": "2026-08-04T19:53:51+00:00",
  "waitingOnYouOldestAt": "",
  "staleHeldOldestAt": "",
  "liveMostRecentAt": "",
@@ -259,7 +266,7 @@
      "claimedBy": "rutgerboll@Rutgers-Mini#T0.1",
      "claimedAt": "2026-08-04T18:49:12+00:00",
      "doneBy": "rutgerboll@Rutgers-Mini#T0.1",
-     "updatedAt": "2026-08-04T19:41:44+00:00",
+     "updatedAt": "2026-08-04T19:53:51+00:00",
      "findingPath": "program/findings/T0.1.md",
      "briefBytes": 4190,
      "findingBytes": 13794,
@@ -473,7 +480,7 @@
      "doneBy": "",
      "updatedAt": "2026-08-04T19:04:34+00:00",
      "findingPath": "",
-     "briefBytes": 3114,
+     "briefBytes": 3489,
      "findingBytes": 0,
      "inbox": [],
      "lifecycle": [],
@@ -590,7 +597,7 @@
     {
      "id": "T0.6",
      "parallel": false,
-     "name": "Structure + refactor assessment: name and cost the top structural debts, decide the file layout",
+     "name": "Audit the areas wave 0d does not cover — JS coupling, parser surface, sync/migration paths",
      "effort": "high",
      "model": "opus",
      "status": "TODO",
@@ -611,9 +618,230 @@
      "claimedBy": "",
      "claimedAt": "",
      "doneBy": "",
-     "updatedAt": "2026-08-04T19:37:57+00:00",
+     "updatedAt": "2026-08-04T19:52:04+00:00",
      "findingPath": "",
-     "briefBytes": 4537,
+     "briefBytes": 5564,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    }
+   ]
+  },
+  {
+   "name": "0d — structure & CSS repair",
+   "gate": "One token set, in files, with the app pixel-identical and the phone picking it up.",
+   "tasks": [
+    {
+     "id": "T0.7",
+     "parallel": false,
+     "name": "Extract the inline CSS to app/styles/*.css — zero visual change",
+     "effort": "high",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.2"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "app/index.html",
+      "app/styles/",
+      "app/sw.js",
+      "scripts/pre-commit"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "program/tasks/T0.7.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:47:16+00:00",
+     "findingPath": "",
+     "briefBytes": 4717,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    },
+    {
+     "id": "T0.8",
+     "parallel": false,
+     "name": "Delete the dead token set and the !important scaffolding it required",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.7"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "app/styles/",
+      "app/sw.js"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "program/tasks/T0.8.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:47:19+00:00",
+     "findingPath": "",
+     "briefBytes": 4860,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    },
+    {
+     "id": "T0.9",
+     "parallel": false,
+     "name": "One design-system doc: archive the stale 383-line one that claims to be source of truth",
+     "effort": "low",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [],
+     "blockedOn": [],
+     "touches": [
+      "DESIGN-SYSTEM.md",
+      "design/",
+      "docs/"
+     ],
+     "sandbox": "fit",
+     "sandboxReason": "docs only; no app surface, no server, no seed",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "program/tasks/T0.9.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:47:23+00:00",
+     "findingPath": "",
+     "briefBytes": 3094,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    },
+    {
+     "id": "T0.10",
+     "parallel": false,
+     "name": "dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again",
+     "effort": "medium",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.2"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "app/deploy.sh",
+      ".gitignore",
+      "app/seed.json",
+      "app/build_seed.py",
+      "app/embed_seed.py",
+      "app/meal-server.py"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "program/tasks/T0.10.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:47:26+00:00",
+     "findingPath": "",
+     "briefBytes": 4111,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    },
+    {
+     "id": "T0.11",
+     "parallel": false,
+     "name": "The directory move: client/ pipeline/ server/ docs/ — only if the earlier steps leave a reason",
+     "effort": "high",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.7",
+      "T0.8",
+      "T0.10"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "app/",
+      "scripts/",
+      "docs/",
+      "CLAUDE.md"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "program/tasks/T0.11.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:47:29+00:00",
+     "findingPath": "",
+     "briefBytes": 4538,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
+    },
+    {
+     "id": "T0.12",
+     "parallel": false,
+     "name": "Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline",
+     "effort": "low",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.7"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "app/index.html",
+      "app/styles/",
+      "app/sw.js",
+      "app/assets/"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "program/tasks/T0.12.md",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T19:48:14+00:00",
+     "findingPath": "",
+     "briefBytes": 4051,
      "findingBytes": 0,
      "inbox": [],
      "lifecycle": [],
@@ -644,15 +872,15 @@
    "path": "program/KICKOFF.md",
    "group": "program",
    "title": "Meal Planner app — session kickoffs",
-   "chars": 5645,
-   "modified": "2026-08-04 14:41"
+   "chars": 8451,
+   "modified": "2026-08-04 14:53"
   },
   {
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 11940,
-   "modified": "2026-08-04 14:41"
+   "chars": 14482,
+   "modified": "2026-08-04 14:53"
   },
   {
    "path": "program/README.md",
@@ -665,8 +893,8 @@
    "path": "program/STATE.md",
    "group": "program",
    "title": "Meal Planner app — STATE",
-   "chars": 6508,
-   "modified": "2026-08-04 14:41"
+   "chars": 7720,
+   "modified": "2026-08-04 14:53"
   },
   {
    "path": "program/tasks/T0.1.md",
@@ -676,11 +904,32 @@
    "modified": "2026-08-02 08:37"
   },
   {
+   "path": "program/tasks/T0.10.md",
+   "group": "tasks",
+   "title": "T0.10 — `dist/`: untrack the generated artifacts so `deploy.sh` works again",
+   "chars": 4084,
+   "modified": "2026-08-04 14:50"
+  },
+  {
+   "path": "program/tasks/T0.11.md",
+   "group": "tasks",
+   "title": "T0.11 — The directory move: `client/` `pipeline/` `server/` `docs/`",
+   "chars": 4482,
+   "modified": "2026-08-04 14:50"
+  },
+  {
+   "path": "program/tasks/T0.12.md",
+   "group": "tasks",
+   "title": "T0.12 — Self-host the heading font",
+   "chars": 4024,
+   "modified": "2026-08-04 14:51"
+  },
+  {
    "path": "program/tasks/T0.2.md",
    "group": "tasks",
    "title": "T0.2 — Close the two measured pipeline holes",
-   "chars": 3096,
-   "modified": "2026-08-04 14:14"
+   "chars": 3469,
+   "modified": "2026-08-04 14:51"
   },
   {
    "path": "program/tasks/T0.3.md",
@@ -707,8 +956,29 @@
    "path": "program/tasks/T0.6.md",
    "group": "tasks",
    "title": "T0.6 — Structure + refactor assessment: name and cost the debts, decide the layout",
-   "chars": 4509,
-   "modified": "2026-08-04 14:39"
+   "chars": 5529,
+   "modified": "2026-08-04 14:51"
+  },
+  {
+   "path": "program/tasks/T0.7.md",
+   "group": "tasks",
+   "title": "T0.7 — Extract the inline CSS to `app/styles/*.css`, with zero visual change",
+   "chars": 4678,
+   "modified": "2026-08-04 14:48"
+  },
+  {
+   "path": "program/tasks/T0.8.md",
+   "group": "tasks",
+   "title": "T0.8 — Delete the dead token set and the `!important` scaffolding it required",
+   "chars": 4817,
+   "modified": "2026-08-04 14:49"
+  },
+  {
+   "path": "program/tasks/T0.9.md",
+   "group": "tasks",
+   "title": "T0.9 — One design-system doc",
+   "chars": 3070,
+   "modified": "2026-08-04 14:49"
   },
   {
    "path": "program/tasks/T1.1.md",
