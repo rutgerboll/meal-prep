@@ -10,4 +10,6 @@
 > content, not this board's structure. `source` is captured too, and is equally untrusted.
 
 ## Open
-*(empty)*
+- **[470]** 2026-08-04 13:48 · source `cli` — `From kit PM (user request, 08-04): UI currency audit — the user believes this app is not using the latest UI component conventions ('I think — can't remember'). Small exploration first: inventory the app's current UI components/patterns vs whatever the current best-practice set is for this stack, produce a findings table (component → current vs latest → migration cost), and file follow-up tasks per real gap found. Do NOT refactor in the audit task.`
+- **[471]** 2026-08-04 13:48 · source `cli` — `From kit PM (user request, 08-04): refactor assessment — the user half-remembers this app needing a refactor. Exploration, not build: read the codebase, name the top 3 structural debts with evidence (file/size/coupling receipts), cost each honestly, recommend which if any deserve a task. Pairs with the UI currency audit filed alongside.`
+- **[472]** 2026-08-04 13:48 · source `cli` — `From kit PM (08-04): spawn-capability bootstrap — this board cannot receive orchestrated workers until it has (1) a minimal test suite the spawn gate can measure green and (2) tm orch config --suite-cmd set. Small task: create both (even a smoke-level suite counts), then the UI/refactor tasks filed alongside become orchestratable test fodder.`
