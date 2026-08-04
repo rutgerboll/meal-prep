@@ -1,0 +1,152 @@
+/* The "Sage" design system (DESIGN-SYSTEM.md). Loaded AFTER 02-base.css because
+   that is how it was pasted in, and its !important overrides depend on it. */
+/* =====================================================================
+   SAGE — personal design system
+   Drop-in restyle for the Meal Planner app. Dark-first, flat, hairline.
+   Reuses the app's existing CSS variable NAMES, so every existing screen
+   re-themes automatically. Also neutralises the old glassmorphism.
+
+   HOW TO INSTALL
+   1. In index.html, replace the two :root / html[data-theme="dark"]
+      token lines in <style> with the token blocks below (or just paste
+      this whole file into a <style> AFTER the existing one — the
+      !important overrides will win).
+   2. Default the app to dark: <html lang="en" data-theme="dark">.
+   3. Load a heading font once in <head>:
+      <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+   ===================================================================== */
+
+/* ---- TOKENS : LIGHT (default) ------------------------------------ */
+:root{
+  --bg-app:#F3F4F1; --bg-card:#FFFFFF; --bg-alt:#EBEDE8; --bg-in:#EBEDE8;
+  --text:#191C20; --text2:#586069; --text3:#888F98; --textop:#FFFFFF;
+  --bdr:#DFE2DC; --bdrs:#ECEEE9;
+  --pr:#4C7C5A; --prd:#3E6A4B; --prl:#E4EFE6;
+  --secondary:#5C7A63; --secondary-tint:#E6EFE7; --secondary-ink:#3C5A43;
+  --ok:#4C7C5A; --warn:#A8670F; --danger:#B65A3D; --info:#5A6E66;
+  --chip-bg:#EBEDE8; --chip-fg:#586069;
+  --glass:#FFFFFF; --glass-strong:#FFFFFF; --glass-bdr:#DFE2DC; --navglass:#FFFFFF;
+  --bg-grad1:#F3F4F1; --bg-grad2:#F3F4F1; --bg-grad3:#F3F4F1;
+  --font-head:'Schibsted Grotesk', system-ui, sans-serif;
+}
+
+/* ---- TOKENS : DARK (primary) ------------------------------------- */
+html[data-theme="dark"]{
+  --bg-app:#0F1114; --bg-card:#171A20; --bg-alt:#212630; --bg-in:#212630;
+  --text:#F1F3F6; --text2:#A4ADBA; --text3:#69727E; --textop:#0E1A12;
+  --bdr:#2A2F39; --bdrs:#20242C;
+  --pr:#9CC39C; --prd:#8AB58A; --prl:#18231A;
+  --secondary:#86A98F; --secondary-tint:#1F2A22; --secondary-ink:#A9C9B0;
+  --ok:#9CC39C; --warn:#D9A24A; --danger:#E0876B; --info:#8FB0A6;
+  --chip-bg:#212630; --chip-fg:#A4ADBA;
+  --glass:#171A20; --glass-strong:#1A1E25; --glass-bdr:#2A2F39; --navglass:#171A20;
+  --bg-grad1:#0F1114; --bg-grad2:#0F1114; --bg-grad3:#0F1114;
+}
+
+/* ---- FLAT : kill the glass everywhere ---------------------------- */
+.card,#nav,.sticky,.sheet,.fld input,.fld select,.fld textarea,
+.glass,.glass-strong{
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+}
+.card{
+  background:var(--bg-card) !important;
+  border:1px solid var(--bdr) !important;
+  box-shadow:none !important;
+  border-radius:16px;
+}
+#nav,.sticky{ background:var(--bg-card) !important; }
+.sheet{ background:var(--bg-card) !important; }
+.fld input,.fld select,.fld textarea{ background:var(--bg-alt) !important; }
+html,body{ background:var(--bg-app) !important; }
+
+/* Headings adopt the display face */
+.sh .stitle,.sec,.day-ttl,.rc-ttl{ font-family:var(--font-head); letter-spacing:-0.01em; }
+
+/* =====================================================================
+   COOK SCREEN COMPONENTS  (used by cook.js)
+   ===================================================================== */
+.ck-head{ display:flex; justify-content:space-between; align-items:baseline; }
+.ck-title{ font-family:var(--font-head); font-size:30px; font-weight:700; letter-spacing:-0.02em; color:var(--text); }
+.ck-date{ font-size:12.5px; color:var(--text3); }
+
+.ck-prog{ display:flex; align-items:center; gap:11px; margin-top:14px; }
+.ck-track{ flex:1; height:3px; border-radius:2px; background:var(--bg-alt); overflow:hidden; }
+.ck-fill{ height:100%; background:var(--pr); border-radius:2px; transition:width .3s; }
+.ck-prog-l{ font-size:12px; color:var(--text2); white-space:nowrap; }
+
+.ck-heads{ display:flex; align-items:center; gap:10px; padding:12px 0; margin-top:6px;
+  border-top:1px solid var(--bdr); border-bottom:1px solid var(--bdr); }
+.ck-heads .dot{ width:8px; height:8px; border-radius:3px; background:var(--pr); flex-shrink:0; }
+.ck-heads .t{ font-size:13px; color:var(--text2); line-height:1.4; }
+
+.ck-seclbl{ font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--text3);
+  font-weight:600; margin:18px 0 4px; display:flex; justify-content:space-between; align-items:center; }
+
+.ck-ent{ padding:15px 0; border-bottom:1px solid var(--bdr); }
+.ck-ent-h{ display:flex; justify-content:space-between; align-items:center; }
+.ck-meal{ font-size:12px; color:var(--text3); }
+.ck-today{ font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--pr); }
+.ck-slot-ttl{ font-family:var(--font-head); font-size:18px; font-weight:600; color:var(--text); margin-top:6px; }
+.ck-meta{ font-size:12.5px; color:var(--text3); margin-top:5px; }
+.ck-meta.logged{ color:var(--pr); }
+.ck-planned{ font-size:12.5px; color:var(--text3); }
+
+.ck-actions{ display:flex; gap:20px; align-items:center; margin-top:12px; }
+.ck-acta{ color:var(--pr); font-size:13.5px; font-weight:600; background:none; border:none; padding:0; cursor:pointer; font-family:inherit; min-height:32px; }
+.ck-actb{ color:var(--text2); font-size:13.5px; font-weight:500; background:none; border:none; padding:0; cursor:pointer; font-family:inherit; min-height:32px; }
+
+.ck-collapsed{ display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+.ck-collapsed .t{ font-size:14px; color:var(--text2); }
+.ck-collapsed .d{ color:var(--text3); }
+.ck-collapsed .chk{ color:var(--pr); font-size:13px; font-weight:600; }
+
+/* inline carousel */
+.ck-rail{ margin-top:11px; display:flex; gap:10px; overflow-x:auto; padding-bottom:6px;
+  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+  margin-right:-16px; padding-right:16px; }
+.ck-rail::-webkit-scrollbar{ height:0; }
+.ck-card{ flex:0 0 150px; scroll-snap-align:start; background:transparent;
+  border:1px solid var(--bdr); border-radius:13px; padding:13px; cursor:pointer;
+  display:flex; flex-direction:column; gap:5px; -webkit-tap-highlight-color:transparent; }
+.ck-card.ck-next{ border-color:var(--pr); border-style:dashed; }
+.ck-card.sel{ border-color:var(--pr); border-style:solid; background:var(--prl); }
+.ck-card .ck-chip{ align-self:flex-start; }
+.ck-card .t{ font-family:var(--font-head); font-size:15px; font-weight:600; color:var(--text); line-height:1.2; margin-top:2px; }
+.ck-card .m{ font-size:11px; color:var(--text3); }
+.ck-card .p{ font-size:10.5px; color:var(--pr); min-height:13px; }
+.ck-card-none{ flex:0 0 100px; scroll-snap-align:start; border:1px solid var(--bdr);
+  border-radius:13px; padding:13px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; text-align:center; color:var(--text3); font-size:12.5px; }
+.ck-card-none.sel{ border-color:var(--pr); color:var(--pr); }
+
+.ck-chip{ display:inline-flex; align-items:center; height:23px; padding:0 9px; border-radius:8px;
+  font-size:11px; font-weight:500; background:var(--chip-bg); color:var(--chip-fg); white-space:nowrap; }
+
+.ck-cancel{ font-size:12px; color:var(--text2); background:none; border:none; cursor:pointer; font-family:inherit; }
+
+/* bottom sheet (rating) */
+.ck-ov{ position:fixed; inset:0; background:rgba(0,0,0,.32); z-index:200; display:flex; align-items:flex-end; }
+.ck-ov.hidden{ display:none; }
+.ck-sheet{ width:100%; background:var(--bg-app); border-top:1px solid var(--bdr);
+  border-radius:22px 22px 0 0; max-height:88%; overflow-y:auto; padding:8px 20px 26px;
+  padding-bottom:calc(26px + env(safe-area-inset-bottom)); }
+.ck-handle{ width:36px; height:4px; border-radius:2px; background:var(--bdr); margin:8px auto 16px; }
+.ck-sheet-lbl{ font-size:12px; color:var(--text3); }
+.ck-sheet-ttl{ font-family:var(--font-head); font-size:21px; font-weight:600; color:var(--text); margin-top:2px; }
+.ck-field{ margin-top:22px; }
+.ck-field-l{ font-size:12.5px; color:var(--text3); margin-bottom:9px; }
+.ck-stars{ display:flex; gap:10px; font-size:30px; line-height:1; }
+.ck-star{ cursor:pointer; color:var(--text3); -webkit-tap-highlight-color:transparent; }
+.ck-star.on{ color:var(--pr); }
+.ck-stepper{ display:flex; align-items:center; gap:14px; }
+.ck-stepbtn{ width:42px; height:42px; border-radius:11px; background:var(--bg-alt); border:1px solid var(--bdr);
+  color:var(--text); font-size:21px; cursor:pointer; font-family:var(--font-head); }
+.ck-stepval{ font-family:var(--font-head); font-size:21px; font-weight:600; min-width:78px; text-align:center; color:var(--text); }
+.ck-note{ width:100%; min-height:74px; background:var(--bg-alt); border:1px solid var(--bdr); border-radius:11px;
+  color:var(--text); font-size:15px; padding:12px; resize:vertical; font-family:inherit; }
+.ck-primary{ width:100%; height:50px; margin-top:20px; background:var(--pr); color:var(--textop);
+  border:none; border-radius:13px; font-size:15px; font-weight:600; cursor:pointer; font-family:var(--font-head); }
+.ck-primary:active{ background:var(--prd); }
+.ck-skip{ width:100%; text-align:center; margin-top:14px; font-size:13.5px; color:var(--text2);
+  background:none; border:none; cursor:pointer; font-family:inherit; min-height:44px; }
