@@ -42,50 +42,37 @@ launchd job's own stderr and it has held the answer every time. T0.1 checked it 
 restart, when it did not exist, then never went back — and spent two contract revisions guessing
 as a result.
 
-As of 2026-08-04 it says `Operation not permitted` opening `meal-server.py`. **Errno 1 is
-EPERM; ENOENT would be 2** — so the path is fine and this is a permission denial on
-`~/Documents` for a LaunchAgent-invoked binary, i.e. Full Disk Access, exactly as
-`SYNC-SETUP.md` says. The grant is missing and only the user can add it (System Settings →
-Privacy & Security → Full Disk Access → `/usr/bin/python3`).
+As of 2026-08-04 it holds **two** errors, interleaved, and the pair *is* the diagnosis:
 
-**Until then the server runs only via `deploy.sh`'s manual fallback and dies on reboot.**
-`cd app && ./deploy.sh` brings it back; it reports "via launchd" once the grant exists and
-"manual background process" until then — that string is the status indicator.
+- `[Errno 1] Operation not permitted` opening `meal-server.py` — Full Disk Access. Errno **1**
+  is EPERM; **2** would mean a wrong path.
+- `[Errno 48] Address already in use` — the grant is fine and something else holds 8765, almost
+  always `deploy.sh`'s manual fallback from an earlier run.
 
-Prefer your own instance whenever your work could disturb the phone's server:
+Both appear because `deploy.sh` runs `launchctl kickstart` from a shell that *has* the grant and
+those spawns can inherit it; autonomous `KeepAlive` respawns cannot. Same job, two failure
+modes, alternating by who triggered the spawn. That interleaving is what made this look
+intermittent and cost two wrong diagnoses.
+
+**The grant is on the wrong binary, not missing.** `/usr/bin/python3` is an Xcode tool shim
+(`com.apple.dt.xcode_select.tool-shim-public`); it re-execs
+`/Library/Developer/CommandLineTools/usr/bin/python3` (`com.apple.python3`, team `59GAB85EFG`),
+and TCC keys on the signature. `SYNC-SETUP.md` used to say to grant the shim, so that is what
+was granted. **General rule: when a service cannot read its own script, check which binary is
+executing, not which path you typed** —
 
 ```
-cd app && MP_BASE_DIR="/Users/rutgerboll/Documents/Claude/Projects/Meal planning" MEAL_PORT=8766 python3 meal-server.py
+codesign -dv /usr/bin/python3            # com.apple.dt.xcode_select.tool-shim-public
+python3 -c 'import sys; print(sys.executable)'
 ```
 
-Works from a worktree (the child `build_seed.py` inherits `MP_BASE_DIR`). Stop it **by PID**:
+Fix: add `/Library/Developer/CommandLineTools/usr/bin/python3` to Full Disk Access (user action,
+System Settings). Until then the server runs only via `deploy.sh`'s manual fallback and **dies
+on reboot**. `deploy.sh`'s last line is the status indicator — **"via launchd"** vs **"manual
+background process"**.
 
-```
-kill $(lsof -ti :8766 -sTCP:LISTEN)
-```
-
-Never `pkill -f meal-server.py` — it matches the launchd server the phone depends on, which is
-exactly how T0.1 restarted production by accident.
-
-## Reading the installed state from the page
-
-`curl` bypasses the service worker; a `fetch()` from inside the page goes through it. The two
-disagreeing **is** the staleness measurement, and it is the only honest way to make a
-denominator-4b claim:
-
-```js
-await caches.keys()                                   // names the live cache, e.g. mealplanner-v27
-const viaSW  = await (await fetch('./js/pwa.js')).text()   // what the app runs
-const c      = await caches.open('mealplanner-v27')
-const cached = await (await c.match(location.origin + '/js/pwa.js')).text()
-```
-
-For data, open IndexedDB `meal-planner` (v3) and read `meta` → `{seededAt, schemaVersion,
-inventoryUpdatedAt}`. A `seededAt` from seconds ago means the app auto-synced on load, so you
-are looking at state 3, not at the inline bootstrap.
-
-**A fresh IndexedDB is not evidence about migrations** — CONTRACT §5. Loading the app in a
-clean browser profile gives you a first-seed path, never an upgrade path.
+To test the agent honestly, free the port first: with something already listening you get
+"address already in use" and learn nothing about the grant.
 
 ## Measuring computed styles — no timers, ever
 

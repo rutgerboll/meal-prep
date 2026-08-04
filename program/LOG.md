@@ -221,35 +221,35 @@ definition that returns 0 for everything. My first run reported a dead port as h
 line range and `sh -n` the result.
 
 ## 2026-08-04 15:36 · T0.10 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
-*(supersedes log #7)*
-CORRECTION TO ENTRY #7 — FULL DISK ACCESS *IS* THE CAUSE, AND THE PHONE'S SERVER WILL NOT
-SURVIVE A REBOOT. Entry #7 retracted the FDA diagnosis on the strength of one healthy process
-appearing after an accidental pkill. That retraction was wrong. Running deploy.sh end to end
-for the first time (T0.10) made launchd try to start the server, and its own stderr says:
+*(superseded by log #19)*
+~~CORRECTION TO ENTRY #7 — FULL DISK ACCESS *IS* THE CAUSE, AND THE PHONE'S SERVER WILL NOT~~
+~~SURVIVE A REBOOT. Entry #7 retracted the FDA diagnosis on the strength of one healthy process~~
+~~appearing after an accidental pkill. That retraction was wrong. Running deploy.sh end to end~~
+~~for the first time (T0.10) made launchd try to start the server, and its own stderr says:~~
 
-  /Library/Developer/CommandLineTools/usr/bin/python3: can't open file
-  '.../app-build/app/meal-server.py': [Errno 1] Operation not permitted
+~~  /Library/Developer/CommandLineTools/usr/bin/python3: can't open file~~
+~~  '.../app-build/app/meal-server.py': [Errno 1] Operation not permitted~~
 
-Nine times, last exit code = 2, job in spawn-throttle. Errno 1 is EPERM, not ENOENT (2) — the
-path is correct and the file reads fine from a session shell, so this is a permission denial
-on ~/Documents for a LaunchAgent-invoked binary. That is exactly what SYNC-SETUP.md documents.
-CONTRACT v1.0 was right, v1.1 was the error, v1.2 is the correction.
+~~Nine times, last exit code = 2, job in spawn-throttle. Errno 1 is EPERM, not ENOENT (2) — the~~
+~~path is correct and the file reads fine from a session shell, so this is a permission denial~~
+~~on ~/Documents for a LaunchAgent-invoked binary. That is exactly what SYNC-SETUP.md documents.~~
+~~CONTRACT v1.0 was right, v1.1 was the error, v1.2 is the correction.~~
 
-The log was there the whole time. I checked /tmp/mealplanner-server.err once, before the
-restart, when it did not exist, and never went back. §3 now says to read it FIRST.
+~~The log was there the whole time. I checked /tmp/mealplanner-server.err once, before the~~
+~~restart, when it did not exist, and never went back. §3 now says to read it FIRST.~~
 
-OPERATIONAL STATE, which someone needs to act on: production is being served by deploy.sh's
-MANUAL FALLBACK (a nohup'd process, PPID 1, started 15:33), not by launchd. It is healthy, it
-serves the tailnet, and it survives a session ending — but it does NOT survive a reboot or a
-logout. If the phone stops syncing and nobody has touched anything, this is why.
+~~OPERATIONAL STATE, which someone needs to act on: production is being served by deploy.sh's~~
+~~MANUAL FALLBACK (a nohup'd process, PPID 1, started 15:33), not by launchd. It is healthy, it~~
+~~serves the tailnet, and it survives a session ending — but it does NOT survive a reboot or a~~
+~~logout. If the phone stops syncing and nobody has touched anything, this is why.~~
 
-The fix is a USER action and cannot be done from a session: System Settings -> Privacy &
-Security -> Full Disk Access -> + -> Cmd-Shift-G -> /usr/bin/python3 -> enable. Then
-`cd app && ./deploy.sh` and confirm it says "via launchd" rather than "manual background
-process". Until that line changes, the launchd path is still broken.
+~~The fix is a USER action and cannot be done from a session: System Settings -> Privacy &~~
+~~Security -> Full Disk Access -> + -> Cmd-Shift-G -> /usr/bin/python3 -> enable. Then~~
+~~`cd app && ./deploy.sh` and confirm it says "via launchd" rather than "manual background~~
+~~process". Until that line changes, the launchd path is still broken.~~
 
-Still unexplained and not worth a third guess: why the 14:08 process ran healthily with
-launchd's own argv while launchd cannot exec that path now. It does not change the remedy.
+~~Still unexplained and not worth a third guess: why the 14:08 process ran healthily with~~
+~~launchd's own argv while launchd cannot exec that path now. It does not change the remedy.~~
 
 ## 2026-08-04 15:37 · T0.10 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.10 done. app/seed.json is untracked and .gitignore'd (with .claude/launch.json, which was
@@ -462,3 +462,42 @@ pass so the plist is written once.
 NOTE FOR WHOEVER TAKES IT: this falsifies CONTRACT §1's denominator 2, which currently says the
 mini serves the working tree. That is a contract change — version bump plus a [READ-FIRST]
 entry, per the contract's own rule.
+
+## 2026-08-04 17:09 · T0.14 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
+*(supersedes log #11)*
+CORRECTION TO #11 — FULL DISK ACCESS WAS GRANTED. IT WAS GRANTED TO THE WRONG BINARY, AND THE
+INSTRUCTION IN SYNC-SETUP.md IS WHAT MADE THAT HAPPEN. The user said they had already granted
+it, and they had.
+
+/usr/bin/python3 IS NOT PYTHON. It is an Xcode tool shim — codesign identifier
+com.apple.dt.xcode_select.tool-shim-public — that re-execs
+/Library/Developer/CommandLineTools/usr/bin/python3 (identifier com.apple.python3, team
+59GAB85EFG). TCC keys on the binary's signature, so a grant on the shim does not cover the
+interpreter that actually opens the file. SYNC-SETUP.md told the user to add the shim. It now
+tells them to add the real interpreter, and that file is fixed.
+
+WHY IT LOOKED INTERMITTENT, which is what misled me twice: the launchd err log holds BOTH
+"[Errno 1] Operation not permitted" (437 lines) and "[Errno 48] Address already in use" (101),
+interleaved. The explanation is that deploy.sh runs `launchctl kickstart` from a shell that DOES
+have Full Disk Access, and those spawns can inherit it — they read the script fine and then fail
+to bind because something already holds 8765. Autonomous KeepAlive respawns inherit nothing and
+hit EPERM. Same job, two failure modes, alternating by who triggered the spawn.
+
+DECISIVE TEST, run 2026-08-04 17:0x: I killed the process holding 8765 and left the port free
+for 20 seconds. launchd tried twice and got "Operation not permitted" both times; nothing ever
+listened. So with no inheriting parent and no port conflict, the agent genuinely cannot read the
+script. That is the clean experiment the earlier guesses lacked. It also briefly took the phone
+offline — I restored service with ./deploy.sh immediately, and it is up on the manual fallback.
+
+THE FIX, precise and still a user action: System Settings -> Privacy & Security -> Full Disk
+Access -> + -> Cmd-Shift-G ->
+  /Library/Developer/CommandLineTools/usr/bin/python3
+Then `cd app && ./deploy.sh` and read the last line: "via launchd" means the agent owns the
+server; "manual background process" means it does not and it will not survive a reboot.
+
+Status right now: server UP, serving the tailnet, but as deploy.sh's manual fallback (PPID 1),
+not under launchd. T0.11 and T0.14 stay gated on that last line changing.
+
+Standing lesson, third time this server has taught it: when a service cannot read its own
+script, check WHICH BINARY is executing, not just which path you typed. `codesign -dv` and
+`python3 -c 'import sys; print(sys.executable)'` settle it in two seconds.

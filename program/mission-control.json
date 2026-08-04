@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T21:53:54+00:00",
+ "generatedAt": "2026-08-04T22:10:18+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -68,6 +68,13 @@
    "tag": "READ-FIRST",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "DEV AND DEPLOY ARE THE SAME DIRECTORY. Raised by the user 2026-08-04 and confirmed by\nmeasurement, not by reading: the launchd job runs .../app-build/app/meal-server.py, the running\nprocess's cwd is .../app-build/app, and git rev-parse --show-toplevel is .../app-build.\nmeal-server.py serves directory=SCRIPT_DIR, so the web root IS the checkout we edit.\nDemonstrated by appending a comment to app/index.html WITHOUT committing and curling the\nproduction URL — it came straight back.\n\nWhat that means, all live right now:\n- A merge to main IS a deploy. Wave 0d reached the phone the moment each task merged. It worked\n  out; nothing made it a decision.\n- Ordinary git operations move production. checkout, stash and rebase all rewrite the served\n  tree. T0.10's park-merge-restore briefly removed app/seed.json from under a live server.\n- deploy.sh is decorative. Its `git pull --ff-only origin main` runs in the checkout the code\n  already lives in — measured a no-op (0 behind, 0 ahead). It restarts and health-checks, which\n  is real; it does not deploy.\n- Worktrees have been mitigating this (wave 0d edited only in .claude/worktrees/wave-0d), but\n  that is convention and it ends at the merge.\n\nFiled as T0.14 with a brief. Proposed shape is a SIBLING GIT WORKTREE on a `release` branch at\nMeal planning/app-deploy — not a second clone. Two facts that make it cheap, both verified:\n(1) build_seed.py and meal-server.py derive their base as SCRIPT_DIR/../.., and from\napp-deploy/app that resolves to Meal planning/ exactly as it does from app-build/app, so NO\nMP_BASE_DIR is needed in the plist; (2) a worktree shares .git, so it costs ~300 KB of working\nfiles and the pre-commit hook applies to both.\n\nGATED ON THE SAME THING AS T0.11: repointing the LaunchAgent means editing the plist, and the\nlaunchd job cannot start the server at all until Full Disk Access is granted (LOG #11). Do not\nstart T0.14 until ./deploy.sh reports \"via launchd\". If T0.11 is also happening, do both in one\npass so the plist is written once.\n\nNOTE FOR WHOEVER TAKES IT: this falsifies CONTRACT §1's denominator 2, which currently says the\nmini serves the working tree. That is a contract change — version bump plus a [READ-FIRST]\nentry, per the contract's own rule."
+  },
+  {
+   "date": "2026-08-04 17:09",
+   "task": "T0.14",
+   "tag": "READ-FIRST",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "CORRECTION TO #11 — FULL DISK ACCESS WAS GRANTED. IT WAS GRANTED TO THE WRONG BINARY, AND THE\nINSTRUCTION IN SYNC-SETUP.md IS WHAT MADE THAT HAPPEN. The user said they had already granted\nit, and they had.\n\n/usr/bin/python3 IS NOT PYTHON. It is an Xcode tool shim — codesign identifier\ncom.apple.dt.xcode_select.tool-shim-public — that re-execs\n/Library/Developer/CommandLineTools/usr/bin/python3 (identifier com.apple.python3, team\n59GAB85EFG). TCC keys on the binary's signature, so a grant on the shim does not cover the\ninterpreter that actually opens the file. SYNC-SETUP.md told the user to add the shim. It now\ntells them to add the real interpreter, and that file is fixed.\n\nWHY IT LOOKED INTERMITTENT, which is what misled me twice: the launchd err log holds BOTH\n\"[Errno 1] Operation not permitted\" (437 lines) and \"[Errno 48] Address already in use\" (101),\ninterleaved. The explanation is that deploy.sh runs `launchctl kickstart` from a shell that DOES\nhave Full Disk Access, and those spawns can inherit it — they read the script fine and then fail\nto bind because something already holds 8765. Autonomous KeepAlive respawns inherit nothing and\nhit EPERM. Same job, two failure modes, alternating by who triggered the spawn.\n\nDECISIVE TEST, run 2026-08-04 17:0x: I killed the process holding 8765 and left the port free\nfor 20 seconds. launchd tried twice and got \"Operation not permitted\" both times; nothing ever\nlistened. So with no inheriting parent and no port conflict, the agent genuinely cannot read the\nscript. That is the clean experiment the earlier guesses lacked. It also briefly took the phone\noffline — I restored service with ./deploy.sh immediately, and it is up on the manual fallback.\n\nTHE FIX, precise and still a user action: System Settings -> Privacy & Security -> Full Disk\nAccess -> + -> Cmd-Shift-G ->\n  /Library/Developer/CommandLineTools/usr/bin/python3\nThen `cd app && ./deploy.sh` and read the last line: \"via launchd\" means the agent owns the\nserver; \"manual background process\" means it does not and it will not survive a reboot.\n\nStatus right now: server UP, serving the tailnet, but as deploy.sh's manual fallback (PPID 1),\nnot under launchd. T0.11 and T0.14 stay gated on that last line changing.\n\nStanding lesson, third time this server has taught it: when a service cannot read its own\nscript, check WHICH BINARY is executing, not just which path you typed. `codesign -dv` and\n`python3 -c 'import sys; print(sys.executable)'` settle it in two seconds."
   }
  ],
  "pmActivity": [],
@@ -202,6 +209,13 @@
    "tag": "READ-FIRST",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "DEV AND DEPLOY ARE THE SAME DIRECTORY. Raised by the user 2026-08-04 and confirmed by\nmeasurement, not by reading: the launchd job runs .../app-build/app/meal-server.py, the running\nprocess's cwd is .../app-build/app, and git rev-parse --show-toplevel is .../app-build.\nmeal-server.py serves directory=SCRIPT_DIR, so the web root IS the checkout we edit.\nDemonstrated by appending a comment to app/index.html WITHOUT committing and curling the\nproduction URL — it came straight back.\n\nWhat that means, all live right now:\n- A merge to main IS a deploy. Wave 0d reached the phone the moment each task merged. It worked\n  out; nothing made it a decision.\n- Ordinary git operations move production. checkout, stash and rebase all rewrite the served\n  tree. T0.10's park-merge-restore briefly removed app/seed.json from under a live server.\n- deploy.sh is decorative. Its `git pull --ff-only origin main` runs in the checkout the code\n  already lives in — measured a no-op (0 behind, 0 ahead). It restarts and health-checks, which\n  is real; it does not deploy.\n- Worktrees have been mitigating this (wave 0d edited only in .claude/worktrees/wave-0d), but\n  that is convention and it ends at the merge.\n\nFiled as T0.14 with a brief. Proposed shape is a SIBLING GIT WORKTREE on a `release` branch at\nMeal planning/app-deploy — not a second clone. Two facts that make it cheap, both verified:\n(1) build_seed.py and meal-server.py derive their base as SCRIPT_DIR/../.., and from\napp-deploy/app that resolves to Meal planning/ exactly as it does from app-build/app, so NO\nMP_BASE_DIR is needed in the plist; (2) a worktree shares .git, so it costs ~300 KB of working\nfiles and the pre-commit hook applies to both.\n\nGATED ON THE SAME THING AS T0.11: repointing the LaunchAgent means editing the plist, and the\nlaunchd job cannot start the server at all until Full Disk Access is granted (LOG #11). Do not\nstart T0.14 until ./deploy.sh reports \"via launchd\". If T0.11 is also happening, do both in one\npass so the plist is written once.\n\nNOTE FOR WHOEVER TAKES IT: this falsifies CONTRACT §1's denominator 2, which currently says the\nmini serves the working tree. That is a contract change — version bump plus a [READ-FIRST]\nentry, per the contract's own rule."
+  },
+  {
+   "date": "2026-08-04 17:09",
+   "task": "T0.14",
+   "tag": "READ-FIRST",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "CORRECTION TO #11 — FULL DISK ACCESS WAS GRANTED. IT WAS GRANTED TO THE WRONG BINARY, AND THE\nINSTRUCTION IN SYNC-SETUP.md IS WHAT MADE THAT HAPPEN. The user said they had already granted\nit, and they had.\n\n/usr/bin/python3 IS NOT PYTHON. It is an Xcode tool shim — codesign identifier\ncom.apple.dt.xcode_select.tool-shim-public — that re-execs\n/Library/Developer/CommandLineTools/usr/bin/python3 (identifier com.apple.python3, team\n59GAB85EFG). TCC keys on the binary's signature, so a grant on the shim does not cover the\ninterpreter that actually opens the file. SYNC-SETUP.md told the user to add the shim. It now\ntells them to add the real interpreter, and that file is fixed.\n\nWHY IT LOOKED INTERMITTENT, which is what misled me twice: the launchd err log holds BOTH\n\"[Errno 1] Operation not permitted\" (437 lines) and \"[Errno 48] Address already in use\" (101),\ninterleaved. The explanation is that deploy.sh runs `launchctl kickstart` from a shell that DOES\nhave Full Disk Access, and those spawns can inherit it — they read the script fine and then fail\nto bind because something already holds 8765. Autonomous KeepAlive respawns inherit nothing and\nhit EPERM. Same job, two failure modes, alternating by who triggered the spawn.\n\nDECISIVE TEST, run 2026-08-04 17:0x: I killed the process holding 8765 and left the port free\nfor 20 seconds. launchd tried twice and got \"Operation not permitted\" both times; nothing ever\nlistened. So with no inheriting parent and no port conflict, the agent genuinely cannot read the\nscript. That is the clean experiment the earlier guesses lacked. It also briefly took the phone\noffline — I restored service with ./deploy.sh immediately, and it is up on the manual fallback.\n\nTHE FIX, precise and still a user action: System Settings -> Privacy & Security -> Full Disk\nAccess -> + -> Cmd-Shift-G ->\n  /Library/Developer/CommandLineTools/usr/bin/python3\nThen `cd app && ./deploy.sh` and read the last line: \"via launchd\" means the agent owns the\nserver; \"manual background process\" means it does not and it will not survive a reboot.\n\nStatus right now: server UP, serving the tailnet, but as deploy.sh's manual fallback (PPID 1),\nnot under launchd. T0.11 and T0.14 stay gated on that last line changing.\n\nStanding lesson, third time this server has taught it: when a service cannot read its own\nscript, check WHICH BINARY is executing, not just which path you typed. `codesign -dv` and\n`python3 -c 'import sys; print(sys.executable)'` settle it in two seconds."
   }
  ],
  "state": {
@@ -1190,7 +1204,7 @@
      "claimedBy": "",
      "claimedAt": "",
      "doneBy": "",
-     "updatedAt": "2026-08-04T21:53:28+00:00",
+     "updatedAt": "2026-08-04T22:09:28+00:00",
      "findingPath": "",
      "briefBytes": 6411,
      "findingBytes": 0,
@@ -1202,15 +1216,15 @@
    ]
   }
  ],
- "stale": true,
- "staleSince": "2026-08-04T21:53:52+00:00",
+ "stale": false,
+ "staleSince": null,
  "docs": [
   {
    "path": "program/CONTRACT.md",
    "group": "program",
    "title": "Meal Planner app — CONTRACT",
-   "chars": 16984,
-   "modified": "2026-08-04 15:36"
+   "chars": 18802,
+   "modified": "2026-08-04 17:09"
   },
   {
    "path": "program/GOTCHAS.md",
@@ -1230,8 +1244,8 @@
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 33163,
-   "modified": "2026-08-04 16:53"
+   "chars": 35857,
+   "modified": "2026-08-04 17:09"
   },
   {
    "path": "program/README.md",
@@ -1426,16 +1440,16 @@
    "path": "SYNC-SETUP.md",
    "group": "root",
    "title": "Sync setup — Mac mini + Tailscale (HTTPS)",
-   "chars": 5306,
-   "modified": "2026-07-25 10:52",
+   "chars": 6847,
+   "modified": "2026-08-04 17:08",
    "citedBy": "program/CONTRACT.md"
   },
   {
    "path": "knowledge/instruments.md",
    "group": "knowledge",
    "title": "Instruments — how to actually measure this app",
-   "chars": 8889,
-   "modified": "2026-08-04 16:22",
+   "chars": 8537,
+   "modified": "2026-08-04 17:10",
    "citedBy": "program/CONTRACT.md"
   },
   {

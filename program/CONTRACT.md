@@ -1,9 +1,9 @@
 # Meal Planner app — CONTRACT
 
-🔒 **FROZEN 2026-08-04 by T0.1 · v1.2** — changes from here require a [READ-FIRST] LOG entry
+🔒 **FROZEN 2026-08-04 by T0.1 · v1.3** — changes from here require a [READ-FIRST] LOG entry
 and a version bump.
 
-**Contract version:** 1.2 (frozen)
+**Contract version:** 1.3 (frozen)
 
 > Every §8 incantation below was run at least once by T0.1 on 2026-08-04. Where the draft
 > was wrong, the correction is in the changelog with the evidence in `findings/T0.1.md`.
@@ -79,13 +79,27 @@ Certified surfaces for verifying a change:
   curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8765/index.html
   ```
   A non-200 means **read `/tmp/mealplanner-server.err` first** — the launchd job's own stderr,
-  which is where the answer has been every time and which T0.1 twice failed to check at the
-  moment it mattered. Then restart:
+  which is where the answer has been every time. Then restart:
   `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`.
-  As of 2026-08-04 that log says `Operation not permitted` opening `meal-server.py` —
-  **errno 1 (EPERM), not 2 (ENOENT)** — which is the Full Disk Access failure `SYNC-SETUP.md`
-  documents, and which the user has not yet granted. Until they do, the server runs only via
-  `deploy.sh`'s manual fallback and **will not survive a reboot.**
+
+  As of 2026-08-04 that log holds **two** errors, interleaved, and the pair is the diagnosis:
+  `[Errno 1] Operation not permitted` opening `meal-server.py` (missing Full Disk Access —
+  errno **1** is EPERM; 2 would be a wrong path) and `[Errno 48] Address already in use`
+  (grant fine, something else holds 8765). Both, because `deploy.sh` runs `launchctl kickstart`
+  from a shell that *has* the grant and those spawns can inherit it, while autonomous
+  `KeepAlive` respawns cannot.
+
+  **The grant is on the wrong binary, not absent.** `/usr/bin/python3` is an Xcode tool shim
+  (`com.apple.dt.xcode_select.tool-shim-public`) that re-execs
+  `/Library/Developer/CommandLineTools/usr/bin/python3` (`com.apple.python3`). TCC keys on the
+  signature, so granting the shim — which is what `SYNC-SETUP.md` used to instruct — does not
+  cover the interpreter that opens the file. **When a service cannot read its own script, check
+  which binary is executing, not which path you typed:** `codesign -dv <path>` and
+  `python3 -c 'import sys; print(sys.executable)'`.
+
+  Until the real interpreter is granted, the server runs only via `deploy.sh`'s manual fallback
+  and **will not survive a reboot**. `deploy.sh`'s last line is the status indicator: "via
+  launchd" versus "manual background process".
   Prefer your own instance on a spare port whenever your work could disturb the phone's
   server; it works from any checkout, worktrees included:
   ```
@@ -209,6 +223,16 @@ so far has needed to write it.
 If your task cannot comply, don't quietly deviate — `tm log SCOPE "…"` saying so.
 
 ## Changelog
+- **1.3 (2026-08-04, T0.14) — §3 again; the Full Disk Access story is now a mechanism, not a
+  guess.** LOG [READ-FIRST] #19 supersedes #11. The grant was never missing: the user had
+  granted it, to `/usr/bin/python3`, which `SYNC-SETUP.md` named — and which is an **Xcode tool
+  shim**, not python. It re-execs `/Library/Developer/CommandLineTools/usr/bin/python3` under a
+  different code signature, and TCC keys on the signature. Confirmed by a clean experiment: with
+  port 8765 free and no inheriting parent, launchd tried twice and got EPERM both times.
+  The apparent intermittency (437 EPERM lines interleaved with 101 "address already in use") is
+  explained: `deploy.sh` kickstarts from a shell that *has* the grant and those spawns inherit
+  it. `SYNC-SETUP.md` is corrected. **Standing rule added to §3: when a service cannot read its
+  own script, check which binary is executing, not which path you typed.**
 - **1.2 (2026-08-04, T0.10) — §3 and §8 corrected again; v1.1 retracted.** LOG [READ-FIRST]
   #11 supersedes #7. Running `deploy.sh` end to end surfaced the launchd job's own stderr:
   `Operation not permitted` opening `meal-server.py`, nine times, `last exit code = 2`.
