@@ -61,8 +61,9 @@ CONTRACT §2 now carries the search incantation and the deliverable shape.
 Two things to know before you start, both from `findings/T0.1.md`:
 
 - **Certify the server before you measure on it** — `curl` a real path; a listening port is
-  not a working server (LOG [READ-FIRST] #7, CONTRACT §3). It is healthy again as of
-  2026-08-04 14:08 after a three-day silent outage of unknown cause.
+  not a working server (LOG [READ-FIRST] #11, CONTRACT §3). If it is not 200, read
+  `/tmp/mealplanner-server.err` *first*. The launchd job still cannot start (Full Disk Access);
+  production runs on `deploy.sh`'s manual fallback and dies on reboot.
 - **The seed is at `schemaVersion: 3`, not 2.** The brief's "schemaVersion-2 keys" is a
   historical label; the three keys are real and present in today's seed (`image`,
   `thawHoursAhead`, `prepAhead`). Don't go hunting for a v2 seed to match.
@@ -75,7 +76,7 @@ each, and their briefs tell them to coordinate rather than write the same findin
 Work task T1.1 of the Meal Planner app program in this project.
 
 Setup: run `tm path` to locate the program dir (works from any worktree); all program files
-live there. Read first, in order: README.md, CONTRACT.md (now FROZEN at v1.0 — §1's four
+live there. Read first, in order: README.md, CONTRACT.md (FROZEN at v1.2 — §1's four
 denominators replace "repo vs installed"), tasks/T1.1.md (incl. Amendments), GOTCHAS.md,
 every [READ-FIRST] entry in LOG.md, then findings/T0.1.md, which your Reads names.
 Do not re-derive what any of those already establish — especially where the skills live,
