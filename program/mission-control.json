@@ -4,30 +4,26 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T21:25:37+00:00",
+ "generatedAt": "2026-08-04T21:26:49+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
  "nextTaskId": "T1.1",
  "nextTaskDerived": "T1.1",
- "nextTaskStated": "T0.2",
- "kickoffStale": {
-  "id": "T0.2",
-  "status": "DONE",
-  "holder": "rutgerboll@Rutgers-Mini#wave0d"
- },
+ "nextTaskStated": "T0.3",
+ "kickoffStale": null,
  "kickoff": {
-  "taskId": "T0.2",
-  "title": "make the guards tell the truth, then run wave 0d",
-  "noteMd": "> **This deliberately disagrees with `tm render`, which says `next: T1.1`.** That is mechanical\n> wave ordering, and waves have no reorder verb (filed as kit inbox 475). The user chose this\n> sequence explicitly on 2026-08-04 — *\"go ahead and wire up the tasks to make these moves then\n> we can execute\"* — so run wave 0d, and treat T1.1 as queued behind it, not skipped.\n\n**The execution order, and why it is this order.** Nothing here is parallel; the gates are real.\n\n| # | task | why here |\n|---|---|---|\n| 1 | **T0.2** | Fixes the stale-code hook and the deploy health check. Everything below ships code to an installed phone; do it with working guards, not without. |\n| 2 | **T0.10** | Untracks the generated seed so `deploy.sh` can actually run. **This is the rollback path** — restore it before the risky work, not after. |\n| 3 | **T0.7** | Extract the CSS to files. Zero visual change, proved by a computed-style diff. |\n| 4 | **T0.8** | Now delete the 29 dead tokens and the ~15 `!important`s that only existed to fight them. |\n| 5 | **T0.9** | One design-system doc. Independent of all the above — run it any time, including in parallel if you want a cheap win first. |\n| 6 | **T0.12** | Self-host the font so the offline app stops silently losing its typography. |\n| 7 | **T0.11** | The directory move — **and \"not worth doing\" is a correct outcome.** Decide after the rest have landed. |\n\nT0.4 (the smoke suite) is not in that chain but pays for itself immediately: there is no\nexecutable test suite in this repo at all, and a basic one would have caught three of T0.1's\nfindings unaided. Running it early makes every task above cheaper to verify.",
-  "prompt": "Work task T0.2 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir. Read first, in order: README.md, CONTRACT.md\n(FROZEN v1.1 — §1's four denominators replace \"repo vs installed\"), tasks/T0.2.md, GOTCHAS.md,\nevery [READ-FIRST] entry in LOG.md, then findings/T0.1.md, which your Reads names.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- Test the hook, don't read it: throwaway commits on your branch, then `git reset --hard`.\n- Do NOT run deploy.sh to test it — it pulls. Exercise its checks in isolation.\n- The dirty-checkout guard is T0.10's, not yours. Leave it alone.\n- Claim before working: `tm claim T0.2` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.2.md per CONTRACT §6 · `tm done T0.2 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.2` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt (T0.10 unless you learned something that reorders it).",
+  "taskId": "T0.3",
+  "title": "re-embed the bootstrap, then T0.4 — build a test suite",
+  "noteMd": "Wave 0d is done (T0.2, T0.10, T0.7, T0.8, T0.9, T0.12; T0.11 deferred with reasons). See\nSTATE.md for what landed. Two cheap, high-value things are left before anything else:\n\n- **T0.3** — the inline `const SEED` in `index.html` still disagrees with the library on **20\n  plan entries** (verified again 2026-08-04, post-wave). It is a ten-minute task and it is wrong\n  data a fresh install would show. Note the new sharp edge: `app/seed.json` is now\n  `.gitignore`d, so committing a wanted seed refresh needs **`git add -f`**.\n- **T0.4** — there is still **no executable test suite in this repo at all**. Wave 0d verified\n  everything by hand, three times over, and the checks it invented (asset-list agreement,\n  bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is\n  also the gate on this board ever taking orchestrated workers.\n\n**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). Production\nis on `deploy.sh`'s manual fallback and will not survive a reboot.\n\nRead `knowledge/instruments.md` before measuring anything — wave 0d rewrote it, and the\nzero-timer measurement pattern plus the `document.fonts.status` gate will save you the hour they\ncost T0.7 and T0.8.",
+  "prompt": "Work task T0.3 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir. Read first, in order: README.md, CONTRACT.md\n(FROZEN v1.2), tasks/T0.3.md, GOTCHAS.md, every [READ-FIRST] entry in LOG.md, then\nfindings/T0.1.md and knowledge/instruments.md.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- >=2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- app/seed.json is gitignored now: a wanted seed commit needs `git add -f`, deliberately.\n- Bumping CACHE is mandatory for any index.html change; the hook will demand it.\n- Claim before working: `tm claim T0.3` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.3.md per CONTRACT §6 · `tm done T0.3 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.3` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt (T0.4).",
   "taskIds": [
-   "T0.2"
+   "T0.3"
   ],
   "warning": "",
   "promptGenerated": false,
   "model": "opus",
-  "effort": "medium"
+  "effort": "low"
  },
  "blocking": [],
  "readFirst": [
@@ -1156,8 +1152,8 @@
    ]
   }
  ],
- "stale": false,
- "staleSince": null,
+ "stale": true,
+ "staleSince": "2026-08-04T21:26:48+00:00",
  "docs": [
   {
    "path": "program/CONTRACT.md",
@@ -1177,15 +1173,15 @@
    "path": "program/KICKOFF.md",
    "group": "program",
    "title": "Meal Planner app — session kickoffs",
-   "chars": 8451,
-   "modified": "2026-08-04 14:53"
+   "chars": 7877,
+   "modified": "2026-08-04 16:26"
   },
   {
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
    "chars": 30835,
-   "modified": "2026-08-04 16:24"
+   "modified": "2026-08-04 16:25"
   },
   {
    "path": "program/README.md",
@@ -1198,8 +1194,8 @@
    "path": "program/STATE.md",
    "group": "program",
    "title": "Meal Planner app — STATE",
-   "chars": 7720,
-   "modified": "2026-08-04 14:53"
+   "chars": 9681,
+   "modified": "2026-08-04 16:26"
   },
   {
    "path": "program/tasks/T0.1.md",

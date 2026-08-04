@@ -3,52 +3,49 @@
 Ready-to-paste prompts. The ▶ NEXT section is the one to run; completed prompts move below
 under ✅ for provenance. The final line of every kickoff tells the session to update this file.
 
-## ▶ NEXT: T0.2 — make the guards tell the truth, then run wave 0d
+## ▶ NEXT: T0.3 — re-embed the bootstrap, then T0.4 — build a test suite
 
-> **This deliberately disagrees with `tm render`, which says `next: T1.1`.** That is mechanical
-> wave ordering, and waves have no reorder verb (filed as kit inbox 475). The user chose this
-> sequence explicitly on 2026-08-04 — *"go ahead and wire up the tasks to make these moves then
-> we can execute"* — so run wave 0d, and treat T1.1 as queued behind it, not skipped.
+Wave 0d is done (T0.2, T0.10, T0.7, T0.8, T0.9, T0.12; T0.11 deferred with reasons). See
+STATE.md for what landed. Two cheap, high-value things are left before anything else:
 
-**The execution order, and why it is this order.** Nothing here is parallel; the gates are real.
+- **T0.3** — the inline `const SEED` in `index.html` still disagrees with the library on **20
+  plan entries** (verified again 2026-08-04, post-wave). It is a ten-minute task and it is wrong
+  data a fresh install would show. Note the new sharp edge: `app/seed.json` is now
+  `.gitignore`d, so committing a wanted seed refresh needs **`git add -f`**.
+- **T0.4** — there is still **no executable test suite in this repo at all**. Wave 0d verified
+  everything by hand, three times over, and the checks it invented (asset-list agreement,
+  bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is
+  also the gate on this board ever taking orchestrated workers.
 
-| # | task | why here |
-|---|---|---|
-| 1 | **T0.2** | Fixes the stale-code hook and the deploy health check. Everything below ships code to an installed phone; do it with working guards, not without. |
-| 2 | **T0.10** | Untracks the generated seed so `deploy.sh` can actually run. **This is the rollback path** — restore it before the risky work, not after. |
-| 3 | **T0.7** | Extract the CSS to files. Zero visual change, proved by a computed-style diff. |
-| 4 | **T0.8** | Now delete the 29 dead tokens and the ~15 `!important`s that only existed to fight them. |
-| 5 | **T0.9** | One design-system doc. Independent of all the above — run it any time, including in parallel if you want a cheap win first. |
-| 6 | **T0.12** | Self-host the font so the offline app stops silently losing its typography. |
-| 7 | **T0.11** | The directory move — **and "not worth doing" is a correct outcome.** Decide after the rest have landed. |
+**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). Production
+is on `deploy.sh`'s manual fallback and will not survive a reboot.
 
-T0.4 (the smoke suite) is not in that chain but pays for itself immediately: there is no
-executable test suite in this repo at all, and a basic one would have caught three of T0.1's
-findings unaided. Running it early makes every task above cheaper to verify.
+Read `knowledge/instruments.md` before measuring anything — wave 0d rewrote it, and the
+zero-timer measurement pattern plus the `document.fonts.status` gate will save you the hour they
+cost T0.7 and T0.8.
 
 ```
-Work task T0.2 of the Meal Planner app program in this project.
+Work task T0.3 of the Meal Planner app program in this project.
 
 Setup: run `tm path` to locate the program dir. Read first, in order: README.md, CONTRACT.md
-(FROZEN v1.1 — §1's four denominators replace "repo vs installed"), tasks/T0.2.md, GOTCHAS.md,
-every [READ-FIRST] entry in LOG.md, then findings/T0.1.md, which your Reads names.
+(FROZEN v1.2), tasks/T0.3.md, GOTCHAS.md, every [READ-FIRST] entry in LOG.md, then
+findings/T0.1.md and knowledge/instruments.md.
 
 Rules that matter most:
 - CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.
-- ≥2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.
-- Test the hook, don't read it: throwaway commits on your branch, then `git reset --hard`.
-- Do NOT run deploy.sh to test it — it pulls. Exercise its checks in isolation.
-- The dirty-checkout guard is T0.10's, not yours. Leave it alone.
-- Claim before working: `tm claim T0.2` — if it fails, someone owns it; stop.
+- >=2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.
+- app/seed.json is gitignored now: a wanted seed commit needs `git add -f`, deliberately.
+- Bumping CACHE is mandatory for any index.html change; the hook will demand it.
+- Claim before working: `tm claim T0.3` — if it fails, someone owns it; stop.
 
 Post a short plan first, then proceed. Don't wait for me unless you hit a stop condition.
 
 Stop and tell me if: a dependency isn't DONE, you find something that invalidates other
 tasks' assumptions (`tm log READ-FIRST "…"` first), or the task is unanswerable.
 
-Finish by: findings/T0.2.md per CONTRACT §6 · `tm done T0.2 --verdict … --headline "…"` ·
-`tm log DONE "…" --task T0.2` · mirror durable learning to knowledge/ + auto-memory ·
-update KICKOFF.md with the next prompt (T0.10 unless you learned something that reorders it).
+Finish by: findings/T0.3.md per CONTRACT §6 · `tm done T0.3 --verdict … --headline "…"` ·
+`tm log DONE "…" --task T0.3` · mirror durable learning to knowledge/ + auto-memory ·
+update KICKOFF.md with the next prompt (T0.4).
 ```
 
 ## ▷ QUEUED: T1.1 — teach `recipe-capture` the three phase-2 recipe keys
