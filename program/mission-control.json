@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T20:56:17+00:00",
+ "generatedAt": "2026-08-04T21:12:07+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -164,6 +164,13 @@
    "tag": "DONE",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "T0.7 done. All 23,526 bytes of CSS are out of index.html (154,642 -> 131,784 bytes) and into\napp/styles/, precached, CACHE bumped v27 -> v28. The move is PROVEN a no-op two ways: the\nextracted bytes are character-for-character identical to HEAD's three <style> blocks, and the\nlive CSSOM is the same 213 rules in the same order with the same hash (cd36463a) before and\nafter.\n\nI DID NOT USE THE FILE NAMES THE BRIEF ASKED FOR, and T0.8 needs to know why. tokens/base/\ncomponents/screens presumes ONE token set — which is precisely what does not exist yet — and\nbuilding it requires hoisting Sage's tokens above block 1's base styles. That reordering would\nhave destroyed the only thing making this task safe. So the split follows existing contiguous\nboundaries with names that describe reality: 01-tokens-legacy.css (29 of 31 tokens dead),\n02-base.css (125 LIVE selectors), 03-sage.css (Sage tokens + its !important overrides),\n04-patches.css. Numeric prefixes because load order IS correctness and there is no build step.\nT0.8 should reshape these into the intended four AFTER deleting the dead set — at that point\nthe rename is safe.\n\nCONFIRMED LIVE, for T0.8: --nh and --font resolve correctly in both themes. They are the two\nlegacy tokens that survive; deleting them with their neighbours is the most likely way to\nbreak T0.8.\n\nTWO TRAPS PAID FOR:\n1. Running embed_seed.py as a round-trip test REWRITES the inline bootstrap with fresh plan\n   data — i.e. it silently performs T0.3. I spliced HEAD's const SEED back so T0.7 carries no\n   data change. Testing the embed step mutates the file it tests.\n2. The computed-style instrument is unusable while the browser pane is hidden: the renderer\n   throttles to ~0.8ms per property read, so one route of 462 elements took 29 SECONDS and the\n   battery timed out repeatedly. I substituted stronger comparators (byte + CSSOM identity),\n   which is valid for a pure MOVE — but T0.8 is a DELETION and cannot lean on that\n   substitution. Get the sampler working first. Its before-baselines are in findings/T0.7.md\n   and are still valid, since T0.7 changed no CSS. Also: the sampler is only deterministic if\n   every measurement is preceded by the SAME route (a 39-vs-45 element discrepancy until I\n   pinned a fixed predecessor)."
+  },
+  {
+   "date": "2026-08-04 16:12",
+   "task": "T0.8",
+   "tag": "DONE",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "T0.8 done. Every design token is declared exactly ONCE (58 duplicate declarations gone), and\n!important is down from 20 to 4 — the four .hidden display utilities, which were never the\nproblem. All ten screen x theme computed-style hashes are unchanged, verified after each of the\nthree edit stages separately rather than only at the end.\n\nTHE KEY MOVE, for anyone doing similar work here: Sage's !important rules existed to neutralise\nglassmorphism still sitting in the base layer. Deleting the !important alone would have brought\nthe frosted glass BACK. For each of five rules I rewrote the base declaration to the value Sage\nwas forcing, then deleted Sage's override entirely. Collapse, don't strip.\n\nTHE INSTRUMENT NOW WORKS AND T0.7 SAID IT COULDN'T. The blocker was never the number of\nproperties — it was TIMERS. A hidden browser pane throttles setTimeout, so `await sleep(400)`\nbetween navigations stretches to seconds and blows every 30s budget. The app renders\nsynchronously, so navigate(route) followed immediately by a measurement in the same call works:\nthe full 10-combination battery runs in 2 MILLISECONDS. Pattern is in knowledge/instruments.md.\n\nTRAP THAT COST ME TWO FALSE RESULTS: the service worker is cache-first, so it keeps serving\nedited CSS from cache and a CACHE bump alone did not clear it within a session. Twice I measured\nwhat I believed was new CSS and was actually reading the old files — caught only because a\nsheet's cssRules.length did not match the file on disk. ALWAYS check that before trusting a\nmeasurement. Unregistering the SW and clearing caches is what finally worked.\n\nDEFERRED, and filed as T0.13: the brief's final rename to tokens/base/components/screens. That\nis not a rename — sorting rules into \"components\" and \"screens\" interleaves 02-base.css and\n03-sage.css, reordering rules across the boundary where same-specificity conflicts are currently\nresolved by source order. The payoff is naming; the risk is a silent cascade change. T0.11 may\nmake it moot."
   }
  ],
  "state": {
@@ -264,6 +271,17 @@
  "landedToday": [
   {
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "task": "T0.8",
+   "title": "Delete the dead token set and the !important scaffolding it required",
+   "at": "2026-08-04T21:12:05+00:00",
+   "merge": "unknown",
+   "commits": 0,
+   "suite": "none",
+   "verdict": "PASS",
+   "findingsPath": "findings/T0.8.md"
+  },
+  {
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "task": "T0.7",
    "title": "Extract the inline CSS to app/styles/*.css — zero visual change",
    "at": "2026-08-04T20:56:16+00:00",
@@ -308,7 +326,7 @@
   }
  ],
  "staleHeld": 0,
- "lastLandedAt": "2026-08-04T20:56:16+00:00",
+ "lastLandedAt": "2026-08-04T21:12:05+00:00",
  "waitingOnYouOldestAt": "",
  "staleHeldOldestAt": "",
  "liveMostRecentAt": "",
@@ -783,8 +801,8 @@
      "name": "Delete the dead token set and the !important scaffolding it required",
      "effort": "medium",
      "model": "opus",
-     "status": "TODO",
-     "verdict": "",
+     "status": "DONE",
+     "verdict": "PASS",
      "reads": [
       "T0.7"
      ],
@@ -797,18 +815,36 @@
      "sandboxReason": "",
      "wave": "0d — structure & CSS repair",
      "briefPath": "program/tasks/T0.8.md",
-     "findingsLink": "",
-     "headline": "",
-     "claimedBy": "",
-     "claimedAt": "",
-     "doneBy": "",
-     "updatedAt": "2026-08-04T19:47:19+00:00",
-     "findingPath": "",
+     "findingsLink": "findings/T0.8.md",
+     "headline": "Every token declared once (58 duplicates gone); !important 20 -> 4. All 10 screen x theme computed-style hashes unchanged.",
+     "claimedBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "claimedAt": "2026-08-04T20:56:45+00:00",
+     "doneBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "updatedAt": "2026-08-04T21:12:05+00:00",
+     "findingPath": "program/findings/T0.8.md",
      "briefBytes": 4860,
-     "findingBytes": 0,
+     "findingBytes": 8971,
      "inbox": [],
-     "lifecycle": [],
-     "lifecycleDrift": null,
+     "lifecycle": [
+      {
+       "stage": "claim",
+       "ts": "2026-08-04T20:56:45+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "",
+       "measured": false
+      },
+      {
+       "stage": "done",
+       "ts": "2026-08-04T21:11:59+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "PASS",
+       "measured": false
+      }
+     ],
+     "lifecycleDrift": {
+      "stage": "merge",
+      "label": "DONE — not merged"
+     },
      "worktree": null
     },
     {
@@ -973,6 +1009,41 @@
      "lifecycle": [],
      "lifecycleDrift": null,
      "worktree": null
+    },
+    {
+     "id": "T0.13",
+     "parallel": false,
+     "name": "Rename the CSS files to semantic names — deferred from T0.8 because it reorders rules",
+     "effort": "low",
+     "model": "opus",
+     "status": "TODO",
+     "verdict": "",
+     "reads": [
+      "T0.8"
+     ],
+     "blockedOn": [],
+     "touches": [
+      "app/styles/",
+      "app/index.html",
+      "app/sw.js"
+     ],
+     "sandbox": "unknown",
+     "sandboxReason": "",
+     "wave": "0d — structure & CSS repair",
+     "briefPath": "",
+     "findingsLink": "",
+     "headline": "",
+     "claimedBy": "",
+     "claimedAt": "",
+     "doneBy": "",
+     "updatedAt": "2026-08-04T21:12:02+00:00",
+     "findingPath": "",
+     "briefBytes": 0,
+     "findingBytes": 0,
+     "inbox": [],
+     "lifecycle": [],
+     "lifecycleDrift": null,
+     "worktree": null
     }
    ]
   }
@@ -1005,8 +1076,8 @@
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 19998,
-   "modified": "2026-08-04 15:56"
+   "chars": 22346,
+   "modified": "2026-08-04 16:12"
   },
   {
    "path": "program/README.md",
@@ -1161,6 +1232,13 @@
    "title": "T0.7 — Extract the inline CSS to `app/styles/*.css`",
    "chars": 9257,
    "modified": "2026-08-04 15:55"
+  },
+  {
+   "path": "program/findings/T0.8.md",
+   "group": "findings",
+   "title": "T0.8 — Delete the dead token set and the `!important` scaffolding it required",
+   "chars": 8922,
+   "modified": "2026-08-04 16:11"
   },
   {
    "path": "SYNC-SETUP.md",

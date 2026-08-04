@@ -307,3 +307,32 @@ TWO TRAPS PAID FOR:
    and are still valid, since T0.7 changed no CSS. Also: the sampler is only deterministic if
    every measurement is preceded by the SAME route (a 39-vs-45 element discrepancy until I
    pinned a fixed predecessor).
+
+## 2026-08-04 16:12 · T0.8 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+T0.8 done. Every design token is declared exactly ONCE (58 duplicate declarations gone), and
+!important is down from 20 to 4 — the four .hidden display utilities, which were never the
+problem. All ten screen x theme computed-style hashes are unchanged, verified after each of the
+three edit stages separately rather than only at the end.
+
+THE KEY MOVE, for anyone doing similar work here: Sage's !important rules existed to neutralise
+glassmorphism still sitting in the base layer. Deleting the !important alone would have brought
+the frosted glass BACK. For each of five rules I rewrote the base declaration to the value Sage
+was forcing, then deleted Sage's override entirely. Collapse, don't strip.
+
+THE INSTRUMENT NOW WORKS AND T0.7 SAID IT COULDN'T. The blocker was never the number of
+properties — it was TIMERS. A hidden browser pane throttles setTimeout, so `await sleep(400)`
+between navigations stretches to seconds and blows every 30s budget. The app renders
+synchronously, so navigate(route) followed immediately by a measurement in the same call works:
+the full 10-combination battery runs in 2 MILLISECONDS. Pattern is in knowledge/instruments.md.
+
+TRAP THAT COST ME TWO FALSE RESULTS: the service worker is cache-first, so it keeps serving
+edited CSS from cache and a CACHE bump alone did not clear it within a session. Twice I measured
+what I believed was new CSS and was actually reading the old files — caught only because a
+sheet's cssRules.length did not match the file on disk. ALWAYS check that before trusting a
+measurement. Unregistering the SW and clearing caches is what finally worked.
+
+DEFERRED, and filed as T0.13: the brief's final rename to tokens/base/components/screens. That
+is not a rename — sorting rules into "components" and "screens" interleaves 02-base.css and
+03-sage.css, reordering rules across the boundary where same-specificity conflicts are currently
+resolved by source order. The payoff is naming; the risk is a silent cascade change. T0.11 may
+make it moot.

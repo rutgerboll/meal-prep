@@ -87,6 +87,39 @@ are looking at state 3, not at the inline bootstrap.
 **A fresh IndexedDB is not evidence about migrations** — CONTRACT §5. Loading the app in a
 clean browser profile gives you a first-seed path, never an upgrade path.
 
+## Measuring computed styles — no timers, ever
+
+The browser pane throttles **timers** when it is hidden, not style reads. An `await sleep(400)`
+between navigations stretches to seconds and blows the 30 s tool budget; T0.7 concluded the
+instrument was unusable on that basis and was wrong. The app renders **synchronously**, so drop
+the timers and the full 5-screen × 2-theme battery runs in **2 ms**:
+
+```js
+const run = (theme, route) => {
+  document.documentElement.dataset.theme = theme;
+  navigate('#/more');   // fixed predecessor: the plan screen's DOM depends on where you
+  navigate(route);      // came from, which otherwise makes hashes non-reproducible
+  return measure();     // one element per distinct tag.className, hashed over ~16 longhands
+};
+```
+
+Routes are `#/plan`, `#/recipes`, **`#/list`** (not `#/grocery` — a wrong route silently
+renders the plan screen and gives you a duplicate hash), `#/cook`, `#/more`.
+
+**Confirm you are measuring fresh assets before trusting any result.** The service worker is
+cache-first, so it keeps serving edited CSS from cache and a `CACHE` bump alone may not clear it
+within a session. Compare a sheet's `cssRules.length` against the file on disk; T0.8 got two
+false "no change" results this way. Unregistering the worker and clearing caches is what works:
+
+```js
+navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
+caches.keys().then(ks => ks.forEach(k => caches.delete(k)));
+```
+
+For a change that claims not to alter styling at all, the cheaper first check is the **CSSOM
+hash** — every rule's `cssText` in document order, hashed. Wrap `sheet.cssRules` in try/catch:
+a cross-origin sheet throws, and swallowing that silently drops it from the comparison.
+
 ## Console baseline
 
 A clean load emits **zero** console messages. There is no chatty logging to filter out, so
