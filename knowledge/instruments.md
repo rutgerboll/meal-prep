@@ -106,6 +106,16 @@ const run = (theme, route) => {
 Routes are `#/plan`, `#/recipes`, **`#/list`** (not `#/grocery` — a wrong route silently
 renders the plan screen and gives you a duplicate hash), `#/cook`, `#/more`.
 
+**Wait for `document.fonts.status === 'loaded'` before measuring anything text-dependent.**
+`font-display:swap` guarantees a window where headings render in the fallback, so `height` and
+anything derived from it measures the wrong thing — and the zero-timer pattern above makes you
+*more* likely to land in that window, because it does not wait. T0.7 and T0.8 both baselined in
+the unloaded state without noticing; T0.12 caught it only because its change looked like a
+10-of-10 regression that turned out to be the font finishing loading. The loaded-state baseline
+for the current build is `dark #/plan 39:77b78797 · #/recipes 60:f66e8fb3 · #/list 29:783f68e6 ·
+#/cook 45:18638ff7 · #/more 23:0e737f23`, and light `39:82666055 · 60:fa7f4eb8 · 29:73b0df10 ·
+45:57f44cad · 23:82bb9a43`.
+
 **Confirm you are measuring fresh assets before trusting any result.** The service worker is
 cache-first, so it keeps serving edited CSS from cache and a `CACHE` bump alone may not clear it
 within a session. Compare a sheet's `cssRules.length` against the file on disk; T0.8 got two

@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T21:15:01+00:00",
+ "generatedAt": "2026-08-04T21:22:54+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -178,6 +178,13 @@
    "tag": "DONE",
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "text": "T0.9 done. design/design-system.md -> docs/archive/design-system-v1-spiced-linen.md via git mv,\nwith an ARCHIVED header and its \"source of truth for the engineer\" sentence struck. DESIGN-\nSYSTEM.md is now the only document claiming design authority, and says so.\n\nTHE USEFUL PART WAS THE CHECKING, NOT THE MOVE. Three sections of the old doc are genuinely\nabsent from Sage and looked worth promoting: the 4px spacing scale, iconography, and mobile\ninteraction patterns. Before promoting I grepped: `--space-*` appears in ZERO of the four CSS\nfiles, and prototype.html — which its component anatomy is written against — does not exist in\nthis repo. So the spacing scale was never implemented; publishing it in the authoritative doc\nwould have minted a fiction as spec, which is the exact failure this task existed to fix. I\ncarried across a LABELLED POINTER instead: the sections are named as \"unverified proposals, not\na record of the code\", with instructions to check against the app before promoting. T0.5 is the\nright place to decide whether they should actually be implemented.\n\nAlso fixed a stale line in DESIGN-SYSTEM.md: it named \"app/ <style> (the appended Sage block)\"\nas the token source of truth. T0.7/T0.8 made that false; it now points at\napp/styles/01-tokens.css. The design doc had been documenting the very structure this wave\ndismantled — worth a look at other docs for the same lag.\n\nNothing in code, CLAUDE.md, ROADMAP.md or the specs referenced the stale path. It held authority\nin its own text and nowhere else, which is how it misled anyone who found it by browsing.\n\nNOTE FOR T0.11: docs/ now exists with one tenant (docs/archive/). If the directory move is\ndeclined, docs/archive/ sits beside spec/ and logs/ as a third documentation location. Fold\nthem in, or decide not to and say so. Separately, logs/ still holds five June files with nothing\nsaying whether they are current — same class of problem, smaller blast radius."
+  },
+  {
+   "date": "2026-08-04 16:22",
+   "task": "T0.12",
+   "tag": "DONE",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "T0.12 done. Schibsted Grotesk is self-hosted in app/assets/fonts/ and precached; zero requests\nnow leave the machine on load. Proved offline by KILLING the server (curl -> 000) and reloading\nfrom the service-worker cache: document.fonts.check('600 30px \"Schibsted Grotesk\"') is true.\n\nTWO FILES, NOT FOUR. The family is a VARIABLE font: Google returns eight @font-face blocks but\nonly two distinct URLs (latin, latin-ext), each spanning 400-700, 67 KB total. Count distinct\nsrc URLs, not blocks. Also measured which weights the app actually renders: 600 (342 elements)\nand 700 (10). Weights 400 and 500 are used by nothing and never reached \"loaded\". I kept the\nfull range anyway since it is the same two files and it stops a future style silently falling\nback.\n\nREAD THIS BEFORE TRUSTING findings/T0.7.md AND findings/T0.8.md's BASELINES. Applying T0.12\nmade all 10 computed-style hashes differ, which looked like a regression. It was not: stashing\nT0.12 and re-measuring with fonts fully LOADED reproduced exactly the values I was getting with\nT0.12 applied. So the delta was font-load state. T0.7 and T0.8 baselined while the webfont was\nstill loading — fallback metrics in `height`. They compared fallback-to-fallback consistently,\nso their CONCLUSIONS hold, but they never exercised the loaded-font state, which is what a user\nsees. The loaded-state baseline is now in knowledge/instruments.md and is the one to carry\nforward: dark #/plan 39:77b78797, #/recipes 60:f66e8fb3, #/list 29:783f68e6, #/cook 45:18638ff7,\n#/more 23:0e737f23; light 39:82666055, 60:fa7f4eb8, 29:73b0df10, 45:57f44cad, 23:82bb9a43.\n\nRULE ADDED TO knowledge/instruments.md: check document.fonts.status === 'loaded' before\nmeasuring anything text-dependent. font-display:swap guarantees a window where you measure the\nwrong thing, and the zero-timer measurement pattern makes you MORE likely to land in it because\nit does not wait.\n\nTrap for the next person self-hosting a Google font: fetch the CSS with a modern browser\nUser-Agent or the endpoint serves ttf instead of woff2; copy the unicode-range values verbatim\nor the browser fetches every subset on every page; and precache the files AND bump CACHE, or you\nhave moved the offline failure rather than fixed it."
   }
  ],
  "state": {
@@ -278,6 +285,17 @@
  "landedToday": [
   {
    "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "task": "T0.12",
+   "title": "Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline",
+   "at": "2026-08-04T21:22:53+00:00",
+   "merge": "unknown",
+   "commits": 0,
+   "suite": "none",
+   "verdict": "PASS",
+   "findingsPath": "findings/T0.12.md"
+  },
+  {
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
    "task": "T0.9",
    "title": "One design-system doc: archive the stale 383-line one that claims to be source of truth",
    "at": "2026-08-04T21:14:59+00:00",
@@ -344,7 +362,7 @@
   }
  ],
  "staleHeld": 0,
- "lastLandedAt": "2026-08-04T21:14:59+00:00",
+ "lastLandedAt": "2026-08-04T21:22:53+00:00",
  "waitingOnYouOldestAt": "",
  "staleHeldOldestAt": "",
  "liveMostRecentAt": "",
@@ -1016,8 +1034,8 @@
      "name": "Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline",
      "effort": "low",
      "model": "opus",
-     "status": "TODO",
-     "verdict": "",
+     "status": "DONE",
+     "verdict": "PASS",
      "reads": [
       "T0.7"
      ],
@@ -1032,18 +1050,36 @@
      "sandboxReason": "",
      "wave": "0d — structure & CSS repair",
      "briefPath": "program/tasks/T0.12.md",
-     "findingsLink": "",
-     "headline": "",
-     "claimedBy": "",
-     "claimedAt": "",
-     "doneBy": "",
-     "updatedAt": "2026-08-04T19:48:14+00:00",
-     "findingPath": "",
+     "findingsLink": "findings/T0.12.md",
+     "headline": "Font self-hosted + precached; proven offline with the server killed. Variable font = 2 files not 4; only weights 600/700 are used.",
+     "claimedBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "claimedAt": "2026-08-04T21:15:02+00:00",
+     "doneBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "updatedAt": "2026-08-04T21:22:53+00:00",
+     "findingPath": "program/findings/T0.12.md",
      "briefBytes": 4051,
-     "findingBytes": 0,
+     "findingBytes": 7659,
      "inbox": [],
-     "lifecycle": [],
-     "lifecycleDrift": null,
+     "lifecycle": [
+      {
+       "stage": "claim",
+       "ts": "2026-08-04T21:15:02+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "",
+       "measured": false
+      },
+      {
+       "stage": "done",
+       "ts": "2026-08-04T21:22:52+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "PASS",
+       "measured": false
+      }
+     ],
+     "lifecycleDrift": {
+      "stage": "merge",
+      "label": "DONE — not merged"
+     },
      "worktree": null
     },
     {
@@ -1112,8 +1148,8 @@
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 24423,
-   "modified": "2026-08-04 16:14"
+   "chars": 26442,
+   "modified": "2026-08-04 16:22"
   },
   {
    "path": "program/README.md",
@@ -1256,6 +1292,13 @@
    "modified": "2026-08-04 15:35"
   },
   {
+   "path": "program/findings/T0.12.md",
+   "group": "findings",
+   "title": "T0.12 — Self-host the heading font",
+   "chars": 7605,
+   "modified": "2026-08-04 16:22"
+  },
+  {
    "path": "program/findings/T0.2.md",
    "group": "findings",
    "title": "T0.2 — Close the two measured pipeline holes",
@@ -1295,8 +1338,8 @@
    "path": "knowledge/instruments.md",
    "group": "knowledge",
    "title": "Instruments — how to actually measure this app",
-   "chars": 8103,
-   "modified": "2026-08-04 16:12",
+   "chars": 8889,
+   "modified": "2026-08-04 16:22",
    "citedBy": "program/CONTRACT.md"
   },
   {
@@ -1356,6 +1399,14 @@
    "citedBy": "program/LOG.md"
   },
   {
+   "path": "docs/archive/design-system-v1-spiced-linen.md",
+   "group": "root",
+   "title": "design-system-v1-spiced-linen.md",
+   "chars": 17962,
+   "modified": "2026-08-04 16:14",
+   "citedBy": "program/LOG.md"
+  },
+  {
    "path": "CONTEXT.md",
    "group": "root",
    "title": "Project Context — Meal Planning App for Rutger",
@@ -1372,12 +1423,12 @@
    "citedBy": "program/README.md"
   },
   {
-   "path": "docs/archive/design-system-v1-spiced-linen.md",
+   "path": "app/assets/fonts/LICENSE.md",
    "group": "root",
-   "title": "design-system-v1-spiced-linen.md",
-   "chars": 17962,
-   "modified": "2026-08-04 16:14",
-   "citedBy": "program/tasks/T0.9.md"
+   "title": "Schibsted Grotesk",
+   "chars": 1095,
+   "modified": "2026-08-04 16:22",
+   "citedBy": "program/findings/T0.12.md"
   }
  ]
 }

@@ -364,3 +364,35 @@ NOTE FOR T0.11: docs/ now exists with one tenant (docs/archive/). If the directo
 declined, docs/archive/ sits beside spec/ and logs/ as a third documentation location. Fold
 them in, or decide not to and say so. Separately, logs/ still holds five June files with nothing
 saying whether they are current — same class of problem, smaller blast radius.
+
+## 2026-08-04 16:22 · T0.12 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+T0.12 done. Schibsted Grotesk is self-hosted in app/assets/fonts/ and precached; zero requests
+now leave the machine on load. Proved offline by KILLING the server (curl -> 000) and reloading
+from the service-worker cache: document.fonts.check('600 30px "Schibsted Grotesk"') is true.
+
+TWO FILES, NOT FOUR. The family is a VARIABLE font: Google returns eight @font-face blocks but
+only two distinct URLs (latin, latin-ext), each spanning 400-700, 67 KB total. Count distinct
+src URLs, not blocks. Also measured which weights the app actually renders: 600 (342 elements)
+and 700 (10). Weights 400 and 500 are used by nothing and never reached "loaded". I kept the
+full range anyway since it is the same two files and it stops a future style silently falling
+back.
+
+READ THIS BEFORE TRUSTING findings/T0.7.md AND findings/T0.8.md's BASELINES. Applying T0.12
+made all 10 computed-style hashes differ, which looked like a regression. It was not: stashing
+T0.12 and re-measuring with fonts fully LOADED reproduced exactly the values I was getting with
+T0.12 applied. So the delta was font-load state. T0.7 and T0.8 baselined while the webfont was
+still loading — fallback metrics in `height`. They compared fallback-to-fallback consistently,
+so their CONCLUSIONS hold, but they never exercised the loaded-font state, which is what a user
+sees. The loaded-state baseline is now in knowledge/instruments.md and is the one to carry
+forward: dark #/plan 39:77b78797, #/recipes 60:f66e8fb3, #/list 29:783f68e6, #/cook 45:18638ff7,
+#/more 23:0e737f23; light 39:82666055, 60:fa7f4eb8, 29:73b0df10, 45:57f44cad, 23:82bb9a43.
+
+RULE ADDED TO knowledge/instruments.md: check document.fonts.status === 'loaded' before
+measuring anything text-dependent. font-display:swap guarantees a window where you measure the
+wrong thing, and the zero-timer measurement pattern makes you MORE likely to land in it because
+it does not wait.
+
+Trap for the next person self-hosting a Google font: fetch the CSS with a modern browser
+User-Agent or the endpoint serves ttf instead of woff2; copy the unicode-range values verbatim
+or the browser fetches every subset on every page; and precache the files AND bump CACHE, or you
+have moved the offline failure rather than fixed it.
