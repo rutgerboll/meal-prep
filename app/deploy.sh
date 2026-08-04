@@ -23,22 +23,30 @@ git pull --ff-only origin "$branch"
 # Health, not liveness. A LISTEN on the port proves only that something bound
 # it: on 2026-08-01 this server held port 8765 for three days while answering
 # 404 to every path and 500 to /sync.json, and an lsof check called that "up".
-# Ask it for the two things the phone actually needs and read the status code.
-# /sync.json rebuilds the seed on every request, so give it room — a cold
-# thumbnail cache costs ~7.5s (knowledge/instruments.md).
-health() {
-  [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
-        "http://127.0.0.1:$PORT/index.html" 2>/dev/null)" = "200" ] || return 1
-  [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 45 \
-        "http://127.0.0.1:$PORT/sync.json" 2>/dev/null)" = "200" ] || return 1
-}
+# Ask it for the two things the phone actually needs and read the status codes.
+#
+# The two checks have deliberately different shapes. Serving a static file is
+# instant, so poll it to wait out startup. /sync.json re-runs build_seed.py on
+# every request, which is ~0.1s warm but takes minutes on a cold
+# .thumb-cache.json (52 photos through `sips`) — measured here, where a 45s
+# ceiling produced a false negative on a fresh worktree. Polling a rebuild
+# would multiply that, so it gets one attempt with a generous ceiling.
+shell_code() { curl -s -o /dev/null -w '%{http_code}' --max-time 10 "http://127.0.0.1:$PORT/index.html" 2>/dev/null; }
 
 wait_healthy() {
+  ok=""
   for _ in 1 2 3 4 5 6 7 8 9 10; do
-    health && return 0
+    [ "$(shell_code)" = "200" ] && { ok=1; break; }
     sleep 1
   done
-  return 1
+  [ -n "$ok" ] || return 1
+
+  echo "  app shell OK — checking /sync.json (rebuilds the seed; slow on a cold thumbnail cache)…"
+  code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 300 "http://127.0.0.1:$PORT/sync.json" 2>/dev/null)"
+  if [ "$code" != "200" ]; then
+    echo "  /sync.json returned '${code:-no response}' — the phone cannot sync against this." >&2
+    return 1
+  fi
 }
 
 echo "→ Restarting $LABEL…"
