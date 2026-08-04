@@ -35,8 +35,10 @@ Linen" (terracotta) system. Build all new screens from these tokens.
 | `--textop` (on accent) | #0E1A12 | #FFFFFF |
 | `--font-head` | 'Schibsted Grotesk', system-ui, sans-serif | (same) |
 
-Source of truth for tokens + Cook component CSS: `app/` `<style>` (the appended
-Sage block) and the handoff `sage.css`. Cook-screen behaviour spec: handoff `SPEC.md`.
+Source of truth for tokens: **`app/styles/01-tokens.css`**, where each token is declared
+exactly once (T0.7 extracted the CSS out of `index.html`; T0.8 deleted the superseded set that
+used to shadow it). Component CSS: `app/styles/02-base.css` and `03-sage.css`.
+Cook-screen behaviour spec: handoff `SPEC.md`.
 
 ## Cook screen — unified meal slot
 Every meal (lunch or dinner) uses ONE component: an edge-bleeding **carousel** of
@@ -64,3 +66,12 @@ done; today is marked and never auto-collapses. New persisted fields:
 Old pre-Sage Cook code (dropdown day-slots, `renderDaySlot`, `chooseDinner/Lunch`,
 etc.) has been removed. The recipe-detail "Log a Cook" still uses the original
 `startCookLog`/`renderCookModal` bottom sheet for free (non-slot) logging.
+
+**This file is the only authoritative design document.** The Spiced Linen spec is archived at
+`docs/archive/design-system-v1-spiced-linen.md`; until 2026-08-04 it also called itself the
+source of truth, which is why "is this app's UI current?" had two answers. Its colours and type
+are wrong for this app. Three parts of it were never restated here and may still be worth
+reading — the 4px **spacing scale**, **iconography**, and **mobile interaction patterns**
+(gestures, hit areas, sticky CTAs, keyboard) — but they are *unverified proposals*, not a record
+of the code: `--space-*` appears nowhere in `app/styles/`. Promote anything from there into this
+file only after checking it against the app.

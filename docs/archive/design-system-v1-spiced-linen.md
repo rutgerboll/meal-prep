@@ -1,8 +1,24 @@
+> # ⚠️ ARCHIVED — superseded 2026-06-27, filed here 2026-08-04 by T0.9
+>
+> This is the **"Spiced Linen"** system (terracotta/olive, light-first, all-sans). It was
+> replaced by **"Sage"** — see `DESIGN-SYSTEM.md`, which is the only authoritative design
+> document. Its colour palette (§2) and typography (§3) are **wrong for the current app**;
+> the terracotta tokens they describe were deleted from the CSS by T0.8.
+>
+> Kept because it is the record of a real design decision, and because three parts were
+> never restated in Sage and may still be worth reading: the **4px spacing scale** (§4), the
+> **iconography** rules (§6), and the **mobile interaction patterns** (§7 — gestures, hit
+> areas, sticky CTAs, keyboard behaviour). Treat those as *proposals that were never
+> verified against the code*: `--space-*` appears nowhere in `app/styles/`, so §4 in
+> particular was never implemented.
+>
+> Do not build from this document.
+
 # Meal Planning App — Design System
 
 **Version:** 1.0 (Prototype lock)
 **Date:** 2026-06-21
-**Purpose:** Visual language specification for the mobile-first meal planning app. This document is the source of truth for the engineer and the basis for the `prototype.html`.
+**Purpose:** Visual language specification for the mobile-first meal planning app, as it stood at prototype lock. (The original text called this "the source of truth for the engineer and the basis for the `prototype.html`". Both claims are now false: `DESIGN-SYSTEM.md` is authoritative, and no `prototype.html` exists in this repo.)
 
 ---
 
