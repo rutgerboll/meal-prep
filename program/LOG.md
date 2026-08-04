@@ -273,3 +273,37 @@ TWO THINGS FOR THE NEXT SESSION:
 See LOG #11 for the incidental finding, which matters more than this task: the launchd job
 cannot start the server (EPERM / Full Disk Access), production is on deploy.sh's manual
 fallback, and it will not survive a reboot.
+
+## 2026-08-04 15:56 · T0.7 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+T0.7 done. All 23,526 bytes of CSS are out of index.html (154,642 -> 131,784 bytes) and into
+app/styles/, precached, CACHE bumped v27 -> v28. The move is PROVEN a no-op two ways: the
+extracted bytes are character-for-character identical to HEAD's three <style> blocks, and the
+live CSSOM is the same 213 rules in the same order with the same hash (cd36463a) before and
+after.
+
+I DID NOT USE THE FILE NAMES THE BRIEF ASKED FOR, and T0.8 needs to know why. tokens/base/
+components/screens presumes ONE token set — which is precisely what does not exist yet — and
+building it requires hoisting Sage's tokens above block 1's base styles. That reordering would
+have destroyed the only thing making this task safe. So the split follows existing contiguous
+boundaries with names that describe reality: 01-tokens-legacy.css (29 of 31 tokens dead),
+02-base.css (125 LIVE selectors), 03-sage.css (Sage tokens + its !important overrides),
+04-patches.css. Numeric prefixes because load order IS correctness and there is no build step.
+T0.8 should reshape these into the intended four AFTER deleting the dead set — at that point
+the rename is safe.
+
+CONFIRMED LIVE, for T0.8: --nh and --font resolve correctly in both themes. They are the two
+legacy tokens that survive; deleting them with their neighbours is the most likely way to
+break T0.8.
+
+TWO TRAPS PAID FOR:
+1. Running embed_seed.py as a round-trip test REWRITES the inline bootstrap with fresh plan
+   data — i.e. it silently performs T0.3. I spliced HEAD's const SEED back so T0.7 carries no
+   data change. Testing the embed step mutates the file it tests.
+2. The computed-style instrument is unusable while the browser pane is hidden: the renderer
+   throttles to ~0.8ms per property read, so one route of 462 elements took 29 SECONDS and the
+   battery timed out repeatedly. I substituted stronger comparators (byte + CSSOM identity),
+   which is valid for a pure MOVE — but T0.8 is a DELETION and cannot lean on that
+   substitution. Get the sampler working first. Its before-baselines are in findings/T0.7.md
+   and are still valid, since T0.7 changed no CSS. Also: the sampler is only deterministic if
+   every measurement is preceded by the SAME route (a 39-vs-45 element discrepancy until I
+   pinned a fixed predecessor).

@@ -53,7 +53,7 @@ Gate note: One token set, in files, with the app pixel-identical and the phone p
 
 | # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T0.7 | Extract the inline CSS to app/styles/*.css — zero visual change | high | opus | TODO |  | T0.2 |  | app/index.html,app/styles/,app/sw.js,scripts/pre-commit |  | unknown |  |  |  |
+| 1 | T0.7 | Extract the inline CSS to app/styles/*.css — zero visual change | high | opus | DONE | PASS | T0.2 |  | app/index.html,app/styles/,app/sw.js,scripts/pre-commit |  | unknown |  | 23,526 bytes of CSS moved to app/styles/*.css — byte-identical source, identical 213-rule CSSOM, SW updated v27->v28. | [T0.7](findings/T0.7.md) |
 | 2 | T0.8 | Delete the dead token set and the !important scaffolding it required | medium | opus | TODO |  | T0.7 |  | app/styles/,app/sw.js |  | unknown |  |  |  |
 | 3 | T0.9 | One design-system doc: archive the stale 383-line one that claims to be source of truth | low | opus | TODO |  |  |  | DESIGN-SYSTEM.md,design/,docs/ |  | fit | docs only; no app surface, no server, no seed |  |  |
 | 4 | T0.10 | dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again | medium | opus | DONE | PASS | T0.2 |  | app/deploy.sh,.gitignore,app/seed.json,app/build_seed.py,app/embed_seed.py,app/meal-server.py |  | unknown |  | Seed untracked; checkout stays clean under a live sync and deploy.sh completed for the first time. Found: FDA really is missing (v1.1 retracted). | [T0.10](findings/T0.10.md) |
