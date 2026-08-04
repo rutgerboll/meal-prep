@@ -13,9 +13,10 @@ Work is organized as tasks of the **program** in `program/`.
 <!-- tm:begin router — KIT-OWNED (kit TASK-SYSTEM-SPEC.md §10). `tm sync` replaces everything
 between these markers and never a byte outside them. Project-specific landmines belong
 outside the fence. Delete the markers to opt out permanently. -->
-- `tm` = `python3 ~/Documents/Projects/Task-Management/bin/tm.py` (works from any worktree; `tm path` prints the program dir)
+- `tm` = `python3 ~/Projects/Task-Management/bin/tm.py` (works from any worktree; `tm path` prints the program dir)
 - **BOARD.md / LOG.md / INBOX.md are GENERATED — never hand-edit.** Mutate via `tm`:
-  `tm claim <ID>` (atomic — failure means another session owns it) · `tm done <ID> --verdict … --headline "…"` · `tm log <TAG> "…"` · `tm add <ID> --wave "…" --title "…"`
+  `tm claim <ID>` (atomic — failure means another session owns it) · `tm done <ID> --verdict … --headline "…"` · `tm log <TAG> "…"` · `tm add <ID> --wave "…" --title "…" [--reads <ID>] [--touches <path>]`
+- **A brief header's dependency lines are the `tm add` flags, verbatim:** `reads:` (a gate — must be `--reads`, and an unmet one refuses an orchestrated spawn) · `touches:` (a lane — must be `--touches`) · `after:` (ordering only, writes no edge, never a defect) · `cites:` (go read this artifact). Program README, "Your brief's header".
 - Session start: read program/README.md + CONTRACT.md, **triage program/INBOX.md** (phone-captured notes land there), claim before working.
 - **Feedback about the task system itself** — a papercut, a missing verb, a convention that fought you — goes in the inbox: `tm inbox add --project kit "…"`. Not into chat, where it dies with the session. (`--project kit` is not optional: a bare `tm inbox add` files against the project you are *in*.)
 <!-- tm:end router -->
