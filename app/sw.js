@@ -1,9 +1,11 @@
 /* Meal Planner service worker — offline app shell cache */
-const CACHE = 'mealplanner-v31';
+const CACHE = 'mealplanner-v32';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './assets/fonts/schibsted-grotesk-latin.woff2',
+  './assets/fonts/schibsted-grotesk-latin-ext.woff2',
   './styles/01-tokens.css',
   './styles/02-base.css',
   './styles/03-sage.css',
