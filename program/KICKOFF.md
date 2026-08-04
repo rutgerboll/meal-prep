@@ -17,10 +17,16 @@ STATE.md for what landed. Two cheap, high-value things are left before anything 
   bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is
   also the gate on this board ever taking orchestrated workers.
 
-**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). It now
-unblocks three things, not one: production stops dying on reboot, **T0.11** (directory move) and
-**T0.14** (separate the deploy target from the dev checkout) both become doable, and they share
-one plist edit — do them in a single pass.
+**First, a 30-second fix that unblocks three things.** Full Disk Access was already granted —
+but to `/usr/bin/python3`, which is an Xcode *shim*, not python. Grant it to the real
+interpreter and the launchd agent starts working:
+
+> System Settings → Privacy & Security → Full Disk Access → `+` → `⌘⇧G` →
+> `/Library/Developer/CommandLineTools/usr/bin/python3`
+
+Then `cd app && ./deploy.sh`; the last line should read **"via launchd"**, not "manual
+background process". That unblocks production surviving a reboot, **T0.11** (directory move) and
+**T0.14** (separate deploy from dev) — the latter two share one plist edit, so do them together.
 
 **T0.14 is the one to read if you only read one.** We currently develop in the directory we
 deploy from: an uncommitted edit to `app/index.html` is served to the phone immediately, a merge

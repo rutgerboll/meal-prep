@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T22:11:43+00:00",
+ "generatedAt": "2026-08-04T22:12:19+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -15,7 +15,7 @@
  "kickoff": {
   "taskId": "T0.3",
   "title": "re-embed the bootstrap, then T0.4 — build a test suite",
-  "noteMd": "Wave 0d is done (T0.2, T0.10, T0.7, T0.8, T0.9, T0.12; T0.11 deferred with reasons). See\nSTATE.md for what landed. Two cheap, high-value things are left before anything else:\n\n- **T0.3** — the inline `const SEED` in `index.html` still disagrees with the library on **20\n  plan entries** (verified again 2026-08-04, post-wave). It is a ten-minute task and it is wrong\n  data a fresh install would show. Note the new sharp edge: `app/seed.json` is now\n  `.gitignore`d, so committing a wanted seed refresh needs **`git add -f`**.\n- **T0.4** — there is still **no executable test suite in this repo at all**. Wave 0d verified\n  everything by hand, three times over, and the checks it invented (asset-list agreement,\n  bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is\n  also the gate on this board ever taking orchestrated workers.\n\n**Before either, if you have not already: grant Full Disk Access** (STATE.md, top). It now\nunblocks three things, not one: production stops dying on reboot, **T0.11** (directory move) and\n**T0.14** (separate the deploy target from the dev checkout) both become doable, and they share\none plist edit — do them in a single pass.\n\n**T0.14 is the one to read if you only read one.** We currently develop in the directory we\ndeploy from: an uncommitted edit to `app/index.html` is served to the phone immediately, a merge\nto `main` is a deploy, and `deploy.sh`'s pull is a measured no-op. LOG [READ-FIRST] #18.\n\nRead `knowledge/instruments.md` before measuring anything — wave 0d rewrote it, and the\nzero-timer measurement pattern plus the `document.fonts.status` gate will save you the hour they\ncost T0.7 and T0.8.",
+  "noteMd": "Wave 0d is done (T0.2, T0.10, T0.7, T0.8, T0.9, T0.12; T0.11 deferred with reasons). See\nSTATE.md for what landed. Two cheap, high-value things are left before anything else:\n\n- **T0.3** — the inline `const SEED` in `index.html` still disagrees with the library on **20\n  plan entries** (verified again 2026-08-04, post-wave). It is a ten-minute task and it is wrong\n  data a fresh install would show. Note the new sharp edge: `app/seed.json` is now\n  `.gitignore`d, so committing a wanted seed refresh needs **`git add -f`**.\n- **T0.4** — there is still **no executable test suite in this repo at all**. Wave 0d verified\n  everything by hand, three times over, and the checks it invented (asset-list agreement,\n  bootstrap-vs-seed drift, server health by request) are exactly the suite's first tests. It is\n  also the gate on this board ever taking orchestrated workers.\n\n**First, a 30-second fix that unblocks three things.** Full Disk Access was already granted —\nbut to `/usr/bin/python3`, which is an Xcode *shim*, not python. Grant it to the real\ninterpreter and the launchd agent starts working:\n\n> System Settings → Privacy & Security → Full Disk Access → `+` → `⌘⇧G` →\n> `/Library/Developer/CommandLineTools/usr/bin/python3`\n\nThen `cd app && ./deploy.sh`; the last line should read **\"via launchd\"**, not \"manual\nbackground process\". That unblocks production surviving a reboot, **T0.11** (directory move) and\n**T0.14** (separate deploy from dev) — the latter two share one plist edit, so do them together.\n\n**T0.14 is the one to read if you only read one.** We currently develop in the directory we\ndeploy from: an uncommitted edit to `app/index.html` is served to the phone immediately, a merge\nto `main` is a deploy, and `deploy.sh`'s pull is a measured no-op. LOG [READ-FIRST] #18.\n\nRead `knowledge/instruments.md` before measuring anything — wave 0d rewrote it, and the\nzero-timer measurement pattern plus the `document.fonts.status` gate will save you the hour they\ncost T0.7 and T0.8.",
   "prompt": "Work task T0.3 of the Meal Planner app program in this project.\n\nSetup: run `tm path` to locate the program dir. Read first, in order: README.md, CONTRACT.md\n(FROZEN v1.2), tasks/T0.3.md, GOTCHAS.md, every [READ-FIRST] entry in LOG.md, then\nfindings/T0.1.md and knowledge/instruments.md.\n\nRules that matter most:\n- CONTRACT.md is binding and frozen. Verify against reality — do not trust documentation.\n- >=2 comparators for any verdict; one comparator = INCONCLUSIVE, not NO SIGNAL.\n- app/seed.json is gitignored now: a wanted seed commit needs `git add -f`, deliberately.\n- Bumping CACHE is mandatory for any index.html change; the hook will demand it.\n- Claim before working: `tm claim T0.3` — if it fails, someone owns it; stop.\n\nPost a short plan first, then proceed. Don't wait for me unless you hit a stop condition.\n\nStop and tell me if: a dependency isn't DONE, you find something that invalidates other\ntasks' assumptions (`tm log READ-FIRST \"…\"` first), or the task is unanswerable.\n\nFinish by: findings/T0.3.md per CONTRACT §6 · `tm done T0.3 --verdict … --headline \"…\"` ·\n`tm log DONE \"…\" --task T0.3` · mirror durable learning to knowledge/ + auto-memory ·\nupdate KICKOFF.md with the next prompt (T0.4).",
   "taskIds": [
    "T0.3"
@@ -1216,8 +1216,8 @@
    ]
   }
  ],
- "stale": false,
- "staleSince": null,
+ "stale": true,
+ "staleSince": "2026-08-04T22:12:18+00:00",
  "docs": [
   {
    "path": "program/CONTRACT.md",
@@ -1237,15 +1237,15 @@
    "path": "program/KICKOFF.md",
    "group": "program",
    "title": "Meal Planner app — session kickoffs",
-   "chars": 8413,
-   "modified": "2026-08-04 16:53"
+   "chars": 8729,
+   "modified": "2026-08-04 17:12"
   },
   {
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
    "chars": 35857,
-   "modified": "2026-08-04 17:10"
+   "modified": "2026-08-04 17:11"
   },
   {
    "path": "program/README.md",
@@ -1258,8 +1258,8 @@
    "path": "program/STATE.md",
    "group": "program",
    "title": "Meal Planner app — STATE",
-   "chars": 10847,
-   "modified": "2026-08-04 17:11"
+   "chars": 10976,
+   "modified": "2026-08-04 17:12"
   },
   {
    "path": "program/tasks/T0.1.md",
