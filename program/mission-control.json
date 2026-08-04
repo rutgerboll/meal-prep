@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T22:10:18+00:00",
+ "generatedAt": "2026-08-04T22:11:43+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -1245,7 +1245,7 @@
    "group": "program",
    "title": "Meal Planner app — LOG",
    "chars": 35857,
-   "modified": "2026-08-04 17:09"
+   "modified": "2026-08-04 17:10"
   },
   {
    "path": "program/README.md",
@@ -1258,8 +1258,8 @@
    "path": "program/STATE.md",
    "group": "program",
    "title": "Meal Planner app — STATE",
-   "chars": 10557,
-   "modified": "2026-08-04 16:53"
+   "chars": 10847,
+   "modified": "2026-08-04 17:11"
   },
   {
    "path": "program/tasks/T0.1.md",

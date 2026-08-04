@@ -52,22 +52,28 @@ denominators two → four, §2 skills settled, §3 certify-before-measuring, §5
 below. Full evidence: `findings/T0.1.md`. Live [READ-FIRST] LOG entries: **#5** the skills,
 **#7** the server (which supersedes #4).
 
-**⚠ ONE THING NEEDS THE USER, AND IT IS THE TOP OPERATIONAL RISK.** The launchd job
-`com.mealplanner.server` **cannot start the server** — its own stderr says
-`Operation not permitted` opening `meal-server.py`, errno 1 (EPERM, not ENOENT). That is the
-Full Disk Access failure `SYNC-SETUP.md` documents, and the grant is missing. Production is
-currently served by `deploy.sh`'s **manual fallback**, which works and survives a session
-ending but **will not survive a reboot or logout.**
+**⚠ ONE THING NEEDS THE USER — and the earlier instruction for it was wrong.** The launchd job
+`com.mealplanner.server` still cannot start the server: with port 8765 deliberately freed and no
+inheriting parent, it tried twice and got `Operation not permitted` both times. Production runs
+on `deploy.sh`'s **manual fallback**, which works but **dies on reboot**.
 
-Fix (System Settings → Privacy & Security → Full Disk Access → `+` → `⌘⇧G` →
-`/usr/bin/python3` → enable), then `cd app && ./deploy.sh` and confirm it says **"via launchd"**
-rather than "manual background process". That string is the status indicator. This also unblocks
-T0.11's directory move, which is gated on a supervised rollback path existing.
+**Full Disk Access was already granted — to the wrong binary.** `/usr/bin/python3` is an Xcode
+tool shim (`com.apple.dt.xcode_select.tool-shim-public`) that re-execs
+`/Library/Developer/CommandLineTools/usr/bin/python3` (`com.apple.python3`), and TCC keys on the
+signature. `SYNC-SETUP.md` told the user to add the shim; it has been corrected. The fix:
 
-*History, so nobody re-derives it:* the phone did not sync from 2026-08-01 08:52 to 08-04 14:08.
-T0.1 blamed FDA (v1.0), then retracted that after an accidental restart looked like a refutation
-(v1.1), then T0.10 found the EPERM line in `/tmp/mealplanner-server.err` and reinstated it
-(v1.2). **The log had the answer the whole time.** CONTRACT §3 now says to read it first.
+> System Settings → Privacy & Security → Full Disk Access → `+` → `⌘⇧G` →
+> `/Library/Developer/CommandLineTools/usr/bin/python3`
+
+Then `cd app && ./deploy.sh` and read the last line: **"via launchd"** means the agent owns the
+server; **"manual background process"** means it does not. That string is the status indicator,
+and it is what gates **T0.11** and **T0.14**.
+
+*Why this took three tries to pin down:* the err log interleaves 437 `Operation not permitted`
+with 101 `Address already in use`, because `deploy.sh` kickstarts from a shell that *has* the
+grant and those spawns inherit it, while autonomous `KeepAlive` respawns do not. Same job, two
+failure modes, alternating by who triggered the spawn. CONTRACT is at **v1.3**; LOG #19
+supersedes #11 supersedes #7 supersedes #4.
 
 New wave **0b — pipeline repairs**: T0.2 (pre-commit misses `app/js/*.js`; `deploy.sh` calls a
 404ing server healthy) and T0.3 (inline SEED bootstrap drifted 20 plan entries). Both are
