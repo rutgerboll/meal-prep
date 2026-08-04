@@ -4,14 +4,18 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T19:54:01+00:00",
+ "generatedAt": "2026-08-04T20:30:45+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
  "nextTaskId": "T1.1",
  "nextTaskDerived": "T1.1",
  "nextTaskStated": "T0.2",
- "kickoffStale": null,
+ "kickoffStale": {
+  "id": "T0.2",
+  "status": "DONE",
+  "holder": "rutgerboll@Rutgers-Mini#wave0d"
+ },
  "kickoff": {
   "taskId": "T0.2",
   "title": "make the guards tell the truth, then run wave 0d",
@@ -125,6 +129,13 @@
    "tag": "SCOPE",
    "actor": "rutgerboll@Rutgers-Mini#T0.1",
    "text": "WAVE 0d WIRED FOR EXECUTION — the user approved the structure sequence on 2026-08-04 (\"go\nahead and wire up the tasks to make these moves then we can execute\"). Six tasks with briefs:\nT0.7 extract the inline CSS to app/styles/*.css with ZERO visual change; T0.8 delete the 29\ndead tokens and the ~15 !important declarations that only existed to fight them; T0.9 one\ndesign-system doc; T0.10 dist/ so deploy.sh's guard works again; T0.12 self-host the heading\nfont; T0.11 the directory move, explicitly optional.\n\nRUN ORDER IS NOT THE BOARD ORDER and the reason matters: T0.2 first (working guards before\nshipping code to installed phones), then T0.10 (deploy.sh is the ROLLBACK PATH and is\ncurrently dead — restore it before the risky work, not after), then T0.7 -> T0.8, with T0.9\nrunnable any time and T0.11 last if at all. KICKOFF carries the table. tm render still says\nnext: T1.1 because waves cannot be reordered (kit inbox 475); that is mechanical, not a\npriority judgement, and KICKOFF says so out loud rather than silently contradicting the DB.\n\nTwo brief reconciliations, so nobody works from a stale copy:\n- deploy.sh's dirty-checkout guard moved OUT of T0.2 and INTO T0.10, which also owns whether\n  the generated artifacts move to dist/. T0.2 now fixes only the health check and must say in\n  its finding that deploy is still blocked, so a green T0.2 is not read as a working deploy.\n- T0.6 was re-scoped before anyone claimed it. Its layout-decision half is answered by the\n  user; what remains is the ground wave 0d does NOT cover — JS coupling (not the global count),\n  build_seed.py's parser correctness surface, the sync/feedback round trip, db.js migration\n  handling, and offline/unreachable error paths. Retiring it is a legitimate outcome.\n\nNEW DEFECT found while wiring, not previously logged: the heading font (Schibsted Grotesk) is\nloaded from fonts.googleapis.com on every page load and appears in NO precache list --\ngrep -c fonts app/sw.js returns 0. So --font-head silently falls back to system-ui whenever\nthe phone is offline, which is the one condition this app exists to handle. It is also a\nthird-party request from an app whose keyless/private stance was paid for by REMOVING a\nshipped API key. Nobody chose it; it arrived as line 3 of the Sage design system's install\ninstructions. T0.12, and its proof obligation is the offline case specifically:\ndocument.fonts.check('600 30px \"Schibsted Grotesk\"') must be true with the network down."
+  },
+  {
+   "date": "2026-08-04 15:30",
+   "task": "T0.2",
+   "tag": "DONE",
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "text": "T0.2 done. scripts/pre-commit now guards a PATTERN (app/index.html, app/js/*.js,\napp/styles/*.css) instead of one filename, so T0.7's CSS files are covered before they exist.\nProven by 8 probe commits against the real hook, including two cases not in the brief: a\nsw.js-only change still commits, and DELETING a precached file is now blocked too (ASSETS has\nto change with it).\n\ndeploy.sh no longer calls a server healthy on an lsof LISTEN. It polls the app shell to wait\nout startup, then asks /sync.json ONCE with a 300s ceiling. The two shapes are deliberate:\n/sync.json re-runs build_seed.py per request, and my first attempt at a single uniform check\nwith a 45s ceiling produced a FALSE NEGATIVE on a cold .thumb-cache.json — polling a rebuild\nwould have multiplied that. Discriminates all four server states, including the nastiest one\n(serves the shell fine, 404s on sync) which a shell-only check would pass and the phone would\nstill fail on.\n\nAlso removed `pkill -f \"python3 .*meal-server.py\"` from deploy.sh's fallback in favour of\nkilling by PORT. That pattern matches every meal-server on the machine including a session's\nown test instance; it is how T0.1 restarted production by accident, and CONTRACT §3 now warns\nagainst it by name.\n\nREAD THIS BEFORE ASSUMING DEPLOY WORKS: it does not. The dirty-checkout guard still refuses\nevery time, because app/seed.json is tracked and the server rewrites it. T0.10 owns that. A\ngreen T0.2 is not a working deploy, and deploy.sh has still never been run end to end.\n\nTrap for anyone testing shell functions by extracting them: `sed -n '/^f()/,/^}/p'` on a\nONE-LINE function body silently swallows the next function's header, producing a nested\ndefinition that returns 0 for everything. My first run reported a dead port as healthy. Use a\nline range and `sh -n` the result."
   }
  ],
  "state": {
@@ -195,8 +206,19 @@
  "flagsOpen": 0,
  "orchSpawns": [],
  "orchHalted": "",
- "heldTasks": [],
- "heldCount": 0,
+ "heldTasks": [
+  {
+   "id": "T0.10",
+   "name": "dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again",
+   "wave": "0d — structure & CSS repair",
+   "status": "CLAIMED",
+   "claimedBy": "rutgerboll@Rutgers-Mini#wave0d",
+   "claimedAt": "2026-08-04T20:30:43+00:00",
+   "updatedAt": "2026-08-04T20:30:43+00:00",
+   "worktree": null
+  }
+ ],
+ "heldCount": 1,
  "unclaimedWorktreeTasks": [],
  "unclaimedWorktreeCount": 0,
  "liveCount": 0,
@@ -219,10 +241,49 @@
    "promptGenerated": true,
    "promptMissing": false,
    "touchesUndeclared": true
+  },
+  {
+   "tasks": [
+    "T0.10"
+   ],
+   "wave": "0d — structure & CSS repair",
+   "title": "dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again",
+   "parallel": false,
+   "effort": "medium",
+   "model": "opus",
+   "headline": "",
+   "reads": [
+    "T0.2"
+   ],
+   "status": "in-flight",
+   "holder": "rutgerboll@Rutgers-Mini#wave0d",
+   "claimedAt": "2026-08-04T20:30:43+00:00",
+   "worktree": null
   }
  ],
- "sessionsRunning": [],
+ "sessionsRunning": [
+  {
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "task": "T0.10",
+   "title": "dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again",
+   "claimedAt": "2026-08-04T20:30:43+00:00",
+   "lastTmAt": "2026-08-04T20:30:43+00:00",
+   "lastTmLine": "",
+   "worktree": null
+  }
+ ],
  "landedToday": [
+  {
+   "actor": "rutgerboll@Rutgers-Mini#wave0d",
+   "task": "T0.2",
+   "title": "Close the two measured pipeline holes: pre-commit misses app/js/*.js, deploy.sh calls a 404ing server healthy",
+   "at": "2026-08-04T20:30:08+00:00",
+   "merge": "unknown",
+   "commits": 0,
+   "suite": "none",
+   "verdict": "PASS",
+   "findingsPath": "findings/T0.2.md"
+  },
   {
    "actor": "rutgerboll@Rutgers-Mini#T0.1",
    "task": "T0.1",
@@ -236,11 +297,11 @@
   }
  ],
  "staleHeld": 0,
- "lastLandedAt": "2026-08-04T19:53:51+00:00",
+ "lastLandedAt": "2026-08-04T20:30:08+00:00",
  "waitingOnYouOldestAt": "",
  "staleHeldOldestAt": "",
- "liveMostRecentAt": "",
- "attentionTier": "landed",
+ "liveMostRecentAt": "2026-08-04T20:30:43+00:00",
+ "attentionTier": "live",
  "waves": [
   {
    "name": "Wave 0 — foundation",
@@ -459,8 +520,8 @@
      "name": "Close the two measured pipeline holes: pre-commit misses app/js/*.js, deploy.sh calls a 404ing server healthy",
      "effort": "medium",
      "model": "opus",
-     "status": "TODO",
-     "verdict": "",
+     "status": "DONE",
+     "verdict": "PASS",
      "reads": [
       "T0.1"
      ],
@@ -473,18 +534,36 @@
      "sandboxReason": "",
      "wave": "0b — pipeline repairs (found by T0.1)",
      "briefPath": "program/tasks/T0.2.md",
-     "findingsLink": "",
-     "headline": "",
-     "claimedBy": "",
-     "claimedAt": "",
-     "doneBy": "",
-     "updatedAt": "2026-08-04T19:04:34+00:00",
-     "findingPath": "",
+     "findingsLink": "findings/T0.2.md",
+     "headline": "Hook now guards app/js + app/styles (8 probe commits); deploy.sh health-checks by request. Deploy still blocked on T0.10.",
+     "claimedBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "claimedAt": "2026-08-04T20:23:01+00:00",
+     "doneBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "updatedAt": "2026-08-04T20:30:08+00:00",
+     "findingPath": "program/findings/T0.2.md",
      "briefBytes": 3489,
-     "findingBytes": 0,
+     "findingBytes": 6444,
      "inbox": [],
-     "lifecycle": [],
-     "lifecycleDrift": null,
+     "lifecycle": [
+      {
+       "stage": "claim",
+       "ts": "2026-08-04T20:23:01+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "",
+       "measured": false
+      },
+      {
+       "stage": "done",
+       "ts": "2026-08-04T20:30:04+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "PASS",
+       "measured": false
+      }
+     ],
+     "lifecycleDrift": {
+      "stage": "merge",
+      "label": "DONE — not merged"
+     },
      "worktree": null
     },
     {
@@ -742,7 +821,7 @@
      "name": "dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again",
      "effort": "medium",
      "model": "opus",
-     "status": "TODO",
+     "status": "CLAIMED",
      "verdict": "",
      "reads": [
       "T0.2"
@@ -762,15 +841,23 @@
      "briefPath": "program/tasks/T0.10.md",
      "findingsLink": "",
      "headline": "",
-     "claimedBy": "",
-     "claimedAt": "",
+     "claimedBy": "rutgerboll@Rutgers-Mini#wave0d",
+     "claimedAt": "2026-08-04T20:30:43+00:00",
      "doneBy": "",
-     "updatedAt": "2026-08-04T19:47:26+00:00",
+     "updatedAt": "2026-08-04T20:30:43+00:00",
      "findingPath": "",
      "briefBytes": 4111,
      "findingBytes": 0,
      "inbox": [],
-     "lifecycle": [],
+     "lifecycle": [
+      {
+       "stage": "claim",
+       "ts": "2026-08-04T20:30:43+00:00",
+       "actor": "rutgerboll@Rutgers-Mini#wave0d",
+       "detail": "",
+       "measured": false
+      }
+     ],
      "lifecycleDrift": null,
      "worktree": null
     },
@@ -879,8 +966,8 @@
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 14482,
-   "modified": "2026-08-04 14:53"
+   "chars": 16380,
+   "modified": "2026-08-04 15:30"
   },
   {
    "path": "program/README.md",
@@ -1014,6 +1101,13 @@
    "title": "T0.1 — Verify the build contract against the repo, then freeze it",
    "chars": 13683,
    "modified": "2026-08-04 14:11"
+  },
+  {
+   "path": "program/findings/T0.2.md",
+   "group": "findings",
+   "title": "T0.2 — Close the two measured pipeline holes",
+   "chars": 6392,
+   "modified": "2026-08-04 15:29"
   },
   {
    "path": "knowledge/instruments.md",

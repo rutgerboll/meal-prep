@@ -190,3 +190,32 @@ third-party request from an app whose keyless/private stance was paid for by REM
 shipped API key. Nobody chose it; it arrived as line 3 of the Sage design system's install
 instructions. T0.12, and its proof obligation is the offline case specifically:
 document.fonts.check('600 30px "Schibsted Grotesk"') must be true with the network down.
+
+## 2026-08-04 15:30 · T0.2 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+T0.2 done. scripts/pre-commit now guards a PATTERN (app/index.html, app/js/*.js,
+app/styles/*.css) instead of one filename, so T0.7's CSS files are covered before they exist.
+Proven by 8 probe commits against the real hook, including two cases not in the brief: a
+sw.js-only change still commits, and DELETING a precached file is now blocked too (ASSETS has
+to change with it).
+
+deploy.sh no longer calls a server healthy on an lsof LISTEN. It polls the app shell to wait
+out startup, then asks /sync.json ONCE with a 300s ceiling. The two shapes are deliberate:
+/sync.json re-runs build_seed.py per request, and my first attempt at a single uniform check
+with a 45s ceiling produced a FALSE NEGATIVE on a cold .thumb-cache.json — polling a rebuild
+would have multiplied that. Discriminates all four server states, including the nastiest one
+(serves the shell fine, 404s on sync) which a shell-only check would pass and the phone would
+still fail on.
+
+Also removed `pkill -f "python3 .*meal-server.py"` from deploy.sh's fallback in favour of
+killing by PORT. That pattern matches every meal-server on the machine including a session's
+own test instance; it is how T0.1 restarted production by accident, and CONTRACT §3 now warns
+against it by name.
+
+READ THIS BEFORE ASSUMING DEPLOY WORKS: it does not. The dirty-checkout guard still refuses
+every time, because app/seed.json is tracked and the server rewrites it. T0.10 owns that. A
+green T0.2 is not a working deploy, and deploy.sh has still never been run end to end.
+
+Trap for anyone testing shell functions by extracting them: `sed -n '/^f()/,/^}/p'` on a
+ONE-LINE function body silently swallows the next function's header, producing a nested
+definition that returns 0 for everything. My first run reported a dead port as healthy. Use a
+line range and `sh -n` the result.

@@ -36,7 +36,7 @@ Gate note: The stale-code guard and the deploy health check tell the truth.
 
 | # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T0.2 | Close the two measured pipeline holes: pre-commit misses app/js/*.js, deploy.sh calls a 404ing server healthy | medium | opus | TODO |  | T0.1 |  | scripts/pre-commit,app/deploy.sh |  | unknown |  |  |  |
+| 1 | T0.2 | Close the two measured pipeline holes: pre-commit misses app/js/*.js, deploy.sh calls a 404ing server healthy | medium | opus | DONE | PASS | T0.1 |  | scripts/pre-commit,app/deploy.sh |  | unknown |  | Hook now guards app/js + app/styles (8 probe commits); deploy.sh health-checks by request. Deploy still blocked on T0.10. | [T0.2](findings/T0.2.md) |
 | 2 | T0.3 | Re-embed the inline SEED bootstrap: index.html disagrees with the library on 20 plan entries | low | opus | TODO |  | T0.1 |  | app/index.html,app/seed.json |  | unknown |  |  |  |
 
 ## 0c — codebase health (from inbox)
@@ -56,6 +56,6 @@ Gate note: One token set, in files, with the app pixel-identical and the phone p
 | 1 | T0.7 | Extract the inline CSS to app/styles/*.css — zero visual change | high | opus | TODO |  | T0.2 |  | app/index.html,app/styles/,app/sw.js,scripts/pre-commit |  | unknown |  |  |  |
 | 2 | T0.8 | Delete the dead token set and the !important scaffolding it required | medium | opus | TODO |  | T0.7 |  | app/styles/,app/sw.js |  | unknown |  |  |  |
 | 3 | T0.9 | One design-system doc: archive the stale 383-line one that claims to be source of truth | low | opus | TODO |  |  |  | DESIGN-SYSTEM.md,design/,docs/ |  | fit | docs only; no app surface, no server, no seed |  |  |
-| 4 | T0.10 | dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again | medium | opus | TODO |  | T0.2 |  | app/deploy.sh,.gitignore,app/seed.json,app/build_seed.py,app/embed_seed.py,app/meal-server.py |  | unknown |  |  |  |
+| 4 | T0.10 | dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again | medium | opus | CLAIMED |  | T0.2 |  | app/deploy.sh,.gitignore,app/seed.json,app/build_seed.py,app/embed_seed.py,app/meal-server.py |  | unknown |  |  |  |
 | 5 | T0.11 | The directory move: client/ pipeline/ server/ docs/ — only if the earlier steps leave a reason | high | opus | TODO |  | T0.7,T0.8,T0.10 |  | app/,scripts/,docs/,CLAUDE.md |  | unknown |  |  |  |
 | 6 | T0.12 | Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline | low | opus | TODO |  | T0.7 |  | app/index.html,app/styles/,app/sw.js,app/assets/ |  | unknown |  |  |  |
