@@ -1,17 +1,29 @@
 #!/bin/sh
-# Guard: app/index.html changes must ship with a bumped CACHE version in
-# app/sw.js. The service worker only re-fetches the app shell when sw.js
-# itself changes byte-for-byte, so an index.html-only change is invisible
-# to phones that already have the app installed — they stay stuck on the
-# old cached version no matter how many times they open or sync it.
+# Guard: any change to a PRECACHED app file must ship with a bumped CACHE
+# version in app/sw.js. The service worker's fetch handler is cache-first and
+# never revalidates, so a precached file that changes without a new CACHE name
+# is invisible to phones that already have the app installed — they stay stuck
+# on the old version no matter how many times they open or sync it, and nothing
+# later recovers it.
 #
-# Installed at .git/hooks/pre-commit. If that ever goes missing (fresh
-# clone, .git/hooks wiped), reinstall with:
+# GUARDED lists the paths sw.js precaches. Keep it in step with the ASSETS
+# array in app/sw.js: a file that sw.js caches but this hook does not guard is
+# exactly the hole T0.1 measured (a JS-only change committed clean, then
+# shipped stale). Patterns are grep -E, anchored, matched against staged paths.
+#
+# Installed at .git/hooks/pre-commit. If that ever goes missing (fresh clone,
+# .git/hooks wiped), reinstall with:
 #   cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 
-if git diff --cached --name-only | grep -q '^app/index\.html$'; then
-  if ! git diff --cached --name-only | grep -q '^app/sw\.js$'; then
-    echo "error: app/index.html changed but app/sw.js was not staged." >&2
+GUARDED='^app/index\.html$|^app/js/[^/]+\.js$|^app/styles/[^/]+\.css$'
+
+staged=$(git diff --cached --name-only)
+hits=$(printf '%s\n' "$staged" | grep -E "$GUARDED")
+
+if [ -n "$hits" ]; then
+  if ! printf '%s\n' "$staged" | grep -q '^app/sw\.js$'; then
+    echo "error: a precached app file changed but app/sw.js was not staged:" >&2
+    printf '  %s\n' $hits >&2
     echo "Bump the CACHE version in app/sw.js so phones pick up this update." >&2
     exit 1
   fi
@@ -19,7 +31,8 @@ if git diff --cached --name-only | grep -q '^app/index\.html$'; then
   old=$(git show HEAD:app/sw.js 2>/dev/null | grep "const CACHE")
   new=$(git show :app/sw.js | grep "const CACHE")
   if [ "$old" = "$new" ]; then
-    echo "error: app/index.html changed but the CACHE version in app/sw.js was not bumped." >&2
+    echo "error: a precached app file changed but the CACHE version in app/sw.js was not bumped:" >&2
+    printf '  %s\n' $hits >&2
     echo "Without a version bump, browsers won't detect the update and phones stay on stale cached content." >&2
     exit 1
   fi
