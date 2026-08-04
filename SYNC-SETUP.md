@@ -72,12 +72,44 @@ To run the server automatically at login, create a Launch Agent:
 ```
 Replace `YOUR_USERNAME`, then: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.mealplanner.server.plist`
 
-**Grant Full Disk Access to python3.** A LaunchAgent spawns `/usr/bin/python3` directly,
-which macOS blocks from reading anything under `Documents` by default (unlike running
-the script from Terminal, where the process inherits Terminal's own permission). Without
-this the agent crash-loops silently. Go to **System Settings → Privacy & Security → Full
-Disk Access**, click **+**, press **⌘⇧G**, enter `/usr/bin/python3`, add it, and enable
-the toggle.
+**Grant Full Disk Access to python3 — and to the RIGHT binary.** A LaunchAgent spawns
+python directly, which macOS blocks from reading anything under `Documents` by default
+(unlike running the script from Terminal, where the process inherits Terminal's own
+permission).
+
+⚠️ **`/usr/bin/python3` is not python.** It is an Xcode tool shim
+(`codesign` identifier `com.apple.dt.xcode_select.tool-shim-public`) that re-execs
+`/Library/Developer/CommandLineTools/usr/bin/python3` (identifier `com.apple.python3`,
+team `59GAB85EFG`). TCC grants key on the binary's signature, so granting the shim does
+**not** grant the interpreter that actually opens the file — and this instruction used to
+say to grant the shim.
+
+Go to **System Settings → Privacy & Security → Full Disk Access**, click **+**, press
+**⌘⇧G**, and add:
+
+```
+/Library/Developer/CommandLineTools/usr/bin/python3
+```
+
+Enable the toggle. (Adding `/usr/bin/python3` as well is harmless but is not what fixes it.)
+
+**How the failure looks, and why it looks intermittent.** The agent does not crash-loop
+silently — it stays up serving errors, or fails to start while something else holds the
+port. `/tmp/mealplanner-server.err` is the place to look:
+
+- `[Errno 1] Operation not permitted` opening `meal-server.py` → the grant is missing.
+  Errno **1** is EPERM; errno 2 would mean a wrong path.
+- `[Errno 48] Address already in use` → the grant is fine and something else holds 8765,
+  usually `deploy.sh`'s manual fallback from an earlier run.
+
+Both can appear in the same log. `deploy.sh` runs `launchctl kickstart` from a shell that
+*does* have Full Disk Access, and those spawns can inherit it; autonomous `KeepAlive`
+respawns do not. So the same job alternates between the two errors until the grant is on
+the real binary.
+
+Confirm the fix by running `./deploy.sh` and reading its last line: **"via launchd"** means
+the agent owns the server; **"manual background process"** means it does not, and the server
+will not survive a reboot.
 
 (Keep `tailscale serve --bg 8765` enabled too — it persists across reboots.)
 
