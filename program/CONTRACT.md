@@ -1,9 +1,9 @@
 # Meal Planner app — CONTRACT
 
-🔒 **FROZEN 2026-08-04 by T0.1 · v1.1** — changes from here require a [READ-FIRST] LOG entry
+🔒 **FROZEN 2026-08-04 by T0.1 · v1.2** — changes from here require a [READ-FIRST] LOG entry
 and a version bump.
 
-**Contract version:** 1.1 (frozen)
+**Contract version:** 1.2 (frozen)
 
 > Every §8 incantation below was run at least once by T0.1 on 2026-08-04. Where the draft
 > was wrong, the correction is in the changelog with the evidence in `findings/T0.1.md`.
@@ -78,10 +78,14 @@ Certified surfaces for verifying a change:
   ```
   curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8765/index.html
   ```
-  A non-200 means restart it — `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`
-  is a measured remedy — and **capture evidence first if you care why**, because the restart
-  destroys the specimen. Do not attribute such an outage to Full Disk Access: T0.1 did, and
-  was wrong (§Changelog 1.1).
+  A non-200 means **read `/tmp/mealplanner-server.err` first** — the launchd job's own stderr,
+  which is where the answer has been every time and which T0.1 twice failed to check at the
+  moment it mattered. Then restart:
+  `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`.
+  As of 2026-08-04 that log says `Operation not permitted` opening `meal-server.py` —
+  **errno 1 (EPERM), not 2 (ENOENT)** — which is the Full Disk Access failure `SYNC-SETUP.md`
+  documents, and which the user has not yet granted. Until they do, the server runs only via
+  `deploy.sh`'s manual fallback and **will not survive a reboot.**
   Prefer your own instance on a spare port whenever your work could disturb the phone's
   server; it works from any checkout, worktrees included:
   ```
@@ -167,16 +171,15 @@ Each of these was executed by T0.1 on 2026-08-04. Copy-paste them; don't paraphr
   real, and it is the 52 `cookbookBacklog` photos; recipes carry no thumbnails today).
   **`build_seed.py` does not do this for you**, and skipping it is currently live: the
   committed `index.html` bootstrap disagrees with the library on 20 plan entries.
-- **`deploy.sh`.** Two corrections to the draft. (a) **This machine *is* the Mac mini**
-  (`Rutgers-Mini`, serving `rutgers-mac-mini-2.tailc604f.ts.net`) — "run it on the mini, not
-  here" means *run it from the main checkout*, not from a worktree; there is no second host.
-  (b) Its dirty-checkout refusal is the safety net, **and it currently fires every time**:
-  `meal-server.py` re-runs `build_seed.py` on every `/sync.json` request and rewrites the
-  tracked `app/seed.json` in place, so the main checkout is structurally, permanently dirty.
-  Treat that file as server-owned runtime output, not as a source file you are free to
-  commit (`knowledge/prioritization.md` G5). Note also that `deploy.sh` declares success on
-  `lsof` seeing a LISTEN on 8765 — which the currently-broken server satisfies. It can print
-  ✓ over a server returning 404 to everything.
+- **`deploy.sh`.** **This machine *is* the Mac mini** (`Rutgers-Mini`, serving
+  `rutgers-mac-mini-2.tailc604f.ts.net`) — "run it on the mini, not here" means *run it from
+  the main checkout*, not from a worktree; there is no second host. Run it from `app/`.
+  It works as of 2026-08-04 (T0.2 gave it a real health check; T0.10 untracked the seed so its
+  dirty-checkout guard stops refusing) — but it currently succeeds via its **manual fallback**,
+  because launchd cannot start the server until Full Disk Access is granted (§3).
+  `app/seed.json` and `app/.thumb-cache.json` are now `.gitignore`d: they are server-owned
+  runtime output, rewritten on every `/sync.json` request. Committing a wanted seed refresh
+  therefore needs `git add -f`, deliberately (`knowledge/prioritization.md` G5).
 - Program artifacts live in the main checkout; `tm path` resolves it from any worktree.
 
 ## 9. Benchmarking
@@ -206,7 +209,20 @@ so far has needed to write it.
 If your task cannot comply, don't quietly deviate — `tm log SCOPE "…"` saying so.
 
 ## Changelog
-- **1.1 (2026-08-04, T0.1) — §3 corrected the same day it was frozen.** LOG [READ-FIRST] #7
+- **1.2 (2026-08-04, T0.10) — §3 and §8 corrected again; v1.1 retracted.** LOG [READ-FIRST]
+  #11 supersedes #7. Running `deploy.sh` end to end surfaced the launchd job's own stderr:
+  `Operation not permitted` opening `meal-server.py`, nine times, `last exit code = 2`.
+  **Errno 1 is EPERM, not ENOENT** — the path is right and the file is readable from a session
+  shell, so this is a permission denial on `~/Documents` for a LaunchAgent-invoked binary,
+  i.e. exactly the Full Disk Access failure `SYNC-SETUP.md` documents. **v1.0's diagnosis was
+  right; v1.1's retraction of it was the error.** The retraction rested on one healthy process
+  appearing after an accidental `pkill`; the stderr log that contradicted it was never read.
+  §3 now says to read that log *first*. §8's `deploy.sh` bullet is rewritten: the dirty-checkout
+  refusal no longer fires (T0.10 untracked the seed) and the health check is now a real
+  request (T0.2). Standing lesson, and the reason §3 opens the way it does: **when a diagnosis
+  and a fresh observation disagree, go and find the log — do not pick.**
+- **1.1 (2026-08-04, T0.1) — §3 corrected the same day it was frozen.** *(Superseded by 1.2 —
+  its central claim, that Full Disk Access was ruled out, is false.)* LOG [READ-FIRST] #7
   supersedes #4. v1.0 decertified the launchd server and blamed a missing Full Disk Access
   grant, following SYNC-SETUP.md's documented failure mode. **That cause is refuted**: an
   unintended `pkill` killed the stuck process, launchd restarted it, and the fresh process

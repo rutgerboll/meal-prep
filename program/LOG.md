@@ -102,34 +102,34 @@ curl-vs-fetch() staleness measurement, and the known-clean build_seed.py baselin
 four expected lemon-ricotta-pancakes WARNINGs — a fifth is yours).
 
 ## 2026-08-04 14:09 · T0.1 · [READ-FIRST] · rutgerboll@Rutgers-Mini#T0.1
-*(supersedes log #4)*
-CORRECTION TO ENTRY #4 — THE SERVER IS FIXED, AND MY DIAGNOSIS WAS WRONG. Entry #4 said the
-launchd server's 404/500 was caused by /usr/bin/python3 lacking Full Disk Access. That is
-refuted. While cleaning up my own test server I ran an over-broad pkill -f "meal-server.py"
-that also killed the launchd process (pid 89492, up since 25 Jul); launchd restarted it at
-14:08:33, and the fresh process serves everything correctly: 200 on /index.html, /sw.js,
-/js/pwa.js, /manifest.webmanifest, /icon-192.png, and 1,087,727 bytes on /sync.json —
-including through tailscale on the phone's own HTTPS URL. Same LaunchAgent, same plist, same
-interpreter. So Full Disk Access is granted and always was; a missing grant cannot be the
-cause. The kill was unintended (I meant to stop only my own instance on 8766) and I am
-reporting it as such, not as a repair I planned.
+*(superseded by log #11)*
+~~CORRECTION TO ENTRY #4 — THE SERVER IS FIXED, AND MY DIAGNOSIS WAS WRONG. Entry #4 said the~~
+~~launchd server's 404/500 was caused by /usr/bin/python3 lacking Full Disk Access. That is~~
+~~refuted. While cleaning up my own test server I ran an over-broad pkill -f "meal-server.py"~~
+~~that also killed the launchd process (pid 89492, up since 25 Jul); launchd restarted it at~~
+~~14:08:33, and the fresh process serves everything correctly: 200 on /index.html, /sw.js,~~
+~~/js/pwa.js, /manifest.webmanifest, /icon-192.png, and 1,087,727 bytes on /sync.json —~~
+~~including through tailscale on the phone's own HTTPS URL. Same LaunchAgent, same plist, same~~
+~~interpreter. So Full Disk Access is granted and always was; a missing grant cannot be the~~
+~~cause. The kill was unintended (I meant to stop only my own instance on 8766) and I am~~
+~~reporting it as such, not as a repair I planned.~~
 
-What survives from #4, all still measured: the old process served 404 on every static path
-and 500 on /sync.json for days WHILE HOLDING THE PORT; a listening port is therefore not
-evidence of a working server, and deploy.sh's lsof-LISTEN health check would have printed
-its success tick over it (T0.2 fixes that). Last known-good sync before the outage was
-2026-08-01 08:52.
+~~What survives from #4, all still measured: the old process served 404 on every static path~~
+~~and 500 on /sync.json for days WHILE HOLDING THE PORT; a listening port is therefore not~~
+~~evidence of a working server, and deploy.sh's lsof-LISTEN health check would have printed~~
+~~its success tick over it (T0.2 fixes that). Last known-good sync before the outage was~~
+~~2026-08-01 08:52.~~
 
-What is now unknown: why a long-running process lost the ability to read under ~/Documents
-while a fresh one has no trouble. Candidates nobody has tested — a TCC grant re-evaluated
-against an already-running process, an OS update (host is Darwin 25.3.0) invalidating the
-running process's authorization, or a firmlink/volume change under the path. Do not repeat
-the FDA story as the cause. If the outage recurs, capture evidence BEFORE restarting: the
-restart is the thing that destroys the only specimen.
+~~What is now unknown: why a long-running process lost the ability to read under ~/Documents~~
+~~while a fresh one has no trouble. Candidates nobody has tested — a TCC grant re-evaluated~~
+~~against an already-running process, an OS update (host is Darwin 25.3.0) invalidating the~~
+~~running process's authorization, or a firmlink/volume change under the path. Do not repeat~~
+~~the FDA story as the cause. If the outage recurs, capture evidence BEFORE restarting: the~~
+~~restart is the thing that destroys the only specimen.~~
 
-Practical rule, unchanged in effect: curl a real path before trusting any server, and if the
-launchd one is answering 404s, `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`
-is now a known-working remedy.
+~~Practical rule, unchanged in effect: curl a real path before trusting any server, and if the~~
+~~launchd one is answering 404s, `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`~~
+~~is now a known-working remedy.~~
 
 ## 2026-08-04 14:41 · T0.1 · [SCOPE] · rutgerboll@Rutgers-Mini#T0.1
 INBOX TRIAGED — all three open items promoted to tasks and closed (470 UI currency audit, 471
@@ -219,3 +219,57 @@ Trap for anyone testing shell functions by extracting them: `sed -n '/^f()/,/^}/
 ONE-LINE function body silently swallows the next function's header, producing a nested
 definition that returns 0 for everything. My first run reported a dead port as healthy. Use a
 line range and `sh -n` the result.
+
+## 2026-08-04 15:36 · T0.10 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
+*(supersedes log #7)*
+CORRECTION TO ENTRY #7 — FULL DISK ACCESS *IS* THE CAUSE, AND THE PHONE'S SERVER WILL NOT
+SURVIVE A REBOOT. Entry #7 retracted the FDA diagnosis on the strength of one healthy process
+appearing after an accidental pkill. That retraction was wrong. Running deploy.sh end to end
+for the first time (T0.10) made launchd try to start the server, and its own stderr says:
+
+  /Library/Developer/CommandLineTools/usr/bin/python3: can't open file
+  '.../app-build/app/meal-server.py': [Errno 1] Operation not permitted
+
+Nine times, last exit code = 2, job in spawn-throttle. Errno 1 is EPERM, not ENOENT (2) — the
+path is correct and the file reads fine from a session shell, so this is a permission denial
+on ~/Documents for a LaunchAgent-invoked binary. That is exactly what SYNC-SETUP.md documents.
+CONTRACT v1.0 was right, v1.1 was the error, v1.2 is the correction.
+
+The log was there the whole time. I checked /tmp/mealplanner-server.err once, before the
+restart, when it did not exist, and never went back. §3 now says to read it FIRST.
+
+OPERATIONAL STATE, which someone needs to act on: production is being served by deploy.sh's
+MANUAL FALLBACK (a nohup'd process, PPID 1, started 15:33), not by launchd. It is healthy, it
+serves the tailnet, and it survives a session ending — but it does NOT survive a reboot or a
+logout. If the phone stops syncing and nobody has touched anything, this is why.
+
+The fix is a USER action and cannot be done from a session: System Settings -> Privacy &
+Security -> Full Disk Access -> + -> Cmd-Shift-G -> /usr/bin/python3 -> enable. Then
+`cd app && ./deploy.sh` and confirm it says "via launchd" rather than "manual background
+process". Until that line changes, the launchd path is still broken.
+
+Still unexplained and not worth a third guess: why the 14:08 process ran healthily with
+launchd's own argv while launchd cannot exec that path now. It does not change the remedy.
+
+## 2026-08-04 15:37 · T0.10 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+T0.10 done. app/seed.json is untracked and .gitignore'd (with .claude/launch.json, which was
+tripping the same guard as an untracked file). Proof: forced a live /sync.json, watched the
+server rewrite seed.json, and git status --porcelain stayed EMPTY. deploy.sh then ran end to
+end for the first time in this program's history and exited 0 — which also closes T0.2's
+declared weakest link, that its health functions were proven in isolation but never integrated.
+
+I did NOT move the artifacts to dist/, though the proposal leaned that way. Untracking is what
+fixes deploy; the move is cosmetic, costs four path edits (build_seed.py output +
+THUMB_CACHE_PATH, embed_seed.py SEED_PATH, meal-server.py read), and T0.11 would redo them.
+Folded into T0.11's decision — and if T0.11 says "not worth doing", the .gitignore entry now
+states plainly what a dist/ directory would only have implied.
+
+TWO THINGS FOR THE NEXT SESSION:
+1. Committing a wanted seed refresh now needs `git add -f`. T0.3, that means you.
+2. A fresh clone has no seed.json until build_seed.py runs (needs MP_BASE_DIR + the parent
+   library). The app still boots offline from the inline SEED; only sync is dead. CLAUDE.md
+   does not say this yet.
+
+See LOG #11 for the incidental finding, which matters more than this task: the launchd job
+cannot start the server (EPERM / Full Disk Access), production is on deploy.sh's manual
+fallback, and it will not survive a reboot.

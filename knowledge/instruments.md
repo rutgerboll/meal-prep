@@ -37,11 +37,20 @@ offline. Certify before you measure:
 curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8765/index.html
 ```
 
-Non-200 → `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`, which is a measured
-remedy. **If you care why, capture evidence first** — the restart destroys the specimen, which
-is how T0.1 lost it. And do not reach for SYNC-SETUP.md's Full Disk Access story: T0.1 asserted
-it and was refuted by the restart, since the same LaunchAgent works fine afterwards. The cause
-is genuinely unknown.
+**Non-200 → read `/tmp/mealplanner-server.err` before doing anything else.** That is the
+launchd job's own stderr and it has held the answer every time. T0.1 checked it once, before a
+restart, when it did not exist, then never went back — and spent two contract revisions guessing
+as a result.
+
+As of 2026-08-04 it says `Operation not permitted` opening `meal-server.py`. **Errno 1 is
+EPERM; ENOENT would be 2** — so the path is fine and this is a permission denial on
+`~/Documents` for a LaunchAgent-invoked binary, i.e. Full Disk Access, exactly as
+`SYNC-SETUP.md` says. The grant is missing and only the user can add it (System Settings →
+Privacy & Security → Full Disk Access → `/usr/bin/python3`).
+
+**Until then the server runs only via `deploy.sh`'s manual fallback and dies on reboot.**
+`cd app && ./deploy.sh` brings it back; it reports "via launchd" once the grant exists and
+"manual background process" until then — that string is the status indicator.
 
 Prefer your own instance whenever your work could disturb the phone's server:
 
@@ -98,7 +107,21 @@ powder, maple syrup). A fifth warning is yours.
 
 ## `app/seed.json` is server-owned runtime output
 
-It is tracked by git, but `meal-server.py` rewrites it on every `/sync.json` request. That is
-why the main checkout is permanently dirty and why `deploy.sh` can never run there without a
-stash. Do not `git add -A`; commit it only when regenerating it *is* the change
-(`knowledge/prioritization.md` G5).
+`meal-server.py` rewrites it on every `/sync.json` request. **T0.10 untracked it** and added it
+to `.gitignore` beside `app/.thumb-cache.json`, so the checkout stays clean under a live server
+and `deploy.sh` stops refusing. Committing a wanted seed refresh now needs `git add -f`,
+deliberately (`knowledge/prioritization.md` G5).
+
+Nothing but the pipeline reads it — the app boots from the inline `SEED` in `index.html` and
+syncs from `/sync.json`. A fresh clone therefore has no seed until `build_seed.py` runs, which
+needs `MP_BASE_DIR` and the parent library; the app still works offline from its bootstrap,
+only sync is dead.
+
+To untrack a file a live daemon owns, park it around the merge — git will (correctly) refuse
+otherwise, and forcing it deletes a file the server is serving from:
+
+```
+mv app/seed.json /tmp/seed.parked.json
+git merge --no-ff <branch>
+[ -f app/seed.json ] || mv /tmp/seed.parked.json app/seed.json   # server may have beaten you to it
+```
