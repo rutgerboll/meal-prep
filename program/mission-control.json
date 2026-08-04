@@ -4,7 +4,7 @@
  "program": "Meal Planner app",
  "label": "Meal Planner",
  "programDir": "/Users/rutgerboll/Documents/Claude/Projects/Meal planning/app-build/program",
- "generatedAt": "2026-08-04T21:24:57+00:00",
+ "generatedAt": "2026-08-04T21:25:37+00:00",
  "asOf": "2026-08-04",
  "currentWave": "Wave 1 — close the schema loop (skill side) (0/2 done)",
  "contractVersion": "",
@@ -1184,7 +1184,7 @@
    "path": "program/LOG.md",
    "group": "program",
    "title": "Meal Planner app — LOG",
-   "chars": 28757,
+   "chars": 30835,
    "modified": "2026-08-04 16:24"
   },
   {
@@ -1421,8 +1421,8 @@
    "path": "knowledge/structure-proposal.md",
    "group": "knowledge",
    "title": "Proposed file structure — a proposal, not a settled truth",
-   "chars": 10688,
-   "modified": "2026-08-04 14:39",
+   "chars": 11471,
+   "modified": "2026-08-04 16:25",
    "citedBy": "program/KICKOFF.md"
   },
   {

@@ -157,6 +157,16 @@ Four divisions, one rule each:
 
 Moving files is not free here, and this is a live app the user cooks from tonight.
 
+> **Corrected 2026-08-04 by T0.11, which measured what this section had only read.** Two of the
+> claims below were wrong, and the move is *cheaper* than stated:
+> **(a)** the service-worker scope does **not** change — `meal-server.py` serves with
+> `directory=SCRIPT_DIR`, so the web root is wherever the app files sit and every URL stays
+> identical; installed phones would see nothing. **(b)** the `../..` depth hazard is not real —
+> `app/` and `server/` are both one level under the repo root, so the feedback path and
+> `BASE_DIR` still resolve. What survives: the launchd plist's absolute path is genuinely
+> fiddly (outside the repo, no test covers it, needs `bootout`/`bootstrap`). The move was
+> nonetheless **deferred** — see `program/findings/T0.11.md` for the trigger.
+
 Every path below is hardcoded somewhere and breaks on the move: `sw.js`'s `ASSETS` (relative,
 survives) and its `CACHE` (**must be bumped or installed phones break**); `meal-server.py`'s
 `SCRIPT_DIR` and its `SCRIPT_DIR/../..` feedback path; `build_seed.py`'s `BASE_DIR`,
