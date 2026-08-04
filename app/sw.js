@@ -1,10 +1,10 @@
 /* Meal Planner service worker — offline app shell cache */
-const CACHE = 'mealplanner-v28';
+const CACHE = 'mealplanner-v31';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './styles/01-tokens-legacy.css',
+  './styles/01-tokens.css',
   './styles/02-base.css',
   './styles/03-sage.css',
   './styles/04-patches.css',

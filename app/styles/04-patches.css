@@ -1,9 +1,7 @@
-/* Standalone-PWA safe-area fixes and typographic unification, applied on top of
-   everything above. */
-/* Standalone (installed PWA) safe-area + nav clipping fix */
-#nav{ height:calc(var(--nh) + env(safe-area-inset-bottom)) !important; padding-bottom:env(safe-area-inset-bottom) !important; box-sizing:border-box; }
+/* Layered after the base rules on purpose: screen-level refinements that build on
+   them rather than fight them. No !important remains here — T0.8 folded the two
+   rules that needed it into 02-base.css. */
 .screen{ padding-top:calc(14px + env(safe-area-inset-top)); }
 /* Unify other screens with the Cook screen's typographic style */
 .sh{ padding-top:4px; margin-bottom:18px; }
 .sh .stitle{ font-family:var(--font-head); font-size:30px; font-weight:700; letter-spacing:-0.02em; }
-.ssec{ font-size:10.5px !important; letter-spacing:.16em; text-transform:uppercase; color:var(--text3) !important; font-weight:600 !important; margin:20px 0 6px !important; }
