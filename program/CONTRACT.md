@@ -103,7 +103,7 @@ Certified surfaces for verifying a change:
   Prefer your own instance on a spare port whenever your work could disturb the phone's
   server; it works from any checkout, worktrees included:
   ```
-  cd app && MP_BASE_DIR="/Users/rutgerboll/Documents/Claude/Projects/Meal planning" MEAL_PORT=8766 python3 meal-server.py
+  cd app && MP_BASE_DIR="/Users/rutgerboll/Projects/meal-planning" MEAL_PORT=8766 python3 meal-server.py
   ```
   Then drive `http://localhost:8766/index.html` in the browser pane. Stop it when you finish —
   **by PID** (`kill $(lsof -ti :8766 -sTCP:LISTEN)`). A `pkill -f meal-server.py` also kills
@@ -167,7 +167,7 @@ Each of these was executed by T0.1 on 2026-08-04. Copy-paste them; don't paraphr
   anything, so there is no silent-bad-seed hazard. Export the base dir first (a leading `cd`
   matters: output always lands in the *invoking* checkout's `app/seed.json`):
   ```
-  cd app && MP_BASE_DIR="/Users/rutgerboll/Documents/Claude/Projects/Meal planning" python3 build_seed.py
+  cd app && MP_BASE_DIR="/Users/rutgerboll/Projects/meal-planning" python3 build_seed.py
   ```
   Four `aisle:pantry … not in mapping table` WARNINGs on `lemon-ricotta-pancakes` are the
   known-clean baseline; a fifth is yours.

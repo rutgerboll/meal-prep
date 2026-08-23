@@ -20,7 +20,7 @@ both the app and a live `sync.json` built from your markdown library.
 
 ### 2. Start the server on the Mac mini
 ```bash
-cd "~/Documents/Claude/Projects/Meal planning/app-build/app"
+cd "~/Projects/meal-planning/app-build/app"
 python3 meal-server.py
 ```
 You should see it listening on port 8765. (Python 3 ships with macOS.)
@@ -62,7 +62,7 @@ To run the server automatically at login, create a Launch Agent:
   <key>ProgramArguments</key>
   <array>
     <string>/usr/bin/python3</string>
-    <string>/Users/YOUR_USERNAME/Documents/Claude/Projects/Meal planning/app-build/app/meal-server.py</string>
+    <string>/Users/YOUR_USERNAME/Projects/meal-planning/app-build/app/meal-server.py</string>
   </array>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
@@ -117,7 +117,7 @@ will not survive a reboot.
 When you (or Claude) push changes to the repo, pull them onto the Mac mini and restart
 the server with:
 ```bash
-cd "~/Documents/Claude/Projects/Meal planning/app-build/app"
+cd "~/Projects/meal-planning/app-build/app"
 ./deploy.sh
 ```
 It pulls the current branch with `--ff-only` (refuses to run over uncommitted local

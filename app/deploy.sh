@@ -1,7 +1,7 @@
 #!/bin/bash
 # Pull the latest app-build from GitHub and restart the running meal-server.py
 # so the Mac mini serves the new version. Run this on the Mac mini itself:
-#   cd "~/Documents/Claude/Projects/Meal planning/app-build/app" && ./deploy.sh
+#   cd "~/Projects/meal-planning/app-build/app" && ./deploy.sh
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
