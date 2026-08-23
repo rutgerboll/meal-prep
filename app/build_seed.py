@@ -676,7 +676,11 @@ def load_grocery_list(filepath: str) -> dict:
     list. Sections are fenced by '---' lines: [0] title/prose, [1:] buy-line
     blocks up to whichever section contains 'Check before you shop' — that
     one is imported separately as on-hand items to verify; anything after it
-    (e.g. purchase-unit suggestions) stays markdown-only. A list may split its
+    (e.g. purchase-unit suggestions) stays markdown-only. When no fenced
+    section holds buy lines, section [0] is re-read as the buy block: lists
+    that skip the fence after the title and run straight into the items are
+    a shape the writer emits, and dropping all of them is worse than the
+    stray-prose risk the [1:] rule exists to avoid. A list may split its
     buy lines into multiple trips, each its own '---'-fenced section headed by
     a '## Trip N — ...' line (e.g. "buy everything now" vs. "restock before
     week 2") — each becomes its own section in the output so the app keeps
@@ -699,6 +703,22 @@ def load_grocery_list(filepath: str) -> dict:
         # sit inside a multi-trip buy section alongside the actual items.
         return bool(re.match(r'^[\d~]', line))
 
+    def scan_buy_section(sec):
+        """Pull a '## Trip N' label (if any) and the buy lines out of one
+        '---'-fenced section."""
+        hm = re.search(r'^##\s+(.+)$', sec, re.MULTILINE)
+        label = hm.group(1).strip() if hm else None
+        sec_items = []
+        for line in sec.splitlines():
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            line = re.sub(r'^-\s+', '', line)  # tolerate bulleted buy lines
+            if not is_buy_line(line):
+                continue
+            sec_items.append({"item": norm_key(line), "displayText": line, "checked": False})
+        return label, sec_items
+
     sections = re.split(r'\n-{3,}\s*\n', text)
     trip_sections = []  # [{"label": str|None, "items": [...]}]
     have_items = []
@@ -716,17 +736,18 @@ def load_grocery_list(filepath: str) -> dict:
                     have_items.append({"item": norm_key(name), "displayText": body, "checked": False,
                                        "stockStatus": "have", "onHandNote": note})
                 continue
-            hm = re.search(r'^##\s+(.+)$', sec, re.MULTILINE)
-            label = hm.group(1).strip() if hm else None
-            sec_items = []
-            for line in sec.splitlines():
-                line = line.strip()
-                if not line or line.startswith('#'):
-                    continue
-                line = re.sub(r'^-\s+', '', line)  # tolerate bulleted buy lines
-                if not is_buy_line(line):
-                    continue
-                sec_items.append({"item": norm_key(line), "displayText": line, "checked": False})
+            label, sec_items = scan_buy_section(sec)
+            if sec_items:
+                trip_sections.append({"label": label, "items": sec_items})
+        if not trip_sections:
+            # No fence between the title and the buy lines, so the whole buy
+            # block sits in section [0] next to the title — a shape the writer
+            # does emit (the "Check before you shop" fence is then the file's
+            # only one). Fall back to section [0] ONLY when no later section
+            # yielded buy lines: section [0]'s prose wraps onto lines that can
+            # themselves start with a digit ("…are still full\n2-person
+            # portions."), which would otherwise import as phantom items.
+            label, sec_items = scan_buy_section(sections[0])
             if sec_items:
                 trip_sections.append({"label": label, "items": sec_items})
     else:
@@ -1003,9 +1024,16 @@ def main():
                 if not n_items:
                     print(f"  – {fname}: no parseable lines, skipped")
                     continue
+                n_buy = sum(1 for s in gl["sections"] for i in s["items"]
+                            if i.get("stockStatus") != "have")
                 grocery_lists.append(gl)
                 trips = f", {len(gl['sections'])} trips" if len(gl["sections"]) > 1 else ""
                 print(f"  ✓ {gl['planId']} ({n_items} lines{trips})")
+                if not n_buy:
+                    # Nothing to buy but something on hand almost always means the
+                    # buy block didn't parse, not that the list is genuinely empty.
+                    print(f"    ⚠ {fname}: {n_items} on-hand lines but 0 buy lines "
+                          f"— check the file's '---' fences")
             except Exception as e:
                 print(f"  ✗ ERROR loading {fname}: {e}")
                 import traceback; traceback.print_exc()
