@@ -5,59 +5,59 @@
 ## Wave 0 — foundation
 Gate note: Contract frozen before any Wave 1 task starts.
 
-| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T0.1 | Verify the build contract against the repo, then freeze it | high | opus | DONE | SIGNAL |  |  |  |  | unknown |  | CONTRACT frozen v1.1; 6 corrections. Found+fixed a 3-day silent sync outage (cause unknown). All 5 skills readable, none writable. | [T0.1](findings/T0.1.md) |
+| # | ID | task | effort | model | status | verdict | reads | blocked on | parent | touches | outputs | verbs | sandbox | sandbox reason | dispatch | interleave | thread name | thread gate | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T0.1 | Verify the build contract against the repo, then freeze it | high | opus | DONE | SIGNAL |  |  |  |  |  |  | unknown |  | cloud |  |  |  | CONTRACT frozen v1.1; 6 corrections. Found+fixed a 3-day silent sync outage (cause unknown). All 5 skills readable, none writable. | [T0.1](findings/T0.1.md) |
 
 ## Wave 1 — close the schema loop (skill side)
 Gate note: Both skills round-trip a schemaVersion-2 recipe end to end.
 
-| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T1.1 | Teach recipe-capture the schemaVersion-2 keys (image, thaw_hours_ahead, prep_ahead) | medium | opus | TODO |  | T0.1 |  |  |  | unknown |  |  |  |
-| 2 | T1.2 | Teach meal-planner to nudge an un-captured cookbook-backlog photo | medium | opus | TODO |  | T0.1,T1.1 |  |  |  | unknown |  |  |  |
+| # | ID | task | effort | model | status | verdict | reads | blocked on | parent | touches | outputs | verbs | sandbox | sandbox reason | dispatch | interleave | thread name | thread gate | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T1.1 | Teach recipe-capture the schemaVersion-2 keys (image, thaw_hours_ahead, prep_ahead) | medium | opus | TODO |  | T0.1 |  |  |  |  |  | unknown |  | cloud |  |  |  |  |  |
+| 2 | T1.2 | Teach meal-planner to nudge an un-captured cookbook-backlog photo | medium | opus | TODO |  | T0.1, T1.1 |  |  |  |  |  | unknown |  | cloud |  |  |  |  |  |
 
 ## Wave 2 — multi-week planning in-app
 Gate note: A 4-week plan builds in-app and its grocery split survives it.
 
-| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T2.1 | Extend the in-app suggester and builder past 2 weeks | high | opus | TODO |  | T0.1 |  |  |  | unknown |  |  |  |
+| # | ID | task | effort | model | status | verdict | reads | blocked on | parent | touches | outputs | verbs | sandbox | sandbox reason | dispatch | interleave | thread name | thread gate | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T2.1 | Extend the in-app suggester and builder past 2 weeks | high | opus | TODO |  | T0.1 |  |  |  |  |  | unknown |  | cloud |  |  |  |  |  |
 
 ## Wave 3 — reminders (revisit)
 Gate note: Only opened if in-app Heads up proves insufficient.
 
-| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T3.1 | Probe iOS PWA push for thaw/prep reminders — feasibility before build | medium | opus | TODO |  | T0.1 |  |  |  | unknown |  |  |  |
+| # | ID | task | effort | model | status | verdict | reads | blocked on | parent | touches | outputs | verbs | sandbox | sandbox reason | dispatch | interleave | thread name | thread gate | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T3.1 | Probe iOS PWA push for thaw/prep reminders — feasibility before build | medium | opus | TODO |  | T0.1 |  |  |  |  |  | unknown |  | cloud |  |  |  |  |  |
 
 ## 0b — pipeline repairs (found by T0.1)
 Gate note: The stale-code guard and the deploy health check tell the truth.
 
-| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T0.2 | Close the two measured pipeline holes: pre-commit misses app/js/*.js, deploy.sh calls a 404ing server healthy | medium | opus | DONE | PASS | T0.1 |  | scripts/pre-commit,app/deploy.sh |  | unknown |  | Hook now guards app/js + app/styles (8 probe commits); deploy.sh health-checks by request. Deploy still blocked on T0.10. | [T0.2](findings/T0.2.md) |
-| 2 | T0.3 | Re-embed the inline SEED bootstrap: index.html disagrees with the library on 20 plan entries | low | opus | TODO |  | T0.1 |  | app/index.html,app/seed.json |  | unknown |  |  |  |
+| # | ID | task | effort | model | status | verdict | reads | blocked on | parent | touches | outputs | verbs | sandbox | sandbox reason | dispatch | interleave | thread name | thread gate | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T0.2 | Close the two measured pipeline holes: pre-commit misses app/js/*.js, deploy.sh calls a 404ing server healthy | medium | opus | DONE | PASS | T0.1 |  |  | scripts/pre-commit, app/deploy.sh |  |  | unknown |  | cloud |  |  |  | Hook now guards app/js + app/styles (8 probe commits); deploy.sh health-checks by request. Deploy still blocked on T0.10. | [T0.2](findings/T0.2.md) |
+| 2 | T0.3 | Re-embed the inline SEED bootstrap: index.html disagrees with the library on 20 plan entries | low | opus | TODO |  | T0.1 |  |  | app/index.html, app/seed.json |  |  | unknown |  | cloud |  |  |  |  |  |
 
 ## 0c — codebase health (from inbox)
 Gate note: The board can measure itself green, and the two audits have landed as evidence.
 
-| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T0.4 | Spawn-capability bootstrap: a smoke suite the gate can measure, and tm orch config --suite-cmd | medium | opus | TODO |  | T0.1 |  | tests/,scripts/ |  | unknown |  |  |  |
-| 2 | T0.5 | UI currency audit: inventory the app's CSS/component conventions vs current practice — audit only, no refactor | medium | opus | TODO |  | T0.1 |  | program/findings/ |  | unknown |  |  |  |
-| 3 | T0.6 | Audit the areas wave 0d does not cover — JS coupling, parser surface, sync/migration paths | high | opus | TODO |  | T0.1 |  | program/findings/ |  | unknown |  |  |  |
+| # | ID | task | effort | model | status | verdict | reads | blocked on | parent | touches | outputs | verbs | sandbox | sandbox reason | dispatch | interleave | thread name | thread gate | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T0.4 | Spawn-capability bootstrap: a smoke suite the gate can measure, and tm orch config --suite-cmd | medium | opus | TODO |  | T0.1 |  |  | tests/, scripts/ |  |  | unknown |  | cloud |  |  |  |  |  |
+| 2 | T0.5 | UI currency audit: inventory the app's CSS/component conventions vs current practice — audit only, no refactor | medium | opus | TODO |  | T0.1 |  |  | program/findings/ |  |  | unknown |  | cloud |  |  |  |  |  |
+| 3 | T0.6 | Audit the areas wave 0d does not cover — JS coupling, parser surface, sync/migration paths | high | opus | TODO |  | T0.1 |  |  | program/findings/ |  |  | unknown |  | cloud |  |  |  |  |  |
 
 ## 0d — structure & CSS repair
 Gate note: One token set, in files, with the app pixel-identical and the phone picking it up.
 
-| # | ID | task | effort | model | status | verdict | reads | blocked on | touches | outputs | sandbox | sandbox reason | headline | findings |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | T0.7 | Extract the inline CSS to app/styles/*.css — zero visual change | high | opus | DONE | PASS | T0.2 |  | app/index.html,app/styles/,app/sw.js,scripts/pre-commit |  | unknown |  | 23,526 bytes of CSS moved to app/styles/*.css — byte-identical source, identical 213-rule CSSOM, SW updated v27->v28. | [T0.7](findings/T0.7.md) |
-| 2 | T0.8 | Delete the dead token set and the !important scaffolding it required | medium | opus | DONE | PASS | T0.7 |  | app/styles/,app/sw.js |  | unknown |  | Every token declared once (58 duplicates gone); !important 20 -> 4. All 10 screen x theme computed-style hashes unchanged. | [T0.8](findings/T0.8.md) |
-| 3 | T0.9 | One design-system doc: archive the stale 383-line one that claims to be source of truth | low | opus | DONE | PASS |  |  | DESIGN-SYSTEM.md,design/,docs/ |  | fit | docs only; no app surface, no server, no seed | Spiced Linen spec archived with its authority claim struck; found its spacing scale was never implemented (--space-* absent from all CSS). | [T0.9](findings/T0.9.md) |
-| 4 | T0.10 | dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again | medium | opus | DONE | PASS | T0.2 |  | app/deploy.sh,.gitignore,app/seed.json,app/build_seed.py,app/embed_seed.py,app/meal-server.py |  | unknown |  | Seed untracked; checkout stays clean under a live sync and deploy.sh completed for the first time. Found: FDA really is missing (v1.1 retracted). | [T0.10](findings/T0.10.md) |
-| 5 | T0.11 | The directory move: client/ pipeline/ server/ docs/ — only if the earlier steps leave a reason | high | opus | DONE | NO-GO | T0.7,T0.8,T0.10 |  | app/,scripts/,docs/,CLAUDE.md |  | unknown |  | Deferred: cheaper than the proposal claimed (URLs would not change) but the launchd job cannot start, and the move edits its plist. | [T0.11](findings/T0.11.md) |
-| 6 | T0.12 | Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline | low | opus | DONE | PASS | T0.7 |  | app/index.html,app/styles/,app/sw.js,app/assets/ |  | unknown |  | Font self-hosted + precached; proven offline with the server killed. Variable font = 2 files not 4; only weights 600/700 are used. | [T0.12](findings/T0.12.md) |
-| 7 | T0.13 | Rename the CSS files to semantic names — deferred from T0.8 because it reorders rules | low | opus | TODO |  | T0.8 |  | app/styles/,app/index.html,app/sw.js |  | unknown |  |  |  |
-| 8 | T0.14 | Separate the deploy target from the dev checkout — the phone is served from the working tree we edit | medium | opus | TODO |  | T0.10 |  | app/deploy.sh,app/meal-server.py,CLAUDE.md,program/CONTRACT.md |  | unknown |  |  |  |
+| # | ID | task | effort | model | status | verdict | reads | blocked on | parent | touches | outputs | verbs | sandbox | sandbox reason | dispatch | interleave | thread name | thread gate | headline | findings |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | T0.7 | Extract the inline CSS to app/styles/*.css — zero visual change | high | opus | DONE | PASS | T0.2 |  |  | app/index.html, app/styles/, app/sw.js, scripts/pre-commit |  |  | unknown |  | cloud |  |  |  | 23,526 bytes of CSS moved to app/styles/*.css — byte-identical source, identical 213-rule CSSOM, SW updated v27->v28. | [T0.7](findings/T0.7.md) |
+| 2 | T0.8 | Delete the dead token set and the !important scaffolding it required | medium | opus | DONE | PASS | T0.7 |  |  | app/styles/, app/sw.js |  |  | unknown |  | cloud |  |  |  | Every token declared once (58 duplicates gone); !important 20 -> 4. All 10 screen x theme computed-style hashes unchanged. | [T0.8](findings/T0.8.md) |
+| 3 | T0.9 | One design-system doc: archive the stale 383-line one that claims to be source of truth | low | opus | DONE | PASS |  |  |  | DESIGN-SYSTEM.md, design/, docs/ |  |  | fit | docs only; no app surface, no server, no seed | cloud |  |  |  | Spiced Linen spec archived with its authority claim struck; found its spacing scale was never implemented (--space-* absent from all CSS). | [T0.9](findings/T0.9.md) |
+| 4 | T0.10 | dist/: untrack the generated artifacts so deploy.sh's dirty-checkout guard works again | medium | opus | DONE | PASS | T0.2 |  |  | app/deploy.sh, .gitignore, app/seed.json, app/build_seed.py, app/embed_seed.py, app/meal-server.py |  |  | unknown |  | cloud |  |  |  | Seed untracked; checkout stays clean under a live sync and deploy.sh completed for the first time. Found: FDA really is missing (v1.1 retracted). | [T0.10](findings/T0.10.md) |
+| 5 | T0.11 | The directory move: client/ pipeline/ server/ docs/ — only if the earlier steps leave a reason | high | opus | DONE | NO-GO | T0.7, T0.8, T0.10 |  |  | app/, scripts/, docs/, CLAUDE.md |  |  | unknown |  | cloud |  |  |  | Deferred: cheaper than the proposal claimed (URLs would not change) but the launchd job cannot start, and the move edits its plist. | [T0.11](findings/T0.11.md) |
+| 6 | T0.12 | Self-host the heading font — Schibsted Grotesk is fetched from Google and never precached, so it dies offline | low | opus | DONE | PASS | T0.7 |  |  | app/index.html, app/styles/, app/sw.js, app/assets/ |  |  | unknown |  | cloud |  |  |  | Font self-hosted + precached; proven offline with the server killed. Variable font = 2 files not 4; only weights 600/700 are used. | [T0.12](findings/T0.12.md) |
+| 7 | T0.13 | Rename the CSS files to semantic names — deferred from T0.8 because it reorders rules | low | opus | TODO |  | T0.8 |  |  | app/styles/, app/index.html, app/sw.js |  |  | unknown |  | cloud |  |  |  |  |  |
+| 8 | T0.14 | Separate the deploy target from the dev checkout — the phone is served from the working tree we edit | medium | opus | TODO |  | T0.10 |  |  | app/deploy.sh, app/meal-server.py, CLAUDE.md, program/CONTRACT.md |  |  | unknown |  | cloud |  |  |  |  |  |

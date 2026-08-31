@@ -3,7 +3,9 @@
 Ready-to-paste prompts. The ▶ NEXT section is the one to run; completed prompts move below
 under ✅ for provenance. The final line of every kickoff tells the session to update this file.
 
-## ▶ NEXT: T0.3 — re-embed the bootstrap, then T0.4 — build a test suite
+<!-- tm:begin kickoff-next -->
+## ▶ NEXT: T1.1 — Teach recipe-capture the schemaVersion-2 keys (image, thaw_hours_ahead, prep_ahead)
+<!-- tm:end kickoff-next -->
 
 Wave 0d is done (T0.2, T0.10, T0.7, T0.8, T0.9, T0.12; T0.11 deferred with reasons). See
 STATE.md for what landed. Two cheap, high-value things are left before anything else:

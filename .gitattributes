@@ -10,7 +10,9 @@
 #
 #     git config merge.ours.driver true
 #
-# `tm sync` prints that command when it is missing and never runs it. See T6.9.
+# `tm sync` still never runs that command itself (§10.5 rule 7) — but a clone missing it
+# now makes every `tm sync` end loudly and non-zero, instead of silently reporting the
+# clone as current, until it's registered. See T6.9, T39.21.
 program/BOARD.md merge=ours
 program/LOG.md merge=ours
 program/INBOX.md merge=ours

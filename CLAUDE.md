@@ -18,13 +18,17 @@ outside the fence. Delete the markers to opt out permanently. -->
   `tm claim <ID>` (atomic — failure means another session owns it) · `tm done <ID> --verdict … --headline "…"` · `tm log <TAG> "…"` · `tm add <ID> --wave "…" --title "…" [--reads <ID>] [--touches <path>]`
 - **A brief header's dependency lines are the `tm add` flags, verbatim:** `reads:` (a gate — must be `--reads`, and an unmet one refuses an orchestrated spawn) · `touches:` (a lane — must be `--touches`) · `after:` (ordering only, writes no edge, never a defect) · `cites:` (go read this artifact). Program README, "Your brief's header".
 - Session start: read program/README.md + CONTRACT.md, **triage program/INBOX.md** (phone-captured notes land there), claim before working.
-- **The mandatory read is GOTCHAS.md's Durable rules section plus every LIVE [READ-FIRST]
-  entry in LOG.md — never the whole file.** GOTCHAS.md's append-only intake below the
-  Durable rules watermark and LOG.md's full history are indexed, not mandatory: read an
-  entry only when a durable rule, a brief, or a LOG entry points at it by name. `tm
+- **The mandatory read is the Durable rules — `DURABLE-RULES.md` once a project has
+  split them out, else GOTCHAS.md's own `## Durable rules` section — plus every LIVE
+  [READ-FIRST] entry in LOG.md — never the whole file.** GOTCHAS.md's append-only intake
+  below the Durable rules watermark and LOG.md's full history are indexed, not mandatory:
+  read an entry only when a durable rule, a brief, or a LOG entry points at it by name. `tm
   context [ID]` prints exactly this tier — program/README.md's checklist, CONTRACT.md,
   the Durable rules section, and every live READ-FIRST entry — labeled, in one call.
-- **Feedback about the task system itself** — a papercut, a missing verb, a convention that fought you — goes in the inbox: `tm inbox add --project kit "…"`. Not into chat, where it dies with the session. (`--project kit` is not optional: a bare `tm inbox add` files against the project you are *in*.)
+- **Feedback about the task system itself** goes in the inbox, never chat — AGENT-NOTICE.md
+  carries the exact command and the `--project kit` rule, and every registered project's
+  `tm notice` SessionStart hook already puts it in this session's context, so it is not
+  restated here (single-sourced, T54.3).
 <!-- tm:end router -->
 - Board UI: http://localhost:8642 · phone: https://rutgers-mac-mini-2.tailc604f.ts.net:8642
 
