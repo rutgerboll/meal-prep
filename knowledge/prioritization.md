@@ -1,11 +1,16 @@
 # Prioritization framework — Meal Planner app
 
+> Historical proposal, not an active Kit loop. Its app-specific gates and
+> rationale remain available as background. Kit commands and board mechanics
+> below are retired. Current tasks are tracked in `../program/TASKS.md`;
+> verify data and runtime claims before using a gate.
+
 > **v0.1 — PROPOSED 2026-08-03 by the loop-definition session, not yet accepted.** Nothing here
 > has moved the board. Scores are a view, recomputed at triage events; they are never `tm`
 > columns (a persisted priority field rots — the kit's T5.6 warning applies unchanged). The
 > board moves only through normal `tm` verbs after the user accepts.
 >
-> Companion: [loops.md](loops.md) — the three standing-loop definitions this framework's duties
+> Companion: [loops.md](../program/archive/kit-control-plane-2026-09-23/knowledge/loops.md) — the proposed standing-loop definitions this framework's duties
 > are derived from.
 
 ## 0. Why this is not the kit's framework
