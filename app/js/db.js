@@ -85,7 +85,7 @@ function getRecipeMap() {
 }
 
 function getActivePlan() {
-  return state.mealPlans.find(p => p.isActive) || null;
+  return state.mealPlans.find(p => p.isActive && !p.isDraft) || null;
 }
 
 // ── Seeding ───────────────────────────────────────────────────────────────────
@@ -169,4 +169,3 @@ async function loadState() {
   state.ingredientStock = ingStock || [];
   state.inventoryUpdatedAt = (meta && meta.inventoryUpdatedAt) || null;
 }
-

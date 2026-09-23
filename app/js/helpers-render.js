@@ -83,6 +83,7 @@ function render() {
   screenEl.className = 'screen';
 
   if (route === '#/plan') screenEl.innerHTML = renderPlanScreen();
+  else if (route === '#/plan/draft') screenEl.innerHTML = renderDraftPlanScreen();
   else if (route === '#/plan/build') screenEl.innerHTML = renderPlanBuilder();
   else if (route === '#/more/sync') screenEl.innerHTML = renderSyncScreen();
   else if (route === '#/more/inventory') screenEl.innerHTML = renderInventoryScreen();
@@ -132,4 +133,3 @@ function render() {
   // Attach events after render
   setTimeout(attachEvents, 0);
 }
-
