@@ -6,7 +6,7 @@ board, central inbox, or scheduled Kit routine is required.
 
 ## Start a task
 
-1. Read `../CLAUDE.md`, `CONTRACT.md`, and `TASKS.md`.
+1. Start with `../AGENTS.md`, then use `CONTRACT.md` and `TASKS.md` for app tasks.
 2. Read `tasks/<ID>.md`, its cited findings, and relevant `knowledge/` notes.
    Briefs written before 2026-09-23 contain old Kit workflow instructions and
    dated measurements. Follow this guide for workflow and verify the facts.

@@ -22,6 +22,7 @@ contain historical estimates and may include retired Kit commands; use
 | T0.13 | open | Rename CSS files | Last board row has no task brief; write one before starting. |
 | T0.14 | open | Separate development and served directories | Reassess current launchd and Git setup; [brief](tasks/T0.14.md) has stale gate text. |
 | T0.15 | done | Review next dinner drafts in app | [Finding](findings/T0.15.md); installed phone still needs its own sync check. |
+| T0.17 | done | Share app guide across Codex and Claude | [Finding](findings/T0.17.md); root loading passes, nested Claude launch must return to root. |
 | T1.1 | open | Update recipe-capture schema support | Check current skill version and recipe schema. |
 | T1.2 | open | Prompt for uncaptured cookbook photos | Depends on T1.1. |
 | T2.1 | open | Extend planner beyond two weeks | Recheck plan behavior and brief. |
