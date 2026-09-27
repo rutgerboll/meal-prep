@@ -602,6 +602,7 @@ def load_plan(filepath: str) -> dict:
     servings_default = fm.get("servings_default", 2)
     note = fm.get("note", None)
     is_draft = fm.get("draft") is True
+    order_free = fm.get("order_free") is True
 
     # Determine plan year from id / label
     year_m = re.search(r'(\d{4})', plan_id)
@@ -668,6 +669,7 @@ def load_plan(filepath: str) -> dict:
         "entries": entries,
         "kind": kind,
         "isDraft": is_draft,
+        "orderFree": order_free,
         "isActive": is_active,
         "createdAt": NOW,
         "updatedAt": NOW

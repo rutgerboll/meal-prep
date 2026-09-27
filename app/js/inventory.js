@@ -13,6 +13,7 @@ function thawHoursFor(r, rm){
    entries whose thaw lead time has arrived ("move tomorrow's chicken to the fridge"). */
 function thawReminders(){
   const plan=getActivePlan(); if(!plan) return [];
+  if(plan.orderFree) return []; // order-free plans: the Cook screen's block card says what to thaw
   const rm=getRecipeMap();
   const today=new Date(); today.setHours(0,0,0,0);
   const seen=new Set(); const out=[];

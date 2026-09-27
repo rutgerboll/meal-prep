@@ -49,6 +49,11 @@ function ckLastCooked(id){
    meal that still has portions left, preferring one planned for this exact date. Works for
    both lunch and dinner, and for days that have no entry of their own (pulls from the queue). */
 function ckNextUp(plan, meal, date){
+  if (meal === 'dinner' && plan.orderFree){
+    const cur = ckCurrentBlock(plan, date);
+    if (cur && ckRemaining(plan, meal, cur.id, date) > 0) return cur.id;
+    if (plan.nextBlock && ckRemaining(plan, meal, plan.nextBlock, date) > 0) return plan.nextBlock;
+  }
   const ordered = plan.entries
     .filter(e => e.meal === meal)
     .sort((a, b) => (a.dayDate || '').localeCompare(b.dayDate || ''));
@@ -56,6 +61,68 @@ function ckNextUp(plan, meal, date){
   if (own) return own.recipeId;
   const next = ordered.find(e => ckRemaining(plan, meal, e.recipeId, date) > 0);
   return next ? next.recipeId : null;
+}
+
+/* ---- order-free blocks ------------------------------------------
+   A plan with `order_free: true` is a set of three-night blocks eaten in
+   whatever order the household picks. A block = one dinner recipe; its size is
+   how many nights the plan gives it. Dates stay only as a suggested order. */
+function ckBlocks(plan){
+  const rm = getRecipeMap();
+  const ch = plan.dinnerChoices || {};
+  const ids = [...new Set(plan.entries.filter(e => e.meal === 'dinner').map(e => e.recipeId))];
+  return ids.map(id => {
+    const nights = ckCapacity(plan, 'dinner', id);
+    const used = Object.values(ch).filter(v => v === id).length;
+    const r = rm[id];
+    return { id, title: (r?.title || id).replace('Finish — ', '').replace(/\s*\([^)]*\)\s*$/, ''), nights, used,
+      left: Math.max(0, nights - used), thaw: thawHoursFor(r, rm) };
+  });
+}
+/* The block in progress: the dinner chosen on the latest date up to `date`,
+   as long as it still has nights left or was chosen for `date` itself. */
+function ckCurrentBlock(plan, date){
+  const ch = plan.dinnerChoices || {};
+  const last = Object.keys(ch).filter(d => d <= date && ch[d] && ch[d] !== 'none').sort().pop();
+  if (!last) return null;
+  const b = ckBlocks(plan).find(x => x.id === ch[last]);
+  if (!b) return null;
+  return (b.left > 0 || last === date) ? { ...b, since: last } : null;
+}
+/* Tonight's thaw job: when the current block has no nights left after tonight
+   (or nothing is in progress), the chosen next block's kit moves to the fridge. */
+function ckBlockThaw(plan, today){
+  const cur = ckCurrentBlock(plan, today);
+  if (cur && cur.left > 0) return null;
+  const blocks = ckBlocks(plan);
+  const next = blocks.find(b => b.id === plan.nextBlock && b.left > 0);
+  if (!next) return blocks.some(b => b.left > 0 && (!cur || b.id !== cur.id)) ? { pick: true } : null;
+  return next.thaw ? { block: next } : null;
+}
+async function ckSetNextBlock(id){
+  const plan = getActivePlan(); if (!plan) return;
+  plan.nextBlock = plan.nextBlock === id ? null : id;
+  await ckPersist(plan); render();
+}
+function ckRenderBlocks(plan, today){
+  if (!plan.orderFree) return '';
+  const blocks = ckBlocks(plan);
+  const cur = ckCurrentBlock(plan, today);
+  const rest = blocks.filter(b => b.left > 0 && (!cur || b.id !== cur.id));
+  const now = cur
+    ? `<div style="font-size:15px"><strong>${esc(cur.title)}</strong> <span style="color:var(--text3)">· ${cur.left ? `${cur.left} of ${cur.nights} nights left` : 'last night tonight'}</span></div>`
+    : `<div style="font-size:15px;color:var(--text2)">No block in progress. Pick tonight's dinner below to start one.</div>`;
+  const chips = rest.map(b => `<button class="ck-chip" style="height:auto;min-height:32px;max-width:100%;white-space:normal;text-align:left;margin:6px 6px 0 0;cursor:pointer;${plan.nextBlock === b.id ? 'background:var(--pr);color:#fff;border-color:var(--pr)' : ''}" onclick="ckSetNextBlock('${b.id}')">${esc(b.title)} · ${b.left}</button>`).join('');
+  const t = ckBlockThaw(plan, today);
+  const thaw = !t ? '' : t.pick
+    ? `<div style="font-size:13px;color:var(--pr);margin-top:8px">Pick what's next so it can thaw tonight.</div>`
+    : `<div style="font-size:14px;margin-top:8px">🧊 Move the <strong>${esc(t.block.title)}</strong> kit to the fridge tonight.</div>`;
+  return `<div class="card" style="margin-bottom:16px;border-left:4px solid var(--pr)">
+    <div style="font-size:12px;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px">Now cooking</div>
+    ${now}
+    ${rest.length ? `<div style="font-size:12px;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-top:12px">Up next — tap one</div><div>${chips}</div>` : ''}
+    ${thaw}
+  </div>`;
 }
 
 function ckPool(meal){
@@ -133,6 +200,7 @@ function renderCookScreen(){
     <div class="ck-head"><span class="ck-title">Cook</span><span class="ck-date">${ckDateShort(today)}</span></div>
     <div class="ck-prog"><div class="ck-track"><div class="ck-fill" style="width:${pct}%"></div></div>
       <div class="ck-prog-l">${done} of ${dates.length} dinners</div></div>
+    ${ckRenderBlocks(plan, today)}
     ${typeof renderHeadsUp === 'function' ? renderHeadsUp() : ''}
     ${typeof renderBatchCard === 'function' ? renderBatchCard('cook') : ''}
     ${week('Week 1', w1dates, 'w1')}
