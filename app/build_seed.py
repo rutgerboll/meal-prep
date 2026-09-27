@@ -601,6 +601,8 @@ def load_plan(filepath: str) -> dict:
     plan_id = label  # Use the label as the ID (matches filename convention)
     servings_default = fm.get("servings_default", 2)
     note = fm.get("note", None)
+    is_draft = fm.get("draft") is True
+    order_free = fm.get("order_free") is True
 
     # Determine plan year from id / label
     year_m = re.search(r'(\d{4})', plan_id)
@@ -641,6 +643,7 @@ def load_plan(filepath: str) -> dict:
             "dayDate": day_date,
             "dayLabel": day_label,
             "meal": meal_slot,
+            "portionNote": m.get("portion_note"),
             "cooked": False,
             "ruleWarningDismissed": False
         }
@@ -665,6 +668,8 @@ def load_plan(filepath: str) -> dict:
         "note": note,
         "entries": entries,
         "kind": kind,
+        "isDraft": is_draft,
+        "orderFree": order_free,
         "isActive": is_active,
         "createdAt": NOW,
         "updatedAt": NOW
@@ -997,13 +1002,14 @@ def main():
             print(f"  ✗ ERROR loading {fname}: {e}")
             import traceback; traceback.print_exc()
 
-    # Newest plan (latest dayDate) is the active one — same rule meal-server.py
-    # applies at sync time, so a fresh install and a sync agree.
+    # The newest final plan is active. Drafts sync for read-only review without
+    # replacing the current cooking plan.
     def _plan_maxdate(p):
         ds = [e.get("dayDate") for e in p["entries"] if e.get("dayDate")]
         return max(ds) if ds else ""
-    if plans:
-        newest = max(plans, key=_plan_maxdate)
+    final_plans = [p for p in plans if not p["isDraft"]]
+    if final_plans:
+        newest = max(final_plans, key=_plan_maxdate)
         for p in plans:
             p["isActive"] = (p is newest)
 

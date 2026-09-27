@@ -2,10 +2,11 @@
 
 > **GENERATED from the control DB — do not hand-edit.** Append entries with `tm log <TAG> "message" [--task ID]`. Read every [READ-FIRST] entry in this file's main body before starting a task — a retired or auto-expired one has already left it for the `## Retired [READ-FIRST]` section at the foot (indexed, not mandatory); [BLOCKING] marks a live impediment on a specific task — see its status. Retire a dead one with `tm log retire <entry-ref> [--superseded-by <ref>] [--reason "…"]` (T14.18).
 
-## 2026-08-02 08:32 · PROGRAM · [READ-FIRST] · rutgerboll@Rutgers-Mini
+## #1 · 2026-08-02 08:32 · PROGRAM · [READ-FIRST] · rutgerboll@Rutgers-Mini
 PROGRAM SETUP — Meal Planner app registered on the tm control plane. program/ scaffolded in the main checkout; CONTRACT.md drafted as a BUILD contract (repo-state vs installed-state denominators, running-app-as-instrument, >=2 comparators) and is NOT frozen — T0.1 verifies and freezes it. CLAUDE.md router created at the project root with the kit fence. Execution is sequential: seed.json, the running meal-server, and the shared markdown library are global mutable state.
+*(ts-utc: 2026-08-02T13:32:00+00:00)*
 
-## 2026-08-03 13:05 · PROGRAM · [SCOPE] · rutgerboll@Rutgers-Mini#loop-def
+## #2 · 2026-08-03 13:05 · PROGRAM · [SCOPE] · rutgerboll@Rutgers-Mini#loop-def
 LOOP DEFINITION (propose-only, D-1). Authored knowledge/prioritization.md (V=3S+2K+2L over
 pipeline-integrity / kitchen-impact / leverage, with H tracked outside V; gates G1 freeze-before-build,
 G2 cooking-cycle, G3 human-instrument, G4 lane-is-the-instrument, G5 never-commit-seed.json,
@@ -16,11 +17,13 @@ concurrently because both need build_seed.py output AND the running app; (2) Wav
 shape is settled by precedent, not open — plugin-updates/README-INSTALL.md records that the
 installed plugin is read-only in a session, so T1.1/T1.2 ship a SKILL.md patch spec plus a user
 install step, which makes their end-to-end "Done when" human-gated.
+*(ts-utc: 2026-08-03T18:05:00+00:00)*
 
-## 2026-08-03 13:10 · PROGRAM · [SCOPE] · user
+## #3 · 2026-08-03 13:10 · PROGRAM · [SCOPE] · user
 Decision D-1 answered by the user from the PWA: Start only the board-watch loop; leave the PM and inbox loops defined but unstarted. → Accept
+*(ts-utc: 2026-08-03T18:10:00+00:00)*
 
-## 2026-08-04 13:58 · T0.1 · [READ-FIRST] · rutgerboll@Rutgers-Mini#T0.1
+## #4 · 2026-08-04 13:58 · T0.1 · [READ-FIRST] · rutgerboll@Rutgers-Mini#T0.1
 *(superseded by log #7)*
 ~~PRODUCTION SYNC SERVER IS DOWN — and it is down in a way that looks up. The launchd job~~
 ~~com.mealplanner.server (pid 89492, running since 25 Jul) still HOLDS port 8765, but every~~
@@ -44,7 +47,7 @@ Decision D-1 answered by the user from the PWA: Start only the board-watch loop;
 ~~(System Settings -> Privacy & Security -> Full Disk Access -> add /usr/bin/python3); it is~~
 ~~not in T0.1's scope and has not been done.~~
 
-## 2026-08-04 13:59 · T0.1 · [READ-FIRST] · rutgerboll@Rutgers-Mini#T0.1
+## #5 · 2026-08-04 13:59 · T0.1 · [READ-FIRST] · rutgerboll@Rutgers-Mini#T0.1
 THE CLAUDE-SIDE SKILLS ARE ON THIS FILESYSTEM AND READABLE — STATE.md's open question is
 answered, and Wave 1 is unblocked. All five (recipe-capture, meal-planner, grocery-list,
 inventory, cook-feedback) live as SKILL.md files in the desktop app's extracted read-only
@@ -70,8 +73,9 @@ after the Phase-2 note in ROADMAP.md). The three keys T1.1 targets are real and 
 the built seed today — recipe objects carry image, thawHoursAhead, prepAhead — so T1.1's
 substance stands; only its "schemaVersion-2" label is historical. Do not go hunting for a
 v2 seed to match.
+*(ts-utc: 2026-08-04T18:59:00+00:00)*
 
-## 2026-08-04 14:03 · T0.1 · [DONE] · rutgerboll@Rutgers-Mini#T0.1
+## #6 · 2026-08-04 14:03 · T0.1 · [DONE] · rutgerboll@Rutgers-Mini#T0.1
 CONTRACT.md is frozen at v1.0 (2026-08-04, T0.1). Six corrections, each with evidence in
 findings/T0.1.md: §1's two denominators became four (code and data reach the phone by
 different routes — the mini serves the WORKING TREE not HEAD, /sync.json rebuilds the seed
@@ -100,8 +104,9 @@ publishes it. It carries the five-state table, the certified serve command, the
 curl-vs-fetch() staleness measurement, and the known-clean build_seed.py baseline
 (35 recipes / 304 ingredients / 5 plans / 98 entries / 71 units / 20 pantry / 52 photos, plus
 four expected lemon-ricotta-pancakes WARNINGs — a fifth is yours).
+*(ts-utc: 2026-08-04T19:03:00+00:00)*
 
-## 2026-08-04 14:09 · T0.1 · [READ-FIRST] · rutgerboll@Rutgers-Mini#T0.1
+## #7 · 2026-08-04 14:09 · T0.1 · [READ-FIRST] · rutgerboll@Rutgers-Mini#T0.1
 *(superseded by log #11)*
 ~~CORRECTION TO ENTRY #4 — THE SERVER IS FIXED, AND MY DIAGNOSIS WAS WRONG. Entry #4 said the~~
 ~~launchd server's 404/500 was caused by /usr/bin/python3 lacking Full Disk Access. That is~~
@@ -131,7 +136,7 @@ four expected lemon-ricotta-pancakes WARNINGs — a fifth is yours).
 ~~launchd one is answering 404s, `launchctl kickstart -k gui/$(id -u)/com.mealplanner.server`~~
 ~~is now a known-working remedy.~~
 
-## 2026-08-04 14:41 · T0.1 · [SCOPE] · rutgerboll@Rutgers-Mini#T0.1
+## #8 · 2026-08-04 14:41 · T0.1 · [SCOPE] · rutgerboll@Rutgers-Mini#T0.1
 INBOX TRIAGED — all three open items promoted to tasks and closed (470 UI currency audit, 471
 refactor assessment, 472 spawn-capability bootstrap). New wave 0c — codebase health: T0.4,
 T0.5, T0.6, briefs written. T0.6 also absorbs a direct user question asked the same day about
@@ -157,8 +162,9 @@ T0.4 is the cheapest task on the board and probably the most valuable: there is 
 test suite in this repo at all (logs/test-report-*.md are June prose), and a smoke-level suite
 would have caught three of T0.1's findings unaided — the 404-behind-a-live-port server, the
 20-entry bootstrap drift, and the app/js hook gap.
+*(ts-utc: 2026-08-04T19:41:00+00:00)*
 
-## 2026-08-04 14:53 · T0.1 · [SCOPE] · rutgerboll@Rutgers-Mini#T0.1
+## #9 · 2026-08-04 14:53 · T0.1 · [SCOPE] · rutgerboll@Rutgers-Mini#T0.1
 WAVE 0d WIRED FOR EXECUTION — the user approved the structure sequence on 2026-08-04 ("go
 ahead and wire up the tasks to make these moves then we can execute"). Six tasks with briefs:
 T0.7 extract the inline CSS to app/styles/*.css with ZERO visual change; T0.8 delete the 29
@@ -190,8 +196,9 @@ third-party request from an app whose keyless/private stance was paid for by REM
 shipped API key. Nobody chose it; it arrived as line 3 of the Sage design system's install
 instructions. T0.12, and its proof obligation is the offline case specifically:
 document.fonts.check('600 30px "Schibsted Grotesk"') must be true with the network down.
+*(ts-utc: 2026-08-04T19:53:00+00:00)*
 
-## 2026-08-04 15:30 · T0.2 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+## #10 · 2026-08-04 15:30 · T0.2 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.2 done. scripts/pre-commit now guards a PATTERN (app/index.html, app/js/*.js,
 app/styles/*.css) instead of one filename, so T0.7's CSS files are covered before they exist.
 Proven by 8 probe commits against the real hook, including two cases not in the brief: a
@@ -219,8 +226,9 @@ Trap for anyone testing shell functions by extracting them: `sed -n '/^f()/,/^}/
 ONE-LINE function body silently swallows the next function's header, producing a nested
 definition that returns 0 for everything. My first run reported a dead port as healthy. Use a
 line range and `sh -n` the result.
+*(ts-utc: 2026-08-04T20:30:00+00:00)*
 
-## 2026-08-04 15:36 · T0.10 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
+## #11 · 2026-08-04 15:36 · T0.10 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
 *(superseded by log #19)*
 ~~CORRECTION TO ENTRY #7 — FULL DISK ACCESS *IS* THE CAUSE, AND THE PHONE'S SERVER WILL NOT~~
 ~~SURVIVE A REBOOT. Entry #7 retracted the FDA diagnosis on the strength of one healthy process~~
@@ -251,7 +259,7 @@ line range and `sh -n` the result.
 ~~Still unexplained and not worth a third guess: why the 14:08 process ran healthily with~~
 ~~launchd's own argv while launchd cannot exec that path now. It does not change the remedy.~~
 
-## 2026-08-04 15:37 · T0.10 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+## #12 · 2026-08-04 15:37 · T0.10 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.10 done. app/seed.json is untracked and .gitignore'd (with .claude/launch.json, which was
 tripping the same guard as an untracked file). Proof: forced a live /sync.json, watched the
 server rewrite seed.json, and git status --porcelain stayed EMPTY. deploy.sh then ran end to
@@ -273,8 +281,9 @@ TWO THINGS FOR THE NEXT SESSION:
 See LOG #11 for the incidental finding, which matters more than this task: the launchd job
 cannot start the server (EPERM / Full Disk Access), production is on deploy.sh's manual
 fallback, and it will not survive a reboot.
+*(ts-utc: 2026-08-04T20:37:00+00:00)*
 
-## 2026-08-04 15:56 · T0.7 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+## #13 · 2026-08-04 15:56 · T0.7 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.7 done. All 23,526 bytes of CSS are out of index.html (154,642 -> 131,784 bytes) and into
 app/styles/, precached, CACHE bumped v27 -> v28. The move is PROVEN a no-op two ways: the
 extracted bytes are character-for-character identical to HEAD's three <style> blocks, and the
@@ -307,8 +316,9 @@ TWO TRAPS PAID FOR:
    and are still valid, since T0.7 changed no CSS. Also: the sampler is only deterministic if
    every measurement is preceded by the SAME route (a 39-vs-45 element discrepancy until I
    pinned a fixed predecessor).
+*(ts-utc: 2026-08-04T20:56:00+00:00)*
 
-## 2026-08-04 16:12 · T0.8 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+## #14 · 2026-08-04 16:12 · T0.8 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.8 done. Every design token is declared exactly ONCE (58 duplicate declarations gone), and
 !important is down from 20 to 4 — the four .hidden display utilities, which were never the
 problem. All ten screen x theme computed-style hashes are unchanged, verified after each of the
@@ -336,8 +346,9 @@ is not a rename — sorting rules into "components" and "screens" interleaves 02
 03-sage.css, reordering rules across the boundary where same-specificity conflicts are currently
 resolved by source order. The payoff is naming; the risk is a silent cascade change. T0.11 may
 make it moot.
+*(ts-utc: 2026-08-04T21:12:00+00:00)*
 
-## 2026-08-04 16:14 · T0.9 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+## #15 · 2026-08-04 16:14 · T0.9 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.9 done. design/design-system.md -> docs/archive/design-system-v1-spiced-linen.md via git mv,
 with an ARCHIVED header and its "source of truth for the engineer" sentence struck. DESIGN-
 SYSTEM.md is now the only document claiming design authority, and says so.
@@ -364,8 +375,9 @@ NOTE FOR T0.11: docs/ now exists with one tenant (docs/archive/). If the directo
 declined, docs/archive/ sits beside spec/ and logs/ as a third documentation location. Fold
 them in, or decide not to and say so. Separately, logs/ still holds five June files with nothing
 saying whether they are current — same class of problem, smaller blast radius.
+*(ts-utc: 2026-08-04T21:14:00+00:00)*
 
-## 2026-08-04 16:22 · T0.12 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+## #16 · 2026-08-04 16:22 · T0.12 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.12 done. Schibsted Grotesk is self-hosted in app/assets/fonts/ and precached; zero requests
 now leave the machine on load. Proved offline by KILLING the server (curl -> 000) and reloading
 from the service-worker cache: document.fonts.check('600 30px "Schibsted Grotesk"') is true.
@@ -396,8 +408,9 @@ Trap for the next person self-hosting a Google font: fetch the CSS with a modern
 User-Agent or the endpoint serves ttf instead of woff2; copy the unicode-range values verbatim
 or the browser fetches every subset on every page; and precache the files AND bump CACHE, or you
 have moved the offline failure rather than fixed it.
+*(ts-utc: 2026-08-04T21:22:00+00:00)*
 
-## 2026-08-04 16:24 · T0.11 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
+## #17 · 2026-08-04 16:24 · T0.11 · [DONE] · rutgerboll@Rutgers-Mini#wave0d
 T0.11 decided: DEFER, with a trigger. No files moved.
 
 TWO CORRECTIONS TO knowledge/structure-proposal.md, which I wrote from reading rather than
@@ -427,8 +440,9 @@ launchd" rather than "manual background process", so there is a rehearsed rollba
 is already editing the plist or deploy.sh for another reason. If the FDA grant never happens,
 that logic inverts — the plist is dead weight and the move should proceed on the fallback alone.
 Do it adjacently with T0.13, which touches the same files.
+*(ts-utc: 2026-08-04T21:24:00+00:00)*
 
-## 2026-08-04 16:53 · T0.14 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
+## #18 · 2026-08-04 16:53 · T0.14 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
 DEV AND DEPLOY ARE THE SAME DIRECTORY. Raised by the user 2026-08-04 and confirmed by
 measurement, not by reading: the launchd job runs .../app-build/app/meal-server.py, the running
 process's cwd is .../app-build/app, and git rev-parse --show-toplevel is .../app-build.
@@ -462,8 +476,9 @@ pass so the plist is written once.
 NOTE FOR WHOEVER TAKES IT: this falsifies CONTRACT §1's denominator 2, which currently says the
 mini serves the working tree. That is a contract change — version bump plus a [READ-FIRST]
 entry, per the contract's own rule.
+*(ts-utc: 2026-08-04T21:53:00+00:00)*
 
-## 2026-08-04 17:09 · T0.14 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
+## #19 · 2026-08-04 17:09 · T0.14 · [READ-FIRST] · rutgerboll@Rutgers-Mini#wave0d
 *(supersedes log #11)*
 CORRECTION TO #11 — FULL DISK ACCESS WAS GRANTED. IT WAS GRANTED TO THE WRONG BINARY, AND THE
 INSTRUCTION IN SYNC-SETUP.md IS WHAT MADE THAT HAPPEN. The user said they had already granted
@@ -501,3 +516,80 @@ not under launchd. T0.11 and T0.14 stay gated on that last line changing.
 Standing lesson, third time this server has taught it: when a service cannot read its own
 script, check WHICH BINARY is executing, not just which path you typed. `codesign -dv` and
 `python3 -c 'import sys; print(sys.executable)'` settle it in two seconds.
+*(ts-utc: 2026-08-04T22:09:00+00:00)*
+
+## #20 · 2026-08-08 10:39 · PROGRAM · [SCOPE] · tm:dispatch
+Fleet dispatch filed F-1 on meal-planner — 1 decision(s) answered ≥24h ago on meal-planner carry no task row and no capture citing them: D-1 — a ruling with no carrier is the `route` break (A1: D-47/D-55 sat 2-3 days). File the row or a capture; dismiss this card once one exists. (T14.40, design/fleet-dispatch.md §5.2: one flag per condition while it holds).
+*(ts-utc: 2026-08-08T15:39:46+00:00)*
+
+## #21 · 2026-08-09 01:25 · T1.1 · [SCOPE] · poller:offer
+OFFER G-1 filed for T1.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 554e62aa4ddb… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-09T06:25:58+00:00)*
+
+## #22 · 2026-08-09 01:25 · T2.1 · [SCOPE] · poller:offer
+OFFER G-2 filed for T2.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 8d305156a416… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-09T06:25:58+00:00)*
+
+## #23 · 2026-08-09 01:25 · T0.3 · [SCOPE] · poller:offer
+OFFER G-3 filed for T0.3 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest c35df8dbbc14… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-09T06:25:59+00:00)*
+
+## #24 · 2026-08-09 01:36 · PROGRAM · [SCOPE] · tm:dispatch
+Fleet dispatch filed F-2 on meal-planner — 3 void execution grant(s) on meal-planner with nothing pending or live behind them — the rail reads "0 pending" and that is not the same fact ([D-C1-2]: 88% of grants void before use). Waiting: T0.3, T1.1, T2.1. `tm --slug meal-planner approve --renew` re-pins the ones where only kit-owned scaffolding moved and names the rest (T14.27/GOTCHAS rule 26). (T14.40, design/fleet-dispatch.md §5.2: one flag per condition while it holds).
+*(ts-utc: 2026-08-09T06:36:50+00:00)*
+
+## #25 · 2026-08-09 14:35 · T1.1 · [SCOPE] · poller:offer
+OFFER G-4 filed for T1.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 554e62aa4ddb… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-09T19:35:38+00:00)*
+
+## #26 · 2026-08-09 14:35 · T2.1 · [SCOPE] · poller:offer
+OFFER G-5 filed for T2.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 8d305156a416… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-09T19:35:40+00:00)*
+
+## #27 · 2026-08-09 14:35 · T0.3 · [SCOPE] · poller:offer
+OFFER G-6 filed for T0.3 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 80dfc7aa3e70… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-09T19:35:44+00:00)*
+
+## #28 · 2026-08-09 14:45 · PROGRAM · [SCOPE] · tm:dispatch
+Fleet dispatch auto-resolved F-2 on meal-planner — the condition that filed it no longer holds (T14.40, §5.2).
+*(ts-utc: 2026-08-09T19:45:57+00:00)*
+
+## #29 · 2026-08-09 22:50 · T1.1 · [SCOPE] · poller:offer
+OFFER G-7 filed for T1.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 638ec980199e… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-10T03:50:26+00:00)*
+
+## #30 · 2026-08-09 22:50 · T2.1 · [SCOPE] · poller:offer
+OFFER G-8 filed for T2.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 2e9afd5ef8ca… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-10T03:50:26+00:00)*
+
+## #31 · 2026-08-09 22:50 · T0.3 · [SCOPE] · poller:offer
+OFFER G-9 filed for T0.3 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest d7e122a0161d… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-10T03:50:27+00:00)*
+
+## #32 · 2026-08-10 09:47 · PROGRAM · [SCOPE] · tm:dispatch
+Fleet dispatch filed F-3 on meal-planner — 3 void execution grant(s) on meal-planner with nothing pending or live behind them — the rail reads "0 pending" and that is not the same fact ([D-C1-2]: 88% of grants void before use). Waiting: T0.3, T1.1, T2.1. `tm --slug meal-planner approve --renew` re-pins the ones where only kit-owned scaffolding moved and names the rest (T14.27/GOTCHAS rule 26). (T14.40, design/fleet-dispatch.md §5.2: one flag per condition while it holds).
+*(ts-utc: 2026-08-10T14:47:16+00:00)*
+
+## #33 · 2026-08-10 09:49 · T1.1 · [SCOPE] · poller:offer
+OFFER G-10 filed for T1.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 638ec980199e… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-10T14:49:15+00:00)*
+
+## #34 · 2026-08-10 09:49 · T2.1 · [SCOPE] · poller:offer
+OFFER G-11 filed for T2.1 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest 2e9afd5ef8ca… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-10T14:49:15+00:00)*
+
+## #35 · 2026-08-10 09:49 · T0.3 · [SCOPE] · poller:offer
+OFFER G-12 filed for T0.3 by the trusted-side poller (poller:offer) — every static spawn gate passes, so the card is on the Decide rail pinned to digest d7e122a0161d… (brief + row + rendered prompt). NOTHING IS AUTHORIZED until the user answers it: filing a card is the same class of act as `tm flag add` (T19.5, D-51).
+*(ts-utc: 2026-08-10T14:49:15+00:00)*
+
+## #36 · 2026-08-10 09:55 · PROGRAM · [SCOPE] · tm:dispatch
+Fleet dispatch auto-resolved F-3 on meal-planner — the condition that filed it no longer holds (T14.40, §5.2).
+*(ts-utc: 2026-08-10T14:55:00+00:00)*
+
+## #37 · 2026-08-10 19:52 · PROGRAM · [SCOPE] · tm:dispatch
+Fleet dispatch filed F-4 on meal-planner — 3 void execution grant(s) on meal-planner with nothing pending or live behind them — the rail reads "0 pending" and that is not the same fact ([D-C1-2]: 88% of grants void before use). Waiting: T0.3, T1.1, T2.1. `tm --slug meal-planner approve --renew` re-pins the ones where only kit-owned scaffolding moved and names the rest (T14.27/GOTCHAS rule 26). (T14.40, design/fleet-dispatch.md §5.2: one flag per condition while it holds).
+*(ts-utc: 2026-08-11T00:52:36+00:00)*
+
+## #38 · 2026-08-15 23:30 · PROGRAM · [SCOPE] · tm:dispatch
+Fleet dispatch filed F-5 on meal-planner — 1 capture(s) open ≥7d on meal-planner: [1157] — an ownerless queue is B1's modal break stage (`own`, 5 specimens). `tm inbox show <id>` then dispose or route it; dismiss this card when the queue has an owner again. (T14.40, design/fleet-dispatch.md §5.2: one flag per condition while it holds).
+*(ts-utc: 2026-08-16T04:30:48+00:00)*

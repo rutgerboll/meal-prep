@@ -29,14 +29,14 @@ def build_bundle():
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     with open(os.path.join(SCRIPT_DIR, "seed.json"), encoding="utf-8") as f:
         bundle = json.load(f)
-    # Mark the most recent plan (latest day) as the active one, so a plan you
-    # just made in Claude becomes active after syncing.
+    # Keep review drafts available in the bundle without activating them.
     def maxdate(p):
         ds = [e.get("dayDate") for e in p.get("entries", []) if e.get("dayDate")]
         return max(ds) if ds else ""
     plans = bundle.get("mealPlans", [])
-    if plans:
-        newest = max(plans, key=maxdate)
+    final_plans = [p for p in plans if not p.get("isDraft")]
+    if final_plans:
+        newest = max(final_plans, key=maxdate)
         for p in plans:
             p["isActive"] = (p is newest)
     return bundle

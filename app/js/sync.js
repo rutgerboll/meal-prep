@@ -60,6 +60,9 @@ async function applySyncBundle(b){
         if (lp.dinnerLogged)  carry.dinnerLogged  = byDate(lp.dinnerLogged);
         if (lp.lunchChoices)  carry.lunchChoices  = byDate(lp.lunchChoices);
         if (lp.lunchLogged)   carry.lunchLogged   = byDate(lp.lunchLogged);
+        // Order-free plans: the owner's pick for the next block survives a re-sync
+        // as long as that recipe is still in the plan.
+        if (lp.nextBlock && (inc.entries||[]).some(e => e.recipeId === lp.nextBlock)) carry.nextBlock = lp.nextBlock;
       }
       await dbPut('mealPlans', {...inc, entries, ...carry, _key:inc.id});
     }
